@@ -2,7 +2,9 @@ import Image from "next/image";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
 
-export default function DestinationHero() {
+// Light hero with the ribbon decorations, shared by the inner pages (destinations, services...).
+// tag is optional: a small pill label shown above the title.
+export default function PageHero({ tag, titleTop, titleBottom, subtitle }) {
   return (
     <section className="relative overflow-hidden bg-[#f9f9f9] px-4 pb-6 pt-12 text-center sm:px-6 lg:pt-20">
       {/* Decorative ribbon and graduation hat on the left (large screens only) */}
@@ -29,16 +31,24 @@ export default function DestinationHero() {
         />
       </motion.div>
 
+      {tag && (
+        <motion.span
+          {...fadeUpOnLoad()}
+          className="relative mb-4 inline-block rounded bg-accent/10 px-3 py-1 text-xs font-semibold text-accent"
+        >
+          {tag}
+        </motion.span>
+      )}
       <motion.h1 {...fadeUpOnLoad()} className="relative font-serif text-3xl leading-tight sm:text-4xl xl:text-5xl">
-        <span className="text-indigo">Wherever you wish to Study,</span>
+        <span className="text-indigo">{titleTop}</span>
         <br />
-        We Will Take you There!
+        {titleBottom}
       </motion.h1>
       <motion.p
         {...fadeUpOnLoad(0.15)}
         className="relative mx-auto mt-4 max-w-md text-sm text-ink/70 sm:text-base lg:text-lg"
       >
-        Explore Various factors that you need to consider before you choose a study destination
+        {subtitle}
       </motion.p>
     </section>
   );

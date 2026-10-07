@@ -3,19 +3,27 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const links = [
-  { label: "Migration Services", href: "#", hasDropdown: true },
-  { label: "Student Services", href: "#", hasDropdown: true },
-  { label: "Courses", href: "#", hasDropdown: true },
-  { label: "Resources", href: "#", hasDropdown: true },
   { label: "About Us", href: "#", hasDropdown: false },
+  { label: "Destinations", href: "/destinations", hasDropdown: false },
+  { label: "Our Services", href: "/services", hasDropdown: false },
+  { label: "Resources", href: "#", hasDropdown: true },
+  { label: "Scholarships", href: "#", hasDropdown: true },
+  // Scrolls to the Contact section, which is on every page
+  { label: "Contact Us", href: "#contact", hasDropdown: false },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+  // The home page starts with the dark navbar over its dark hero and turns white on scroll.
+  // Every other page has a light hero, so the navbar is white from the start.
+  // pathname is also used to highlight the nav item of the page being viewed
+  const pathname = usePathname();
+  const light = scrolled || pathname !== "/";
 
   // Track scroll: progress bar (0 to 1) and whether to switch to the white navbar
   useEffect(() => {
@@ -35,7 +43,7 @@ export default function Navbar() {
           (Fading the colour on both the header and its children makes the text change in jerky steps.) */}
       <header
         className={`sticky top-0 z-50 backdrop-blur-md transition-[background-color,box-shadow] duration-500 ease-in-out ${
-          scrolled ? "bg-white/80 text-ink shadow-lg" : "bg-navy text-white shadow-none"
+          light ? "bg-white/80 text-ink shadow-lg" : "bg-navy text-white shadow-none"
         }`}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-20 lg:px-8">
@@ -47,7 +55,7 @@ export default function Navbar() {
               width={304}
               height={106}
               priority
-              className={`h-9 w-auto transition-opacity duration-500 lg:h-10 ${scrolled ? "opacity-0" : "opacity-100"}`}
+              className={`h-9 w-auto transition-opacity duration-500 lg:h-10 ${light ? "opacity-0" : "opacity-100"}`}
             />
             <Image
               src="/images/pfec_ ind_footer_logo.webp"
@@ -55,18 +63,21 @@ export default function Navbar() {
               width={500}
               height={201}
               className={`absolute left-0 top-0 h-full w-auto max-w-none transition-opacity duration-500 ${
-                scrolled ? "opacity-100" : "opacity-0"
+                light ? "opacity-100" : "opacity-0"
               }`}
             />
           </Link>
 
           {/* Desktop links */}
-          <nav className="hidden flex-1 items-center justify-end gap-4 lg:flex xl:gap-8">
+          <nav className="hidden flex-1 items-center justify-end gap-6 xl:flex 2xl:gap-8">
             {links.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className="flex items-center gap-1.5 whitespace-nowrap text-sm transition-colors duration-500 hover:text-accent"
+                aria-current={pathname === link.href ? "page" : undefined}
+                className={`flex items-center gap-1.5 whitespace-nowrap text-sm transition-colors duration-500 hover:text-accent ${
+                  pathname === link.href ? "font-semibold text-accent" : ""
+                }`}
               >
                 {link.label}
                 {link.hasDropdown && (
@@ -98,7 +109,7 @@ export default function Navbar() {
               aria-label="Toggle menu"
               aria-expanded={open}
               onClick={() => setOpen(!open)}
-              className="transition-colors duration-500 lg:hidden"
+              className="transition-colors duration-500 xl:hidden"
             >
               <svg
                 className="h-7 w-7"
@@ -116,13 +127,16 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {open && (
-          <nav className="border-t border-current/10 px-4 pb-6 pt-2 sm:px-6 lg:hidden">
+          <nav className="border-t border-current/10 px-4 pb-6 pt-2 sm:px-6 lg:px-8 xl:hidden">
             {links.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-current/10 py-3 text-sm transition-colors duration-500"
+                aria-current={pathname === link.href ? "page" : undefined}
+                className={`flex items-center justify-between border-b border-current/10 py-3 text-sm transition-colors duration-500 ${
+                  pathname === link.href ? "font-semibold text-accent" : ""
+                }`}
               >
                 {link.label}
                 {link.hasDropdown && (

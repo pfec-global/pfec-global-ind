@@ -20,7 +20,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="bg-[#f1f4f8] py-12 lg:py-16">
+    <section id="contact" className="scroll-mt-20 bg-[#f1f4f8] py-12 lg:py-16">
       <div className="mx-auto grid max-w-5xl items-center gap-10 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
         <motion.div {...fadeUp()}>
           <h2 className="text-2xl font-semibold sm:text-3xl">Contact Us Section</h2>
