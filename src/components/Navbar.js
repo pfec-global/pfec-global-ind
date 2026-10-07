@@ -70,7 +70,13 @@ export default function Navbar() {
               >
                 {link.label}
                 {link.hasDropdown && (
-                  <svg className="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    className="h-4 w-4 text-accent"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M5 9l7 7 7-7" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 )}
@@ -94,7 +100,14 @@ export default function Navbar() {
               onClick={() => setOpen(!open)}
               className="transition-colors duration-500 lg:hidden"
             >
-              <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <svg
+                className="h-7 w-7"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              >
                 {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
               </svg>
             </button>
@@ -113,7 +126,13 @@ export default function Navbar() {
               >
                 {link.label}
                 {link.hasDropdown && (
-                  <svg className="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    className="h-4 w-4 text-accent"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M5 9l7 7 7-7" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 )}

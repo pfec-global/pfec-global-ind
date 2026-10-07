@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaLinkedin, FaYoutubeSquare, FaFacebookSquare, FaInstagramSquare } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
+import * as motion from "motion/react-client";
+import { fadeUp } from "@/lib/motion";
 
 // Each inner array is one footer column
 const columns = [
@@ -52,7 +54,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#f8f9fb] text-ink">
       <div className="mx-auto max-w-7xl px-4 pt-12 sm:px-6 lg:px-8">
-        <div className="grid gap-10 pb-10 sm:grid-cols-2 lg:grid-cols-4">
+        <motion.div {...fadeUp()} className="grid gap-10 pb-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Logo and contact */}
           <div>
             <Image
@@ -65,7 +67,13 @@ export default function Footer() {
 
             <ul className="mt-6 space-y-5 text-sm">
               <li className="flex items-center gap-3">
-                <svg className="h-6 w-6 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg
+                  className="h-6 w-6 shrink-0 text-accent"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
                   <path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z" strokeLinejoin="round" />
                   <circle cx="12" cy="10" r="2.5" />
                 </svg>
@@ -76,7 +84,13 @@ export default function Footer() {
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <svg className="h-6 w-6 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg
+                  className="h-6 w-6 shrink-0 text-accent"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
                   <path
                     d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"
                     strokeLinejoin="round"
@@ -85,7 +99,13 @@ export default function Footer() {
                 <span>Dummy phone Number</span>
               </li>
               <li className="flex items-center gap-3">
-                <svg className="h-6 w-6 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg
+                  className="h-6 w-6 shrink-0 text-accent"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
                   <rect x="3" y="5" width="18" height="14" rx="2" />
                   <path d="M3 7l9 6 9-6" strokeLinejoin="round" />
                 </svg>
@@ -127,7 +147,7 @@ export default function Footer() {
               ))}
             </div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Bottom bar */}
         <div className="flex flex-col items-center gap-4 border-t border-black/10 py-5 text-sm md:flex-row md:justify-between">

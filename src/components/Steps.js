@@ -1,4 +1,6 @@
 import Image from "next/image";
+import * as motion from "motion/react-client";
+import { fadeUp } from "@/lib/motion";
 
 // The heading, step text and illustrations are all part of the two images
 const alt =
@@ -13,24 +15,28 @@ export default function Steps() {
   return (
     <section className="bg-[#f9f9f9]">
       {/* Mobile: steps in a zig-zag column */}
-      <Image
-        src="/images/6_step_study_abroad_mobile.webp"
-        alt={alt}
-        width={860}
-        height={1612}
-        sizes="100vw"
-        className="mx-auto h-auto w-full max-w-xl md:hidden"
-      />
+      <motion.div {...fadeUp()} className="md:hidden">
+        <Image
+          src="/images/6_step_study_abroad_mobile.webp"
+          alt={alt}
+          width={860}
+          height={1612}
+          sizes="100vw"
+          className="mx-auto h-auto w-full max-w-xl"
+        />
+      </motion.div>
 
       {/* Tablet and desktop: steps in one row */}
-      <Image
-        src="/images/6_step_study_abroad.webp"
-        alt={alt}
-        width={3840}
-        height={1030}
-        sizes="(min-width: 1536px) 1536px, 100vw"
-        className="mx-auto hidden h-auto w-full max-w-screen-2xl md:block"
-      />
+      <motion.div {...fadeUp()} className="hidden md:block">
+        <Image
+          src="/images/6_step_study_abroad.webp"
+          alt={alt}
+          width={3840}
+          height={1030}
+          sizes="(min-width: 1536px) 1536px, 100vw"
+          className="mx-auto h-auto w-full max-w-screen-2xl"
+        />
+      </motion.div>
     </section>
   );
 }

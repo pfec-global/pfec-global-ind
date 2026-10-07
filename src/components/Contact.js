@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { LuCrown } from "react-icons/lu";
+import * as motion from "motion/react-client";
+import { fadeUp } from "@/lib/motion";
 
 const reasons = ["FREE End-to-End Assistance", "FREE End-to-End Assistance", "FREE End-to-End Assistance"];
 
@@ -20,7 +22,7 @@ export default function Contact() {
   return (
     <section className="bg-[#f1f4f8] py-12 lg:py-16">
       <div className="mx-auto grid max-w-5xl items-center gap-10 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
-        <div>
+        <motion.div {...fadeUp()}>
           <h2 className="text-2xl font-semibold sm:text-3xl">Contact Us Section</h2>
           <p className="mt-3 max-w-xs text-sm text-ink/70 sm:text-base">
             Few Lines of text goes here Few Lines of text goes here Few Lines of text goes here
@@ -37,12 +39,37 @@ export default function Contact() {
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 rounded-xl bg-white p-5 shadow-lg sm:p-6">
-          <input type="text" name="name" placeholder="Full Name" aria-label="Full Name" required className={inputClass} />
-          <input type="email" name="email" placeholder="Email ID" aria-label="Email ID" required className={inputClass} />
-          <input type="tel" name="phone" placeholder="Phone Number" aria-label="Phone Number" required className={inputClass} />
+        <motion.form
+          {...fadeUp(0.15)}
+          onSubmit={handleSubmit}
+          className="space-y-4 rounded-xl bg-white p-5 shadow-lg sm:p-6"
+        >
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            aria-label="Full Name"
+            required
+            className={inputClass}
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email ID"
+            aria-label="Email ID"
+            required
+            className={inputClass}
+          />
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Phone Number"
+            aria-label="Phone Number"
+            required
+            className={inputClass}
+          />
 
           <div className="relative">
             <select
@@ -90,7 +117,7 @@ export default function Contact() {
           >
             Log In
           </button>
-        </form>
+        </motion.form>
       </div>
     </section>
   );

@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { LuUser, LuGem, LuCrown, LuTrophy } from "react-icons/lu";
+import * as motion from "motion/react-client";
+import { fadeUp, zoomIn } from "@/lib/motion";
 
 const stats = [
   { value: 22000, decimals: 0, suffix: "+", label: "Students Assisted", Icon: LuUser },
@@ -33,7 +35,7 @@ export default function Achievements() {
         };
         frame = requestAnimationFrame(tick);
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
     observer.observe(sectionRef.current);
 
@@ -47,13 +49,13 @@ export default function Achievements() {
     <section ref={sectionRef} className="bg-[#f9f9f9] py-12 lg:py-16">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[2fr_3fr] lg:px-8">
         <div>
-          <h2 className="text-2xl font-semibold sm:text-3xl">
+          <motion.h2 {...fadeUp()} className="text-2xl font-semibold sm:text-3xl">
             Our <span className="text-indigo">Achievements</span>
-          </h2>
+          </motion.h2>
 
           <div className="mt-6 grid max-w-md grid-cols-2 gap-x-6 gap-y-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="group">
+            {stats.map((stat, i) => (
+              <motion.div key={stat.label} {...fadeUp(i * 0.1)} className="group">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-accent transition duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-white">
                   <stat.Icon className="h-5 w-5" />
                 </span>
@@ -65,7 +67,7 @@ export default function Achievements() {
                   {stat.suffix}
                 </p>
                 <p className="mt-1 text-sm">{stat.label}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -87,23 +89,27 @@ export default function Achievements() {
         </div>
 
         {/* Map with larger office labels for phones */}
-        <Image
-          src="/images/world_map.webp"
-          alt="World map showing PFEC Global offices in India, Bangladesh, Sri Lanka and Australia"
-          width={822}
-          height={494}
-          sizes="100vw"
-          className="mx-auto h-auto w-full max-w-xl md:hidden"
-        />
+        <motion.div {...zoomIn(0.2)} className="md:hidden">
+          <Image
+            src="/images/world_map.webp"
+            alt="World map showing PFEC Global offices in India, Bangladesh, Sri Lanka and Australia"
+            width={822}
+            height={494}
+            sizes="100vw"
+            className="mx-auto h-auto w-full max-w-xl"
+          />
+        </motion.div>
         {/* Detailed map for tablet and desktop */}
-        <Image
-          src="/images/world_map_mobile.webp"
-          alt="World map showing PFEC Global offices in India, Bangladesh, Sri Lanka and Australia"
-          width={1791}
-          height={1031}
-          sizes="(min-width: 1024px) 720px, 100vw"
-          className="mx-auto hidden h-auto w-full md:block"
-        />
+        <motion.div {...zoomIn(0.2)} className="hidden md:block">
+          <Image
+            src="/images/world_map_mobile.webp"
+            alt="World map showing PFEC Global offices in India, Bangladesh, Sri Lanka and Australia"
+            width={1791}
+            height={1031}
+            sizes="(min-width: 1024px) 720px, 100vw"
+            className="mx-auto h-auto w-full"
+          />
+        </motion.div>
       </div>
     </section>
   );

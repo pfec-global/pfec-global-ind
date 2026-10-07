@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import useDragScroll from "@/hooks/useDragScroll";
+import * as motion from "motion/react-client";
+import { fadeUp } from "@/lib/motion";
 
 // Dummy blog posts - replace with real data
 const posts = Array.from({ length: 8 }, (_, i) => ({
@@ -54,7 +56,7 @@ export default function Blogs() {
   return (
     <section className="bg-[#f9f9f9] py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        <motion.div {...fadeUp()} className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 className="text-2xl font-semibold sm:text-3xl">Insights to Keep You Ahead</h2>
             <p className="mt-3 text-sm text-ink/70 sm:text-base">
@@ -71,34 +73,36 @@ export default function Blogs() {
               <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
-        </div>
+        </motion.div>
 
-        {/* Slider: 1 card per page on mobile, 2 on tablet, 4 on desktop */}
-        <div
-          ref={trackRef}
-          onScroll={measure}
-          onMouseEnter={() => (pausedRef.current = true)}
-          onMouseLeave={() => (pausedRef.current = false)}
-          className="mt-4 grid cursor-grab snap-x snap-mandatory select-none grid-flow-col auto-cols-[100%] gap-4 overflow-x-auto py-4 [scrollbar-width:none] active:cursor-grabbing sm:auto-cols-[calc((100%-1rem)/2)] lg:auto-cols-[calc((100%-3rem)/4)]"
-        >
-          {posts.map((post) => (
-            <Link
-              key={post.id}
-              href={post.href}
-              className="group relative aspect-4/3 snap-start overflow-hidden rounded-xl shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-xl"
-            >
-              {/* Image placeholder - replace with a next/image of the blog cover */}
-              <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-slate-300 to-slate-500 text-xs text-white/80 transition-transform duration-500 group-hover:scale-110">
-                Image
-              </div>
-              <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/70 to-transparent p-4 pt-12">
-                <h3 className="text-sm text-white transition-colors duration-300 group-hover:text-accent sm:text-base">
-                  {post.title}
-                </h3>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <motion.div {...fadeUp(0.15)}>
+          {/* Slider: 1 card per page on mobile, 2 on tablet, 4 on desktop */}
+          <div
+            ref={trackRef}
+            onScroll={measure}
+            onMouseEnter={() => (pausedRef.current = true)}
+            onMouseLeave={() => (pausedRef.current = false)}
+            className="mt-4 grid cursor-grab snap-x snap-mandatory select-none grid-flow-col auto-cols-[100%] gap-4 overflow-x-auto py-4 [scrollbar-width:none] active:cursor-grabbing sm:auto-cols-[calc((100%-1rem)/2)] lg:auto-cols-[calc((100%-3rem)/4)]"
+          >
+            {posts.map((post) => (
+              <Link
+                key={post.id}
+                href={post.href}
+                className="group relative aspect-4/3 snap-start overflow-hidden rounded-xl shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-xl"
+              >
+                {/* Image placeholder - replace with a next/image of the blog cover */}
+                <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-slate-300 to-slate-500 text-xs text-white/80 transition-transform duration-500 group-hover:scale-110">
+                  Image
+                </div>
+                <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/70 to-transparent p-4 pt-12">
+                  <h3 className="text-sm text-white transition-colors duration-300 group-hover:text-accent sm:text-base">
+                    {post.title}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Dots - one per page */}
         <div className="mt-4 flex justify-center gap-2">

@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import useDragScroll from "@/hooks/useDragScroll";
+import * as motion from "motion/react-client";
+import { fadeUp } from "@/lib/motion";
 
 // Dummy testimonials - replace with real data
 const testimonials = Array.from({ length: 6 }, (_, i) => ({
@@ -59,7 +61,7 @@ export default function Testimonials() {
 
   return (
     <section className="bg-[#f1f4f8] py-12 lg:py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <motion.div {...fadeUp()} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Slider: 1 card per page on mobile, 2 on tablet, 3 on desktop */}
         <div
           ref={trackRef}
@@ -108,7 +110,7 @@ export default function Testimonials() {
             />
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

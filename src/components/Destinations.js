@@ -3,6 +3,8 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import useDragScroll from "@/hooks/useDragScroll";
+import * as motion from "motion/react-client";
+import { fadeUp } from "@/lib/motion";
 
 const destinations = [
   "Australia",
@@ -44,7 +46,7 @@ export default function Destinations() {
   return (
     <section className="bg-[#f9f9f9] py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
+        <motion.div {...fadeUp()} className="text-center">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Gain Access to <span className="text-indigo">Top Institutions across the Globe</span>
           </h2>
@@ -52,9 +54,9 @@ export default function Destinations() {
             PFEC Global is a partner of renowned institutions across 11 countries. Pick a destination below and learn
             everything you need to make an informed decision.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="mt-6 flex items-center gap-3">
+        <motion.div {...fadeUp(0.15)} className="mt-6 flex items-center gap-3">
           <button
             type="button"
             aria-label="Previous destinations"
@@ -103,9 +105,9 @@ export default function Destinations() {
               <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
-        </div>
+        </motion.div>
 
-        <div className="mt-6 text-center">
+        <motion.div {...fadeUp(0.2)} className="mt-6 text-center">
           <p className="text-sm text-ink/70 sm:text-base">
             Not sure where to start? Our team of experts can provide free end-to-end assistance
           </p>
@@ -121,7 +123,7 @@ export default function Destinations() {
               <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

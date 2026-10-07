@@ -3,6 +3,8 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import useDragScroll from "@/hooks/useDragScroll";
+import * as motion from "motion/react-client";
+import { fadeUp } from "@/lib/motion";
 
 // Dummy events - replace with real data
 const events = Array.from({ length: 12 }, (_, i) => ({
@@ -42,7 +44,7 @@ export default function Events() {
   return (
     <section className="bg-[#f4f4f4] py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between gap-6">
+        <motion.div {...fadeUp()} className="flex items-end justify-between gap-6">
           <div>
             <h2 className="text-2xl font-semibold sm:text-3xl">
               Join us at our <span className="text-indigo">Upcoming Events</span>
@@ -74,62 +76,72 @@ export default function Events() {
               </svg>
             </button>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Slider: one row of cards on mobile and tablet, two rows on desktop */}
-        <div
-          ref={trackRef}
-          onMouseEnter={() => (pausedRef.current = true)}
-          onMouseLeave={() => (pausedRef.current = false)}
-          className="mt-4 grid snap-x snap-mandatory cursor-grab select-none active:cursor-grabbing grid-flow-col grid-rows-1 auto-cols-[85%] gap-4 overflow-x-auto py-4 [scrollbar-width:none] sm:auto-cols-[calc((100%-1rem)/2)] lg:grid-rows-2 lg:auto-cols-[calc((100%-2rem)/3)]"
-        >
-          {events.map((event) => (
-            <article
-              key={event.id}
-              className="group snap-start overflow-hidden rounded-xl border border-black/5 bg-white shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-xl"
-            >
-              {/* Image placeholder - replace with a next/image of the event */}
-              <div className="h-32 overflow-hidden">
-                <div className="flex h-full items-center justify-center bg-linear-to-br from-indigo/20 to-indigo/50 text-xs text-white transition-transform duration-500 group-hover:scale-110">
-                  Image
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="flex w-24 shrink-0 flex-col items-center justify-center gap-2 bg-accent p-3 text-center text-white sm:w-28">
-                  <p className="text-xl">{event.date}</p>
-                  <p className="flex items-start gap-1 text-left text-[10px] leading-tight">
-                    <svg className="mt-0.5 h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z" strokeLinejoin="round" />
-                      <circle cx="12" cy="10" r="2.5" />
-                    </svg>
-                    {event.location}
-                  </p>
+        <motion.div {...fadeUp(0.15)}>
+          {/* Slider: one row of cards on mobile and tablet, two rows on desktop */}
+          <div
+            ref={trackRef}
+            onMouseEnter={() => (pausedRef.current = true)}
+            onMouseLeave={() => (pausedRef.current = false)}
+            className="mt-4 grid snap-x snap-mandatory cursor-grab select-none active:cursor-grabbing grid-flow-col grid-rows-1 auto-cols-[85%] gap-4 overflow-x-auto py-4 [scrollbar-width:none] sm:auto-cols-[calc((100%-1rem)/2)] lg:grid-rows-2 lg:auto-cols-[calc((100%-2rem)/3)]"
+          >
+            {events.map((event) => (
+              <article
+                key={event.id}
+                className="group snap-start overflow-hidden rounded-xl border border-black/5 bg-white shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-xl"
+              >
+                {/* Image placeholder - replace with a next/image of the event */}
+                <div className="h-32 overflow-hidden">
+                  <div className="flex h-full items-center justify-center bg-linear-to-br from-indigo/20 to-indigo/50 text-xs text-white transition-transform duration-500 group-hover:scale-110">
+                    Image
+                  </div>
                 </div>
 
-                <div className="p-4">
-                  <span className="rounded bg-accent/10 px-2 py-1 text-[10px] font-medium text-accent">{event.type}</span>
-                  <h3 className="mt-2 font-semibold">{event.title}</h3>
-                  <p className="mt-1 text-xs text-ink/70">{event.description}</p>
-                  <Link href="#" className="mt-2 inline-flex items-center gap-2 text-xs font-semibold text-accent">
-                    Register Now
-                    <svg
-                      className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1.5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+                <div className="flex">
+                  <div className="flex w-24 shrink-0 flex-col items-center justify-center gap-2 bg-accent p-3 text-center text-white sm:w-28">
+                    <p className="text-xl">{event.date}</p>
+                    <p className="flex items-start gap-1 text-left text-[10px] leading-tight">
+                      <svg
+                        className="mt-0.5 h-3 w-3 shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z" strokeLinejoin="round" />
+                        <circle cx="12" cy="10" r="2.5" />
+                      </svg>
+                      {event.location}
+                    </p>
+                  </div>
 
-        <div className="mt-4 text-center">
+                  <div className="p-4">
+                    <span className="rounded bg-accent/10 px-2 py-1 text-[10px] font-medium text-accent">
+                      {event.type}
+                    </span>
+                    <h3 className="mt-2 font-semibold">{event.title}</h3>
+                    <p className="mt-1 text-xs text-ink/70">{event.description}</p>
+                    <Link href="#" className="mt-2 inline-flex items-center gap-2 text-xs font-semibold text-accent">
+                      Register Now
+                      <svg
+                        className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1.5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div {...fadeUp(0.2)} className="mt-4 text-center">
           <Link
             href="#"
             className="inline-flex items-center gap-2 rounded-lg border border-accent px-5 py-2.5 text-sm font-semibold text-accent transition duration-300 hover:bg-accent hover:text-white"
@@ -139,7 +151,7 @@ export default function Events() {
               <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
