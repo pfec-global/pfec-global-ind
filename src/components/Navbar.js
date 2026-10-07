@@ -38,7 +38,7 @@ export default function Navbar() {
           scrolled ? "bg-white/80 text-ink shadow-lg" : "bg-navy text-white shadow-none"
         }`}
       >
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:h-20 lg:px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-20 lg:px-8">
           {/* Both logos are stacked and cross-fade: white on the dark navbar, coloured on the white one */}
           <Link href="/" className="relative shrink-0">
             <Image
@@ -61,12 +61,12 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop links */}
-          <nav className="hidden flex-1 items-center justify-end gap-8 lg:flex">
+          <nav className="hidden flex-1 items-center justify-end gap-4 lg:flex xl:gap-8">
             {links.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className="flex items-center gap-1.5 text-sm transition-colors duration-500 hover:text-accent"
+                className="flex items-center gap-1.5 whitespace-nowrap text-sm transition-colors duration-500 hover:text-accent"
               >
                 {link.label}
                 {link.hasDropdown && (

@@ -1,5 +1,7 @@
 import { Montserrat, Yeseva_One } from "next/font/google";
 import { MotionConfig } from "motion/react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -30,7 +32,12 @@ export default function RootLayout({ children }) {
     >
       <body className="font-sans" suppressHydrationWarning>
         {/* Skips the movement in animations for visitors who turned on "reduce motion" on their device */}
-        <MotionConfig reducedMotion="user">{children}</MotionConfig>
+        <MotionConfig reducedMotion="user">
+          {/* Navbar and Footer are shared by every page */}
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </MotionConfig>
       </body>
     </html>
   );
