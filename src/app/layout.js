@@ -21,11 +21,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    // suppressHydrationWarning: browser extensions add their own attributes to <html> and <body>,
+    // which makes React report a hydration mismatch in development. It only applies to these two tags.
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${montserrat.variable} ${yeseva.variable} scroll-smooth antialiased`}
     >
-      <body className="font-sans">
+      <body className="font-sans" suppressHydrationWarning>
         {/* Skips the movement in animations for visitors who turned on "reduce motion" on their device */}
         <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </body>
