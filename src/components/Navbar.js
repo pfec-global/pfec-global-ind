@@ -9,7 +9,7 @@ const links = [
   { label: "About Us", href: "#", hasDropdown: false },
   { label: "Destinations", href: "/destinations", hasDropdown: false },
   { label: "Our Services", href: "/services", hasDropdown: false },
-  { label: "Resources", href: "#", hasDropdown: true },
+  { label: "Blog", href: "/blogs", hasDropdown: false },
   { label: "Scholarships", href: "#", hasDropdown: true },
   // Scrolls to the Contact section, which is on every page
   { label: "Contact Us", href: "#contact", hasDropdown: false },
