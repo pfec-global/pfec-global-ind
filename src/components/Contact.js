@@ -101,11 +101,11 @@ export default function Contact() {
             <input type="checkbox" name="agree" required className="h-4 w-4 accent-accent" />
             <span>
               I agree to{" "}
-              <Link href="#" className="text-accent underline">
+              <Link href="/privacy-policy" className="text-accent underline">
                 privacy policy
               </Link>{" "}
               and{" "}
-              <Link href="#" className="text-accent underline">
+              <Link href="/terms-of-use" className="text-accent underline">
                 Terms of Use
               </Link>
             </span>

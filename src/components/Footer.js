@@ -48,7 +48,10 @@ const socials = [
   { label: "X", Icon: FaSquareXTwitter, color: "text-black" },
 ];
 
-const legalLinks = ["Terms & Conditions", "Privacy Policy", "Cookie Policy"];
+const legalLinks = [
+  { label: "Terms & Conditions", href: "/terms-of-use" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+];
 
 export default function Footer() {
   return (
@@ -153,8 +156,8 @@ export default function Footer() {
         <div className="flex flex-col items-center gap-4 border-t border-black/10 py-5 text-sm md:flex-row md:justify-between">
           <p>© 2025 PFEC Global | All Rights Reserved</p>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2">
-            {legalLinks.map((label) => (
-              <Link key={label} href="#" className="hover:text-accent">
+            {legalLinks.map(({ label, href }) => (
+              <Link key={label} href={href} className="hover:text-accent">
                 {label}
               </Link>
             ))}
