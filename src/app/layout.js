@@ -25,8 +25,11 @@ export default function RootLayout({ children }) {
   return (
     // suppressHydrationWarning: browser extensions add their own attributes to <html> and <body>,
     // which makes React report a hydration mismatch in development. It only applies to these two tags.
+    // data-scroll-behavior: tells Next.js the page uses smooth scrolling (scroll-smooth below), so it jumps
+    // straight to the top when changing page. Without it the new page stops short, hidden under the navbar.
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={`${montserrat.variable} ${yeseva.variable} scroll-smooth antialiased`}
     >

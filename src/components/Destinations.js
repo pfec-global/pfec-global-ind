@@ -78,7 +78,7 @@ export default function Destinations() {
             {destinations.map((country) => (
               <Link
                 key={country}
-                href="#"
+                href={`/destinations/study-in-${country.toLowerCase().replaceAll(" ", "-")}`}
                 className="group relative aspect-3/4 w-[62%] shrink-0 snap-start overflow-hidden rounded-xl shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl sm:w-[38%] md:w-[29%] lg:w-[calc((100%-5rem)/6)]"
               >
                 {/* Image placeholder - replace with a next/image photo of the country */}

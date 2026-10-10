@@ -12,7 +12,7 @@
 
   /* Hero country labels: each label drifts sideways and up/down at two different speeds,
      so its path never repeats and the movement looks random. Speeds are set per label in Hero.js.
-     The step pictures in Steps.js reuse hero-drift-y for a gentle bob.
+     The step pictures (StepPieces.js) and the hat and plane of PageHero.js reuse them.
      Distances are % of the label itself, so the movement scales with the banner. */
   --animate-hero-drift-x: hero-drift-x 7s ease-in-out infinite alternate;
   --animate-hero-drift-y: hero-drift-y 4s ease-in-out infinite alternate;

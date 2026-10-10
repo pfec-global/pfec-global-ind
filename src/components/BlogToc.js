@@ -71,25 +71,34 @@ export default function BlogToc({ headings }) {
         </svg>
       </button>
 
-      {open && (
-        <ol className="mx-3 max-h-[50vh] overflow-y-auto border-t border-ink/30 py-2 text-xs sm:text-sm">
-          {headings.map((heading, i) => (
-            <li key={heading.id}>
-              {/* A normal #link: the browser scrolls to the heading (smoothly, see scroll-smooth in layout.js) */}
-              <a
-                href={`#${heading.id}`}
-                aria-current={heading.id === activeId ? "location" : undefined}
-                onClick={() => setOpen(false)}
-                className={`block py-1.5 transition-colors duration-300 hover:text-accent ${
-                  heading.id === activeId ? "font-bold text-ink" : "text-ink/75"
-                }`}
-              >
-                {i + 1}. {heading.text}
-              </a>
-            </li>
-          ))}
-        </ol>
-      )}
+      {/* The list is always in the page so it can slide open and shut: the grid row grows from 0 to the
+          height of the list. inert keeps the hidden links out of reach of the keyboard and screen readers. */}
+      <div
+        inert={!open}
+        className={`grid transition-[grid-template-rows,opacity] duration-500 ease-in-out motion-reduce:transition-none ${
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <ol className="mx-3 max-h-[50vh] overflow-y-auto border-t border-ink/30 py-2 text-xs sm:text-sm">
+            {headings.map((heading, i) => (
+              <li key={heading.id}>
+                {/* A normal #link: the browser scrolls to the heading (smoothly, see scroll-smooth in layout.js) */}
+                <a
+                  href={`#${heading.id}`}
+                  aria-current={heading.id === activeId ? "location" : undefined}
+                  onClick={() => setOpen(false)}
+                  className={`block py-1.5 transition-colors duration-300 hover:text-accent ${
+                    heading.id === activeId ? "font-bold text-ink" : "text-ink/75"
+                  }`}
+                >
+                  {i + 1}. {heading.text}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
     </nav>
   );
 }

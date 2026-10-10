@@ -14,7 +14,8 @@ export default function Factors() {
   return (
     <section className="bg-[#f4f4f4] py-12 lg:py-16">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-        <motion.div {...zoomIn()}>
+        {/* Desktop: image on the left. Mobile and tablet: image below the text, just above the next section. */}
+        <motion.div {...zoomIn()} className="order-last lg:order-first">
           <Image
             src="/images/factor_to_consider.webp"
             alt="Student with headphones holding her books"
