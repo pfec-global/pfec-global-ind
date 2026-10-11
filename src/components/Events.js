@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import useDragScroll from "@/hooks/useDragScroll";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
 
-// Dummy events - replace with real data
+// Built-in dummy events, used when Strapi does not send any. image: null shows the placeholder.
 const events = Array.from({ length: 12 }, (_, i) => ({
   id: i + 1,
   date: "24 Nov",
@@ -14,9 +15,15 @@ const events = Array.from({ length: 12 }, (_, i) => ({
   type: "In-person Event",
   title: "Study Abroad Fair",
   description: "1-2 line short description goes here1-2 line short description goes here",
+  image: null,
 }));
 
-export default function Events() {
+// heading, subheading and items come from Strapi; without them the built-in content is used
+export default function Events({
+  heading,
+  subheading = "Take your study abroad dreams further with our roster of offline and online events",
+  items = events,
+}) {
   const trackRef = useRef(null);
   useDragScroll(trackRef);
   const pausedRef = useRef(false);
@@ -47,10 +54,14 @@ export default function Events() {
         <motion.div {...fadeUp()} className="flex items-end justify-between gap-6">
           <div>
             <h2 className="text-2xl font-semibold sm:text-3xl">
-              Join us at our <span className="text-indigo">Upcoming Events</span>
+              {heading ?? (
+                <>
+                  Join us at our <span className="text-indigo">Upcoming Events</span>
+                </>
+              )}
             </h2>
             <p className="mt-3 text-sm text-ink/70 sm:text-base">
-              Take your study abroad dreams further with our roster of offline and online events
+              {subheading}
             </p>
           </div>
 
@@ -79,23 +90,38 @@ export default function Events() {
         </motion.div>
 
         <motion.div {...fadeUp(0.15)}>
-          {/* Slider: one row of cards on mobile and tablet, two rows on desktop */}
+          {/* Slider: one row of cards on mobile and tablet. On desktop three cards fit side by side,
+              so a second row is only used when there are more than three events.
+              "safe center" centres the cards when they do not fill the row, and does nothing once they overflow. */}
           <div
             ref={trackRef}
             onMouseEnter={() => (pausedRef.current = true)}
             onMouseLeave={() => (pausedRef.current = false)}
-            className="mt-4 grid snap-x snap-mandatory cursor-grab select-none active:cursor-grabbing grid-flow-col grid-rows-1 auto-cols-[85%] gap-4 overflow-x-auto py-4 [scrollbar-width:none] sm:auto-cols-[calc((100%-1rem)/2)] lg:grid-rows-2 lg:auto-cols-[calc((100%-2rem)/3)]"
+            className={`mt-4 grid snap-x snap-mandatory cursor-grab select-none active:cursor-grabbing grid-flow-col grid-rows-1 auto-cols-[85%] gap-4 [justify-content:safe_center] overflow-x-auto py-4 [scrollbar-width:none] sm:auto-cols-[calc((100%-1rem)/2)] lg:auto-cols-[calc((100%-2rem)/3)] ${
+              items.length > 3 ? "lg:grid-rows-2" : ""
+            }`}
           >
-            {events.map((event) => (
+            {items.map((event) => (
               <article
                 key={event.id}
                 className="group snap-start overflow-hidden rounded-xl border border-black/5 bg-white shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-xl"
               >
-                {/* Image placeholder - replace with a next/image of the event */}
-                <div className="h-32 overflow-hidden">
-                  <div className="flex h-full items-center justify-center bg-linear-to-br from-indigo/20 to-indigo/50 text-xs text-white transition-transform duration-500 group-hover:scale-110">
-                    Image
-                  </div>
+                <div className="relative h-32 overflow-hidden">
+                  {event.image ? (
+                    <Image
+                      src={event.image.src}
+                      alt={event.image.alt}
+                      fill
+                      sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 85vw"
+                      draggable={false}
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  ) : (
+                    // Placeholder until the event has a banner
+                    <div className="flex h-full items-center justify-center bg-linear-to-br from-indigo/20 to-indigo/50 text-xs text-white transition-transform duration-500 group-hover:scale-110">
+                      Image
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex">
@@ -121,7 +147,7 @@ export default function Events() {
                       {event.type}
                     </span>
                     <h3 className="mt-2 font-semibold">{event.title}</h3>
-                    <p className="mt-1 text-xs text-ink/70">{event.description}</p>
+                    <p className="mt-1 line-clamp-3 text-xs text-ink/70">{event.description}</p>
                     <Link href="#" className="mt-2 inline-flex items-center gap-2 text-xs font-semibold text-accent">
                       Register Now
                       <svg

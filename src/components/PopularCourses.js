@@ -15,17 +15,22 @@ const courses = [
   "Sports & Vocational Courses",
 ];
 
-export default function PopularCourses() {
+// heading and items (a list of course names) come from Strapi; without them the built-in content is used
+export default function PopularCourses({ heading, items = courses }) {
   return (
     <section className="bg-[#f4f4f4] py-12 lg:py-16">
       <div className="mx-auto grid max-w-7xl items-end gap-10 px-4 sm:px-6 lg:grid-cols-[11fr_9fr] lg:px-8">
         <div>
           <motion.h2 {...fadeUp()} className="max-w-md text-2xl font-semibold leading-snug sm:text-3xl">
-            <span className="text-indigo">Explore Popular courses</span> chosen by other study abroad aspirants
+            {heading ?? (
+              <>
+                <span className="text-indigo">Explore Popular courses</span> chosen by other study abroad aspirants
+              </>
+            )}
           </motion.h2>
 
           <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3">
-            {courses.map((course, i) => (
+            {items.map((course, i) => (
               <motion.div key={course} {...fadeUp(i * 0.06)}>
                 <Link
                   href="#"

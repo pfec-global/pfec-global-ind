@@ -75,7 +75,13 @@ function CountryLabels({ labels, folder, bannerWidth }) {
   ));
 }
 
-export default function Hero() {
+// heading, subheading and button ({ label, href, newTab }) come from Strapi; without them the built-in text is used.
+// A line break in the heading starts a new line.
+export default function Hero({
+  heading = "Your Study Abroad Dream\nis our only Priority!",
+  subheading = "From education to visas, we've got your back.",
+  button = { label: "Book a FREE Consultation", href: "#" },
+}) {
   return (
     <section className="overflow-hidden bg-linear-to-b from-navy to-indigo text-white">
       <div className="mx-auto max-w-7xl px-4 pt-10 text-center sm:px-6 lg:px-8 lg:pt-12">
@@ -83,21 +89,21 @@ export default function Hero() {
             CSS strokes are centred on the letter edge, so a 2px stroke painted behind the fill leaves 1px outside. */}
         <motion.h1
           {...fadeUpOnLoad()}
-          className="font-serif text-3xl font-normal leading-[normal] [-webkit-text-stroke:2px_#000] [paint-order:stroke_fill] sm:text-4xl lg:text-[52px]"
+          className="whitespace-pre-line text-balance font-serif text-3xl font-normal leading-[normal] [-webkit-text-stroke:2px_#000] [paint-order:stroke_fill] sm:text-4xl lg:text-[52px]"
         >
-          Your Study Abroad Dream
-          <br />
-          is our only Priority!
+          {heading}
         </motion.h1>
         <motion.p {...fadeUpOnLoad(0.15)} className="mt-4 text-base text-white/85 sm:text-lg lg:text-xl">
-          From education to visas, we&apos;ve got your back.
+          {subheading}
         </motion.p>
         <motion.div {...fadeUpOnLoad(0.3)} className="mt-6">
           <Link
-            href="#"
+            href={button.href}
+            target={button.newTab ? "_blank" : undefined}
+            rel={button.newTab ? "noopener noreferrer" : undefined}
             className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold hover:opacity-90"
           >
-            Book a FREE Consultation
+            {button.label}
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>

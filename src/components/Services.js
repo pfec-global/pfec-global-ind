@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   FaBuildingColumns,
@@ -19,11 +20,17 @@ const services = [
   { title: "IELTS & PTE Coaching Classes", Icon: FaClipboardCheck, color: "bg-emerald-100 text-emerald-600" },
 ];
 
-// The six service cards on their own - also used on the services page
-export function ServiceCards() {
+// The service cards on their own - also used on the services page.
+// items (from Strapi) is a list of { title, icon: { src, alt } | null }; without it the six built-in services are shown.
+// A Strapi service without an icon image borrows the icon and colour of the built-in card in the same position.
+export function ServiceCards({ items }) {
+  const cards = items
+    ? items.map((item, i) => ({ ...services[i % services.length], ...item }))
+    : services;
+
   return (
     <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-      {services.map((service, i) => (
+      {cards.map((service, i) => (
         <motion.div key={service.title} {...fadeUp(i * 0.08)}>
           <Link
             href="#"
@@ -32,7 +39,11 @@ export function ServiceCards() {
             <span
               className={`flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110 ${service.color}`}
             >
-              <service.Icon className="h-4 w-4" />
+              {service.icon ? (
+                <Image src={service.icon.src} alt="" width={16} height={16} className="h-4 w-4 object-contain" />
+              ) : (
+                <service.Icon className="h-4 w-4" />
+              )}
             </span>
             <p className="mt-3 text-sm">
               {service.title}{" "}
@@ -47,17 +58,21 @@ export function ServiceCards() {
   );
 }
 
-export default function Services() {
+// heading, subheading and items come from Strapi; without them the built-in content is used
+export default function Services({
+  heading = "How PFEC Global Assists International Students in Australia",
+  subheading = "Get comprehensive guidance & end-to-end assistance from expert Education & migration agents for FREE!*",
+  items,
+}) {
   return (
     <section className="bg-[#f9f9f9] bg-linear-to-b from-ink/15 to-ink/0 py-12 lg:py-16">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[2fr_3fr] lg:px-8">
         <motion.div {...fadeUp()}>
           <h2 className="text-2xl font-semibold leading-snug sm:text-3xl">
-            How PFEC Global Assists International Students in Australia
+            {heading}
           </h2>
           <p className="mt-4 max-w-md text-sm text-ink/70 sm:text-base">
-            Get comprehensive guidance &amp; end-to-end assistance from expert Education &amp; migration agents for
-            FREE!*
+            {subheading}
           </p>
           <Link href="#" className="group mt-5 inline-flex items-center gap-3 text-sm font-semibold text-accent">
             Book a FREE Consultation
@@ -73,7 +88,7 @@ export default function Services() {
           </Link>
         </motion.div>
 
-        <ServiceCards />
+        <ServiceCards items={items} />
       </div>
     </section>
   );

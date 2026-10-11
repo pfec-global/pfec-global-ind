@@ -6,7 +6,7 @@ import useDragScroll from "@/hooks/useDragScroll";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
 
-// Dummy testimonials - replace with real data
+// Built-in dummy testimonials, used when Strapi does not send any
 const testimonials = Array.from({ length: 6 }, (_, i) => ({
   id: i + 1,
   text:
@@ -21,7 +21,9 @@ const testimonials = Array.from({ length: 6 }, (_, i) => ({
 
 const GAP = 16; // gap-4 between cards
 
-export default function Testimonials() {
+// items come from Strapi; without them the built-in testimonials are shown.
+// A testimonial without a photo gets the default avatar.
+export default function Testimonials({ items = testimonials }) {
   const trackRef = useRef(null);
   useDragScroll(trackRef);
   const pausedRef = useRef(false);
@@ -32,7 +34,7 @@ export default function Testimonials() {
   const measure = () => {
     const track = trackRef.current;
     const perPage = Math.round((track.clientWidth + GAP) / (track.firstElementChild.offsetWidth + GAP));
-    setPages(Math.ceil(testimonials.length / perPage));
+    setPages(Math.ceil(items.length / perPage));
     setActive(Math.round(track.scrollLeft / (track.clientWidth + GAP)));
   };
 
@@ -57,6 +59,8 @@ export default function Testimonials() {
       window.removeEventListener("resize", measure);
       clearInterval(timer);
     };
+    // Runs once: the list of testimonials does not change while the page is open
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -70,7 +74,7 @@ export default function Testimonials() {
           onMouseLeave={() => (pausedRef.current = false)}
           className="grid snap-x snap-mandatory cursor-grab select-none active:cursor-grabbing grid-flow-col auto-cols-[100%] gap-4 overflow-x-auto py-4 [scrollbar-width:none] sm:auto-cols-[calc((100%-1rem)/2)] lg:auto-cols-[calc((100%-2rem)/3)]"
         >
-          {testimonials.map((item) => (
+          {items.map((item) => (
             <figure
               key={item.id}
               className="group flex snap-start flex-col rounded-xl border border-black/5 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-xl"
@@ -79,11 +83,11 @@ export default function Testimonials() {
 
               <figcaption className="mt-5 flex items-center gap-3">
                 <Image
-                  src={item.photo}
+                  src={item.photo ?? "/images/avater.webp"}
                   alt={item.name}
                   width={56}
                   height={56}
-                  className="h-14 w-14 shrink-0 rounded-full"
+                  className="h-14 w-14 shrink-0 rounded-full object-cover"
                 />
                 <div className="flex-1">
                   <p className="font-semibold">{item.name}</p>

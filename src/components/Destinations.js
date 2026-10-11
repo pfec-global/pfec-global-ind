@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import useDragScroll from "@/hooks/useDragScroll";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
 
+// Built-in cards, used when Strapi does not send the countries. image: null shows the placeholder.
 const destinations = [
   "Australia",
   "USA",
@@ -17,9 +19,14 @@ const destinations = [
   "Europe",
   "Dubai",
   "Malaysia",
-];
+].map((name) => ({ name, href: `/destinations/study-in-${name.toLowerCase().replaceAll(" ", "-")}`, image: null }));
 
-export default function Destinations() {
+// heading, subheading and items ({ name, href, image }) come from Strapi; without them the built-in content is used
+export default function Destinations({
+  heading,
+  subheading = "PFEC Global is a partner of renowned institutions across 11 countries. Pick a destination below and learn everything you need to make an informed decision.",
+  items = destinations,
+}) {
   const trackRef = useRef(null);
   useDragScroll(trackRef);
   const pausedRef = useRef(false);
@@ -48,11 +55,14 @@ export default function Destinations() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div {...fadeUp()} className="text-center">
           <h2 className="text-2xl font-semibold sm:text-3xl">
-            Gain Access to <span className="text-indigo">Top Institutions across the Globe</span>
+            {heading ?? (
+              <>
+                Gain Access to <span className="text-indigo">Top Institutions across the Globe</span>
+              </>
+            )}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm text-ink/70 sm:text-base">
-            PFEC Global is a partner of renowned institutions across 11 countries. Pick a destination below and learn
-            everything you need to make an informed decision.
+            {subheading}
           </p>
         </motion.div>
 
@@ -68,25 +78,37 @@ export default function Destinations() {
             </svg>
           </button>
 
-          {/* Scrollable card row - swipe on touch screens, arrows on larger screens */}
+          {/* Scrollable card row - swipe on touch screens, arrows on larger screens.
+              "safe center" centres the cards when they do not fill the row, and does nothing once they overflow. */}
           <div
             ref={trackRef}
             onMouseEnter={() => (pausedRef.current = true)}
             onMouseLeave={() => (pausedRef.current = false)}
-            className="flex min-w-0 flex-1 snap-x snap-mandatory cursor-grab select-none active:cursor-grabbing gap-4 overflow-x-auto py-4 [scrollbar-width:none]"
+            className="flex min-w-0 flex-1 snap-x snap-mandatory cursor-grab select-none active:cursor-grabbing gap-4 [justify-content:safe_center] overflow-x-auto py-4 [scrollbar-width:none]"
           >
-            {destinations.map((country) => (
+            {items.map((country) => (
               <Link
-                key={country}
-                href={`/destinations/study-in-${country.toLowerCase().replaceAll(" ", "-")}`}
+                key={country.href}
+                href={country.href}
                 className="group relative aspect-3/4 w-[62%] shrink-0 snap-start overflow-hidden rounded-xl shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl sm:w-[38%] md:w-[29%] lg:w-[calc((100%-5rem)/6)]"
               >
-                {/* Image placeholder - replace with a next/image photo of the country */}
-                <div className="absolute inset-0 flex items-center justify-center bg-linear-to-b from-sky-200 to-sky-600 text-xs text-white/70 transition-transform duration-500 group-hover:scale-110">
-                  Image
-                </div>
+                {country.image ? (
+                  <Image
+                    src={country.image.src}
+                    alt={country.image.alt}
+                    fill
+                    sizes="(min-width: 1024px) 200px, (min-width: 640px) 38vw, 62vw"
+                    draggable={false}
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                ) : (
+                  // Placeholder until the country has a photo
+                  <div className="absolute inset-0 flex items-center justify-center bg-linear-to-b from-sky-200 to-sky-600 text-xs text-white/70 transition-transform duration-500 group-hover:scale-110">
+                    Image
+                  </div>
+                )}
                 <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/70 to-transparent p-3 pt-10 text-white">
-                  <p className="text-sm font-semibold">Study in {country}</p>
+                  <p className="text-sm font-semibold">Study in {country.name}</p>
                   <p className="mt-1 text-xs text-white/80 transition-colors duration-300 group-hover:text-accent">
                     Learn More &gt;
                   </p>

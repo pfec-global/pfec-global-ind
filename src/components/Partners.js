@@ -13,23 +13,32 @@ const partners = [
   { name: "IEAA - International Education Association of Australia", src: "/images/partner/sr0mftzhsyrhvmqa8khu.webp" },
 ];
 
-export default function Partners() {
+// heading, subheading and items ({ name, src }) come from Strapi; without them the built-in content is used
+export default function Partners({
+  heading,
+  subheading = "Strong Ties Created by Deep Rooted Industry Connections. Helping Us Provide Top-Notch Service.",
+  items = partners,
+}) {
   return (
     <section className="bg-white py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <motion.div {...fadeUp()}>
           <h2 className="text-2xl font-semibold sm:text-3xl">
-            Our Industry <span className="text-indigo">Partnerships</span>
+            {heading ?? (
+              <>
+                Our Industry <span className="text-indigo">Partnerships</span>
+              </>
+            )}
           </h2>
           <p className="mt-4 text-sm text-ink/70 sm:text-base">
-            Strong Ties Created by Deep Rooted Industry Connections. Helping Us Provide Top-Notch Service.
+            {subheading}
           </p>
         </motion.div>
 
         {/* Mobile: always 2 logos per row (a leftover odd logo is centred). Tablet and up: one wrapping row. */}
         <div className="mt-8 grid grid-cols-2 place-items-center gap-4 sm:flex sm:flex-wrap sm:justify-center sm:gap-6">
-          {partners.map((partner, i) => (
-            <motion.div key={partner.name} {...fadeUp(i * 0.08)} className="last:odd:col-span-2">
+          {items.map((partner, i) => (
+            <motion.div key={partner.src} {...fadeUp(i * 0.08)} className="last:odd:col-span-2">
               <Image
                 src={partner.src}
                 alt={partner.name}
