@@ -8,12 +8,13 @@ import { destinations, scholarships } from "@/data/countries";
 
 // items (optional) is the dropdown of a link: it opens on hover on desktop and on tap in the mobile menu.
 // section (optional) is the start of the URLs that belong to the link, used to highlight it on its inner pages.
-const links = [
+// destinationItems and scholarshipItems are the lines of the two dropdowns: { label, href, flag }
+const buildLinks = (destinationItems, scholarshipItems) => [
   { label: "About Us", href: "#" },
-  { label: "Destinations", href: "/destinations", section: "/destinations", items: destinations },
+  { label: "Destinations", href: "/destinations", section: "/destinations", items: destinationItems },
   { label: "Our Services", href: "/services" },
   { label: "Blog", href: "/blogs" },
-  { label: "Scholarships", href: "/scholarships", section: "/scholarships", items: scholarships },
+  { label: "Scholarships", href: "/scholarships", section: "/scholarships", items: scholarshipItems },
   // Scrolls to the Contact section, which is on every page
   { label: "Contact Us", href: "#contact" },
 ];
@@ -24,7 +25,10 @@ const chevron = (className) => (
   </svg>
 );
 
-export default function Navbar() {
+// destinationItems and scholarshipItems come from Strapi (see NavbarWithCms.js); without them the built-in lists are used.
+// flag is the small round picture beside a line - a line without one simply has no picture.
+export default function Navbar({ destinationItems = destinations, scholarshipItems = scholarships }) {
+  const links = buildLinks(destinationItems, scholarshipItems);
   const [open, setOpen] = useState(false);
   // Label of the link whose dropdown is showing: hovered on desktop, tapped open in the mobile menu
   const [dropdown, setDropdown] = useState(null);
@@ -128,10 +132,20 @@ export default function Navbar() {
                             href={item.href}
                             onClick={() => setDropdown(null)}
                             aria-current={pathname === item.href ? "page" : undefined}
-                            className={`block rounded-lg px-3 py-2 text-sm transition-colors duration-200 hover:bg-accent/10 hover:text-accent ${
+                            className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors duration-200 hover:bg-accent/10 hover:text-accent ${
                               pathname === item.href ? "font-semibold text-accent" : ""
                             }`}
                           >
+                            {/* Small round logo, when the line has one */}
+                            {item.flag && (
+                              <Image
+                                src={item.flag}
+                                alt=""
+                                width={22}
+                                height={22}
+                                className="h-[22px] w-[22px] shrink-0 rounded-full object-cover"
+                              />
+                            )}
                             {item.label}
                           </Link>
                         </li>
@@ -218,10 +232,19 @@ export default function Navbar() {
                           href={item.href}
                           onClick={() => setOpen(false)}
                           aria-current={pathname === item.href ? "page" : undefined}
-                          className={`block py-2 text-sm ${
+                          className={`flex items-center gap-2.5 py-2 text-sm ${
                             pathname === item.href ? "font-semibold text-accent" : "opacity-80"
                           }`}
                         >
+                          {item.flag && (
+                            <Image
+                              src={item.flag}
+                              alt=""
+                              width={22}
+                              height={22}
+                              className="h-[22px] w-[22px] shrink-0 rounded-full object-cover"
+                            />
+                          )}
                           {item.label}
                         </Link>
                       </li>

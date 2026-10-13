@@ -4,7 +4,8 @@ import { FaLinkedin } from "react-icons/fa";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
 
-// Hero of the author page: photo, name and bio on the left, the two stat boxes on the right (below on mobile).
+// Hero of the author page: photo, name and bio on the left, the stat boxes on the right (below on mobile).
+// author = { name, avatar, bio, linkedin } - an author without a photo gets the default avatar.
 // stats is a list of { label, value }.
 export default function AuthorHero({ author, stats }) {
   return (
@@ -25,7 +26,7 @@ export default function AuthorHero({ author, stats }) {
         <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
           <motion.div {...fadeUpOnLoad(0.1)} className="flex flex-col gap-4 sm:flex-row sm:gap-6">
             <Image
-              src={author.avatar}
+              src={author.avatar ?? "/images/avater.webp"}
               alt={author.name}
               width={128}
               height={128}
@@ -35,14 +36,27 @@ export default function AuthorHero({ author, stats }) {
             <div className="max-w-xl">
               <p className="text-xs text-ink/70">Author Profile</p>
               <h1 className="text-2xl font-bold text-navy sm:text-3xl">{author.name}</h1>
-              <h2 className="mt-3 text-sm font-bold">Bio</h2>
-              <p className="mt-1 text-sm text-ink/75">{author.bio}</p>
-              <p className="mt-3 flex items-center gap-2 text-sm">
-                Connect via:
-                <Link href={author.linkedin} aria-label={`${author.name} on LinkedIn`} className="hover:opacity-80">
-                  <FaLinkedin className="h-6 w-6 text-navy" />
-                </Link>
-              </p>
+              {/* The bio and the LinkedIn link are only shown for an author who has them */}
+              {author.bio && (
+                <>
+                  <h2 className="mt-3 text-sm font-bold">Bio</h2>
+                  <p className="mt-1 text-sm text-ink/75">{author.bio}</p>
+                </>
+              )}
+              {author.linkedin && (
+                <p className="mt-3 flex items-center gap-2 text-sm">
+                  Connect via:
+                  <Link
+                    href={author.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${author.name} on LinkedIn`}
+                    className="hover:opacity-80"
+                  >
+                    <FaLinkedin className="h-6 w-6 text-navy" />
+                  </Link>
+                </p>
+              )}
             </div>
           </motion.div>
 

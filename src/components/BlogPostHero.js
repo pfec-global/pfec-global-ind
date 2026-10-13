@@ -50,7 +50,7 @@ export default function BlogPostHero({ post }) {
           >
             <Image
               src={post.image}
-              alt=""
+              alt={post.imageAlt ?? ""}
               fill
               priority
               sizes="(min-width: 1024px) 576px, 100vw"

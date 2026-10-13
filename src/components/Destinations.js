@@ -19,7 +19,7 @@ const destinations = [
   "Europe",
   "Dubai",
   "Malaysia",
-].map((name) => ({ name, href: `/destinations/study-in-${name.toLowerCase().replaceAll(" ", "-")}`, image: null }));
+].map((name) => ({ name, href: `/study-in-${name.toLowerCase().replaceAll(" ", "-")}`, image: null }));
 
 // heading, subheading and items ({ name, href, image }) come from Strapi; without them the built-in content is used
 export default function Destinations({

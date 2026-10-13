@@ -3,7 +3,7 @@ import { revalidateTag } from "next/cache";
 // Strapi webhook: POST /api/revalidate?secret=<REVALIDATE_SECRET>  (or the secret in an "x-revalidate-secret" header).
 // Refreshes the content fetched from Strapi so an edit in the CMS shows on the site without waiting for the hourly refresh.
 // Optional: ?tag=homepage to refresh one thing only. Without it every Strapi tag below is refreshed.
-const tags = ["homepage"];
+const tags = ["homepage", "destination-page", "service-page", "scholarship-page", "scholarship", "country"];
 
 export async function POST(request) {
   const { searchParams } = new URL(request.url);

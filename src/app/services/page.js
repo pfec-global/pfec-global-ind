@@ -1,15 +1,30 @@
+import { getServicePage } from "@/lib/servicePage";
+import { toMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 import { ServiceCards } from "@/components/Services";
 import Steps from "@/components/Steps";
 import Contact from "@/components/Contact";
 import DestinationContent from "@/components/DestinationContent";
 
-export const metadata = {
+// The page waits for Strapi on every visit while caching is switched off (CACHE_STRAPI in src/lib/strapi.js).
+// This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
+export const instant = false;
+
+// SEO tags come from the "seo" block of the page in Strapi; these are used for whatever Strapi does not send
+const defaultMetadata = {
   title: "Our Services | PFEC Global",
   description: "Get end-to-end assistance and realize your study abroad dreams.",
 };
 
-export default function ServicesPage() {
+export async function generateMetadata() {
+  const { seo } = await getServicePage();
+  return toMetadata(seo, defaultMetadata);
+}
+
+export default async function ServicesPage() {
+  // The service cards come from Strapi (GET /api/service-page). Without them the six built-in services are shown.
+  const { items } = await getServicePage();
+
   return (
     <>
       <PageHero
@@ -20,7 +35,7 @@ export default function ServicesPage() {
       />
       <section className="bg-[#f9f9f9] px-4 pb-12 pt-4 sm:px-6 lg:pb-16">
         <div className="mx-auto max-w-4xl">
-          <ServiceCards />
+          <ServiceCards items={items} />
         </div>
       </section>
       {/* Same components as the home page */}

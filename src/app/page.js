@@ -1,4 +1,6 @@
-import { getHomeSections } from "@/lib/homepage";
+import { getHomeSections, getHomeSeo } from "@/lib/homepage";
+import { toMetadata } from "@/lib/seo";
+import { getLatestBlogs } from "@/lib/blogs";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Destinations from "@/components/Destinations";
@@ -15,10 +17,21 @@ import Contact from "@/components/Contact";
 // This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
 export const instant = false;
 
+// SEO tags come from the "seo" block of the home page in Strapi; these are used for whatever Strapi does not send
+const defaultMetadata = {
+  title: "PFEC Global | Study Abroad & Visa",
+  description: "From education to visas, we've got your back.",
+};
+
+export async function generateMetadata() {
+  return toMetadata(await getHomeSeo(), defaultMetadata);
+}
+
 export default async function Home() {
   // Content from Strapi. Whatever Strapi does not send (a section, a heading, a list) is undefined here,
   // and the section then shows its built-in content - so the page also works with the CMS switched off.
-  const cms = await getHomeSections();
+  // The blog posts come from a separate CMS; both are asked at the same time.
+  const [cms, latestBlogs] = await Promise.all([getHomeSections(), getLatestBlogs(10)]);
 
   return (
     <>
@@ -31,7 +44,7 @@ export default async function Home() {
       <Achievements />
       <Partners {...cms.partnerships} />
       <Testimonials {...cms.testimonials} />
-      <Blogs />
+      <Blogs items={latestBlogs} />
       <Contact />
     </>
   );

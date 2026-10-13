@@ -1,6 +1,8 @@
 import { Montserrat, Yeseva_One } from "next/font/google";
 import { MotionConfig } from "motion/react";
+import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
+import NavbarWithCms from "@/components/NavbarWithCms";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
@@ -37,7 +39,11 @@ export default function RootLayout({ children }) {
         {/* Skips the movement in animations for visitors who turned on "reduce motion" on their device */}
         <MotionConfig reducedMotion="user">
           {/* Navbar and Footer are shared by every page */}
-          <Navbar />
+          {/* The navbar shows straight away with its built-in countries, and swaps to the ones from Strapi
+              as soon as they arrive - so no page has to wait for the CMS just to show its navbar. */}
+          <Suspense fallback={<Navbar />}>
+            <NavbarWithCms />
+          </Suspense>
           <main>{children}</main>
           <Footer />
         </MotionConfig>

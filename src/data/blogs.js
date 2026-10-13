@@ -6,7 +6,7 @@ import { blogContent } from "@/data/blogContent";
 const lorem =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fermentum nisi eget ante varius, at dapibus justo dignissim. Praesent interdum pretium turpis. Suspendisse nec neque sodales, bibendum velit id, ultrices augu";
 
-// Each category has a page at /blogs/category/<slug>.
+// Each category has a page at /category/<slug>.
 // name is the short label (card tag, category bar), title is the heading of its page.
 // inBar: true = listed in the "Explore by Category" bar under the hero of the blog list page.
 export const categories = [
@@ -21,9 +21,9 @@ export const categories = [
   { slug: "english-skills", name: "English Skills", title: "English Skills Blogs", description: lorem },
 ];
 
-const categoryHref = (slug) => `/blogs/category/${slug}`;
+const categoryHref = (slug) => `/category/${slug}`;
 
-// Each author has a page at /blogs/author/<slug>
+// Each author has a page at /author/<slug>
 export const authors = [
   {
     slug: "lady-gaga",
@@ -87,7 +87,7 @@ const makePosts = (slug, count, { tag, post } = {}) =>
       tagHref: categoryHref(category.slug),
       title: item.title,
       author: authors[0].name,
-      authorHref: `/blogs/author/${authors[0].slug}`,
+      authorHref: `/author/${authors[0].slug}`,
       date, // used for sorting
       updated: formatUpdated(date),
       readTime: "8 Min Read",
@@ -134,7 +134,7 @@ export const getPost = (slug) => {
     tag: category.name,
     tagHref: categoryHref(category.slug),
     author: authors[0].name,
-    authorHref: `/blogs/author/${authors[0].slug}`,
+    authorHref: `/author/${authors[0].slug}`,
     updated: formatUpdated(NEWEST),
     readTime: "8 Min Read",
     image: "/images/study_area_image.webp",

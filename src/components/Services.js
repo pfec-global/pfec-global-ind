@@ -22,7 +22,7 @@ const services = [
 
 // The service cards on their own - also used on the services page.
 // items (from Strapi) is a list of { title, icon: { src, alt } | null }; without it the six built-in services are shown.
-// A Strapi service without an icon image borrows the icon and colour of the built-in card in the same position.
+// A Strapi service without a picture borrows the icon and colour of the built-in card in the same position.
 export function ServiceCards({ items }) {
   const cards = items
     ? items.map((item, i) => ({ ...services[i % services.length], ...item }))
@@ -36,15 +36,22 @@ export function ServiceCards({ items }) {
             href="#"
             className="group block h-full rounded-xl border border-black/5 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1.5 hover:border-accent/30 hover:shadow-xl"
           >
-            <span
-              className={`flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110 ${service.color}`}
-            >
-              {service.icon ? (
-                <Image src={service.icon.src} alt="" width={16} height={16} className="h-4 w-4 object-contain" />
-              ) : (
+            {service.icon ? (
+              // A picture uploaded in Strapi fills the whole circle (it brings its own colours)
+              <Image
+                src={service.icon.src}
+                alt=""
+                width={36}
+                height={36}
+                className="h-9 w-9 rounded-full object-contain transition-transform duration-300 group-hover:scale-110"
+              />
+            ) : (
+              <span
+                className={`flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110 ${service.color}`}
+              >
                 <service.Icon className="h-4 w-4" />
-              )}
-            </span>
+              </span>
+            )}
             <p className="mt-3 text-sm">
               {service.title}{" "}
               <span className="inline-block text-accent transition-transform duration-300 group-hover:translate-x-1">

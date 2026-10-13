@@ -60,7 +60,7 @@ const components = {
   // Tables scroll sideways on small screens instead of squeezing their columns
   table: ({ node, ...props }) => (
     <div className="mt-6 overflow-x-auto rounded-lg border border-indigo/15 bg-white">
-      <table className="w-full min-w-[480px] text-left text-sm" {...props} />
+      <table className="w-full min-w-[480px] text-left text-sm [&_p]:mt-0" {...props} />
     </div>
   ),
   thead: ({ node, ...props }) => <thead className="bg-[#f1f1f4] text-xs font-semibold text-ink" {...props} />,

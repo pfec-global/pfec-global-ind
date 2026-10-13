@@ -2,7 +2,9 @@ import Link from "next/link";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
 import { blogCategories, blogSections } from "@/data/blogs";
+import { getBlogSections } from "@/lib/blogs";
 import BlogHero from "@/components/BlogHero";
+import BlogCategoryBar from "@/components/BlogCategoryBar";
 import BlogSlider from "@/components/BlogSlider";
 import Contact from "@/components/Contact";
 
@@ -12,32 +14,30 @@ export const metadata = {
     "Articles packed with practical advice, trends, and expert perspectives to help you make an informed decision.",
 };
 
-export default function BlogsPage() {
+// The page waits for the blog CMS on every visit while caching is switched off.
+// This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
+export const instant = false;
+
+export default async function BlogsPage() {
+  // The posts come from the blog CMS, grouped by category (12 newest per category).
+  // If the CMS cannot be reached, the built-in dummy sections are shown instead.
+  const cmsSections = await getBlogSections();
+  const sections = cmsSections ?? blogSections;
+  // The "Explore by Category" bar lists the categories that have posts
+  const categories = cmsSections
+    ? cmsSections.map((section) => ({ label: section.name, href: section.href }))
+    : blogCategories;
+
   return (
     <>
       <BlogHero />
 
-      {/* Explore by Category bar */}
-      <div className="border-b border-ink/10 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-x-4 gap-y-2 px-4 py-4 text-xs sm:flex-row sm:items-center sm:px-6 sm:text-sm lg:px-8">
-          <span className="shrink-0 text-ink/70">Explore by Category:</span>
-          {/* Always one row: if the categories do not fit (small phones) the row scrolls sideways instead of wrapping */}
-          <ul className="flex min-w-0 items-center divide-x divide-ink/30 overflow-x-auto whitespace-nowrap [scrollbar-width:none]">
-            {blogCategories.map((category) => (
-              <li key={category.label} className="px-3 first:pl-0 last:pr-0 sm:px-4">
-                <Link href={category.href} className="font-semibold text-accent hover:underline">
-                  {category.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <BlogCategoryBar categories={categories} />
 
       <section className="bg-[#f9f9f9] py-10 lg:py-14">
         <div className="mx-auto max-w-7xl space-y-10 px-4 sm:px-6 lg:space-y-14 lg:px-8">
-          {/* One slider per section */}
-          {blogSections.map((section) => (
+          {/* One slider per category */}
+          {sections.map((section) => (
             <motion.div key={section.slug} {...fadeUp()} id={section.slug} className="scroll-mt-24">
               {/* Title, a line filling the space in between, and the Explore All button */}
               <div className="flex items-center gap-4">

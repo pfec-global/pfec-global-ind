@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import BlogCard from "@/components/BlogCard";
 
-const PER_PAGE = 15;
+const PER_PAGE = 12;
 
 // A list of posts (author page, category page): sort, search by title, a grid of cards and the pagination.
 // Sorting, searching and paging all happen here in the browser on the posts that were passed in.
@@ -85,7 +85,7 @@ export default function BlogPostList({ posts }) {
         </div>
       ) : (
         <p className="mt-6 rounded-xl bg-white px-4 py-12 text-center text-sm text-ink/70">
-          No posts found for “{query.trim()}”.
+          {query.trim() ? `No posts found for “${query.trim()}”.` : "There are no posts here yet."}
         </p>
       )}
 

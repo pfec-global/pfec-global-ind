@@ -1,21 +1,26 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import useDragScroll from "@/hooks/useDragScroll";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
 
-// Dummy blog posts - replace with real data
+// Built-in dummy posts, used when the blog CMS does not send any. image: null shows the placeholder.
 const posts = Array.from({ length: 8 }, (_, i) => ({
   id: i + 1,
   title: "Why Should you study in Australia in 2025?",
   href: "#",
+  category: null,
+  image: null,
 }));
 
 const GAP = 16; // gap-4 between cards
 
-export default function Blogs() {
+// items are the latest posts from the blog CMS ({ id, title, href, category, image });
+// without them the built-in posts are shown
+export default function Blogs({ items = posts }) {
   const trackRef = useRef(null);
   useDragScroll(trackRef);
   const pausedRef = useRef(false);
@@ -26,7 +31,7 @@ export default function Blogs() {
   const measure = () => {
     const track = trackRef.current;
     const perPage = Math.round((track.clientWidth + GAP) / (track.firstElementChild.offsetWidth + GAP));
-    setPages(Math.ceil(posts.length / perPage));
+    setPages(Math.ceil(items.length / perPage));
     setActive(Math.round(track.scrollLeft / (track.clientWidth + GAP)));
   };
 
@@ -51,13 +56,16 @@ export default function Blogs() {
       window.removeEventListener("resize", measure);
       clearInterval(timer);
     };
+    // Runs once: the list of posts does not change while the page is open
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <section className="bg-[#f9f9f9] py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div {...fadeUp()} className="flex flex-wrap items-center justify-between gap-4">
-          <div>
+        {/* Mobile: heading, then the button under it. From tablet up: button on the right of the heading. */}
+        <motion.div {...fadeUp()} className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0">
             <h2 className="text-2xl font-semibold sm:text-3xl">Insights to Keep You Ahead</h2>
             <p className="mt-3 text-sm text-ink/70 sm:text-base">
               Explore articles packed with practical advice, trends, and expert perspectives to help you make an
@@ -76,26 +84,43 @@ export default function Blogs() {
         </motion.div>
 
         <motion.div {...fadeUp(0.15)}>
-          {/* Slider: 1 card per page on mobile, 2 on tablet, 4 on desktop */}
+          {/* Slider: 1 card per page on mobile, 2 on tablet, 3 on small laptops, 4 on desktop */}
           <div
             ref={trackRef}
             onScroll={measure}
             onMouseEnter={() => (pausedRef.current = true)}
             onMouseLeave={() => (pausedRef.current = false)}
-            className="mt-4 grid cursor-grab snap-x snap-mandatory select-none grid-flow-col auto-cols-[100%] gap-4 overflow-x-auto py-4 [scrollbar-width:none] active:cursor-grabbing sm:auto-cols-[calc((100%-1rem)/2)] lg:auto-cols-[calc((100%-3rem)/4)]"
+            className="mt-4 grid cursor-grab snap-x snap-mandatory select-none grid-flow-col auto-cols-[100%] gap-4 overflow-x-auto py-4 [scrollbar-width:none] active:cursor-grabbing sm:auto-cols-[calc((100%-1rem)/2)] lg:auto-cols-[calc((100%-2rem)/3)] xl:auto-cols-[calc((100%-3rem)/4)]"
           >
-            {posts.map((post) => (
+            {items.map((post) => (
               <Link
                 key={post.id}
                 href={post.href}
                 className="group relative aspect-4/3 snap-start overflow-hidden rounded-xl shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-xl"
               >
-                {/* Image placeholder - replace with a next/image of the blog cover */}
-                <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-slate-300 to-slate-500 text-xs text-white/80 transition-transform duration-500 group-hover:scale-110">
-                  Image
-                </div>
-                <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/70 to-transparent p-4 pt-12">
-                  <h3 className="text-sm text-white transition-colors duration-300 group-hover:text-accent sm:text-base">
+                {post.image ? (
+                  <Image
+                    src={post.image.src}
+                    alt={post.image.alt}
+                    fill
+                    sizes="(min-width: 1024px) 300px, (min-width: 640px) 50vw, 100vw"
+                    draggable={false}
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                ) : (
+                  // Placeholder until the post has a cover image
+                  <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-slate-300 to-slate-500 text-xs text-white/80 transition-transform duration-500 group-hover:scale-110">
+                    Image
+                  </div>
+                )}
+                {post.category && (
+                  <span className="absolute left-3 top-3 max-w-[calc(100%-1.5rem)] truncate rounded bg-accent px-2 py-1 text-[11px] font-semibold text-white shadow-sm sm:text-xs">
+                    {post.category}
+                  </span>
+                )}
+                <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/70 to-transparent p-3 pt-12 sm:p-4 sm:pt-12">
+                  {/* At most three lines, so a long title never covers the whole image */}
+                  <h3 className="line-clamp-3 text-sm leading-snug text-white transition-colors duration-300 group-hover:text-accent sm:text-base lg:text-sm xl:text-base">
                     {post.title}
                   </h3>
                 </div>

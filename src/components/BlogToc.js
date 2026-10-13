@@ -15,6 +15,9 @@ export default function BlogToc({ headings }) {
   const [open, setOpen] = useState(true);
 
   useEffect(() => {
+    // A post without h2 headings has no box at all, so there is nothing to follow
+    if (headings.length === 0) return;
+
     const onScroll = () => {
       // The active section is the last heading that has passed the top of the screen
       let current = headings[0]?.id;
@@ -27,6 +30,7 @@ export default function BlogToc({ headings }) {
       // The moment the box starts floating, close the list so it does not cover the text being read.
       // (The reader can still open it again with the arrow.)
       const nav = navRef.current;
+      if (!nav) return;
       const stuck = nav.getBoundingClientRect().top <= parseFloat(getComputedStyle(nav).top) + 1;
       if (stuck && !wasStuckRef.current) setOpen(false);
       wasStuckRef.current = stuck;

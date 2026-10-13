@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { cacheLife, cacheTag } from "next/cache";
 
 // Talks to the Strapi CMS. Server only: STRAPI_URL and STRAPI_TOKEN never reach the browser.
@@ -14,7 +15,7 @@ const withoutSlash = (url) => (url ?? "").trim().replace(/\/+$/, "");
 // Throws if the CMS is not configured, cannot be reached or answers with an error.
 async function fetchStrapi(path) {
   const { STRAPI_TOKEN } = process.env;
-  const url = withoutSlash(process.env.STRAPI_URL);
+  const url = withoutSlash(process.env.STRAPI_URL || process.env.NEXT_PUBLIC_STRAPI_URL);
   if (!url) throw new Error("STRAPI_URL is not set");
 
   const response = await fetch(`${url}/api/${path}`, {
@@ -36,7 +37,8 @@ async function fetchStrapiCached(path, tag) {
 
 // Returns null instead of failing, so the page can fall back to its built-in content.
 // tag is the name used to refresh this answer from the webhook (only matters while caching is on).
-export async function getFromStrapi(path, tag) {
+// cache(): a page and its SEO tags both need the same answer, so within one page view Strapi is asked only once.
+export const getFromStrapi = cache(async function getFromStrapi(path, tag) {
   try {
     return CACHE_STRAPI ? await fetchStrapiCached(path, tag) : await fetchStrapi(path);
   } catch (error) {
@@ -45,7 +47,7 @@ export async function getFromStrapi(path, tag) {
     console.warn(`[strapi] ${error.message}${reason ? ` (${reason})` : ""} - using the built-in content`);
     return null;
   }
-}
+});
 
 // Strapi media -> { src, alt, width, height } for next/image, or null if there is no image.
 // Strapi sends "/uploads/..." paths, which need the address of the CMS in front.

@@ -4,12 +4,20 @@ import { getFromStrapi, toImage } from "@/lib/strapi";
 // Every value is optional: a section, heading or list that is missing or empty comes back as undefined,
 // and the component then shows its built-in content instead.
 
-// Strapi sends the country slug as "study-in-australia"; older entries may only have "australia"
-const countryHref = (slug) => `/destinations/${slug.startsWith("study-in-") ? slug : `study-in-${slug}`}`;
+// Country pages live at the root of the site: /study-in-australia.
+// Strapi sends the slug as "study-in-australia"; older entries may only have "australia".
+export const countryHref = (slug) => `/${slug.startsWith("study-in-") ? slug : `study-in-${slug}`}`;
 
 const text = (value) => (typeof value === "string" && value.trim() ? value.trim() : undefined);
 // An empty list counts as "not sent", so the built-in list is used
 const list = (items, map) => (Array.isArray(items) && items.length > 0 ? items.map(map) : undefined);
+
+// One service card. Its small picture is the service's icon, or its cardImage when no icon is uploaded.
+// Also used by the services page (src/lib/servicePage.js).
+export const serviceCard = (service) => ({
+  title: service.name.trim(),
+  icon: toImage(service.icon) ?? toImage(service.cardImage),
+});
 
 // "2026-11-24T10:00:00.000Z" -> "24 Nov" (Indian time)
 const eventDate = (value) => {
@@ -62,10 +70,7 @@ const mappers = {
   services: (section) => ({
     heading: text(section.heading),
     subheading: text(section.subheading),
-    items: list(section.services, (service) => ({
-      title: service.name.trim(),
-      icon: toImage(service.icon),
-    })),
+    items: list(section.services, serviceCard),
   }),
 
   "study-areas": (section) => ({
@@ -93,6 +98,12 @@ const mappers = {
     ),
   }),
 };
+
+// The "seo" block of the home page (meta title, description...), or undefined if Strapi did not send one
+export async function getHomeSeo() {
+  const response = await getFromStrapi("homepage", "homepage");
+  return (response?.data ?? response)?.seo ?? undefined;
+}
 
 // Returns { hero, countries, events, services, "study-areas", testimonials, partnerships }.
 // A section that Strapi did not send (or the whole object, if Strapi is down) is simply missing.

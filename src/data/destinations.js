@@ -2,7 +2,7 @@ import { destinations } from "@/data/countries";
 import { countryContent } from "@/data/detailContent";
 
 // Dummy data for the country details pages - replace with real data (CMS / API).
-// Each country has a page at /destinations/study-in-<country>, e.g. /destinations/study-in-new-zealand.
+// Each country has a page at /study-in-<country>, e.g. /study-in-new-zealand.
 
 // Country details page: the slug of every page
 export const destinationSlugs = destinations.map((item) => item.slug);

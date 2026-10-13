@@ -15,6 +15,9 @@ const heroLabels = [
   { name: "Ireland", file: "ireland", width: 151, height: 55, left: 73.49, top: 41.2 },
   { name: "New Zealand", file: "new-zealand", width: 217, height: 55, left: 81.85, top: 21.3 },
   { name: "Germany", file: "germany", width: 175, height: 55, left: 88.98, top: 48.6 },
+  // Japan and Singapore have no landmark in the banner, so they float in the empty corners
+  { name: "Japan", file: "japan", width: 142, height: 55, left: 2.88, top: 40.7 },
+  { name: "Singapore", file: "singapore", width: 186, height: 55, left: 91.7, top: 32.2 },
 ];
 
 // Same labels on the mobile banner (811 x 461), which stacks them in two columns beside the student
@@ -29,6 +32,8 @@ const heroLabelsMobile = [
   { name: "Australia", file: "australia", width: 146, height: 48, left: 69.91, top: 22.13 },
   { name: "Germany", file: "germany", width: 152, height: 48, left: 81.38, top: 43.17 },
   { name: "Malaysia", file: "malaysia", width: 145, height: 48, left: 75.59, top: 59 },
+  { name: "Japan", file: "japan", width: 122, height: 48, left: 83.35, top: 73.75 },
+  { name: "Singapore", file: "singapore", width: 161, height: 48, left: 79.5, top: 87.85 },
 ];
 
 // Gives every label its own speed, distance and starting point on each axis.
