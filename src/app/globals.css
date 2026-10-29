@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-montserrat);
+  --font-serif: var(--font-yeseva);
+
+  --color-navy: #000423;
+  --color-indigo: #1d297c;
+  --color-accent: #e94b3c;
+  --color-ink: #121212;
+  --color-paper: #fdfdfd;
+
+  /* Hero country labels: each label drifts sideways and up/down at two different speeds,
+     so its path never repeats and the movement looks random. Speeds are set per label in Hero.js.
+     The step pictures (StepPieces.js) and the hat and plane of PageHero.js reuse them.
+     Distances are % of the label itself, so the movement scales with the banner. */
+  --animate-hero-drift-x: hero-drift-x 7s ease-in-out infinite alternate;
+  --animate-hero-drift-y: hero-drift-y 4s ease-in-out infinite alternate;
+
+  @keyframes hero-drift-x {
+    from {
+      transform: translateX(calc(var(--drift-x, 8%) * -1));
+    }
+    to {
+      transform: translateX(var(--drift-x, 8%));
+    }
+  }
+
+  @keyframes hero-drift-y {
+    from {
+      transform: translateY(calc(var(--drift-y, 35%) * -1)) rotate(calc(var(--drift-tilt, 2deg) * -1));
+    }
+    to {
+      transform: translateY(var(--drift-y, 35%)) rotate(var(--drift-tilt, 2deg));
+    }
+  }
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
