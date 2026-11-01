@@ -12,16 +12,16 @@ import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
 
 const services = [
-  { title: "University Admission Assistance", Icon: FaBuildingColumns, color: "bg-sky-100 text-sky-500" },
-  { title: "Scholarship Guidance", Icon: FaHandHoldingDollar, color: "bg-red-100 text-red-500" },
-  { title: "Student Visa Assistance", Icon: FaPlane, color: "bg-lime-100 text-lime-600" },
-  { title: "Health Insurance Assistance", Icon: FaBriefcaseMedical, color: "bg-amber-100 text-amber-500" },
-  { title: "Student Accommodation Assistance", Icon: FaHouse, color: "bg-indigo-100 text-indigo-600" },
-  { title: "IELTS & PTE Coaching Classes", Icon: FaClipboardCheck, color: "bg-emerald-100 text-emerald-600" },
+  { title: "University Admission Assistance", href: "/services/admission-support", Icon: FaBuildingColumns, color: "bg-sky-100 text-sky-500" },
+  { title: "Scholarship Guidance", href: "/scholarships", Icon: FaHandHoldingDollar, color: "bg-red-100 text-red-500" },
+  { title: "Student Visa Assistance", href: "/services/visa-services", Icon: FaPlane, color: "bg-lime-100 text-lime-600" },
+  { title: "Health Insurance Assistance", href: "/services/health-insurance", Icon: FaBriefcaseMedical, color: "bg-amber-100 text-amber-500" },
+  { title: "Student Accommodation Assistance", href: "/services/student-accommodations", Icon: FaHouse, color: "bg-indigo-100 text-indigo-600" },
+  { title: "IELTS & PTE Coaching Classes", href: "/contact-us", Icon: FaClipboardCheck, color: "bg-emerald-100 text-emerald-600" },
 ];
 
 // The service cards on their own - also used on the services page.
-// items (from Strapi) is a list of { title, icon: { src, alt } | null }; without it the six built-in services are shown.
+// items (from Strapi) is a list of { title, href, icon: { src, alt } | null }; without it the six built-in services are shown.
 // A Strapi service without a picture borrows the icon and colour of the built-in card in the same position.
 export function ServiceCards({ items }) {
   const cards = items
@@ -33,7 +33,7 @@ export function ServiceCards({ items }) {
       {cards.map((service, i) => (
         <motion.div key={service.title} {...fadeUp(i * 0.08)}>
           <Link
-            href="#"
+            href={service.href}
             className="group block h-full rounded-xl border border-black/5 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1.5 hover:border-accent/30 hover:shadow-xl"
           >
             {service.icon ? (

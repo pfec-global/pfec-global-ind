@@ -56,7 +56,7 @@ export default function HealthInsurancePage() {
         subtitle="Get expert guidance and seamless support for your student visa application and approval."
         image="/images/services/Health-insurance.webp"
         buttonText="Book a Free Consultation"
-        buttonHref="/contact"
+        buttonHref="/contact-us"
       />
 
       {/* Other sections */}

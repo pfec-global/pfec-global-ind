@@ -53,7 +53,7 @@ export default function StudentAccommodationsPage() {
         subtitle="Unlock global opportunities with seamless guidance from application to acceptance."
         image="/images/services/Student-Accommodations.webp"
         buttonText="Book a Free Consultation"
-        buttonHref="/contact"
+        buttonHref="/contact-us"
       />
 
       {/* Other sections */}

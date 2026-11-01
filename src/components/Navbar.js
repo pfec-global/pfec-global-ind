@@ -4,20 +4,47 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  FaAward,
+  FaBriefcaseMedical,
+  FaBuildingColumns,
+  FaHouse,
+  FaPlane,
+  FaUsers,
+} from "react-icons/fa6";
 import { destinations, scholarships } from "@/data/countries";
+
+const serviceItems = [
+  { label: "University Admission Assistance", href: "/services/admission-support", Icon: FaBuildingColumns },
+  { label: "Student Visa Assistance", href: "/services/visa-services", Icon: FaPlane },
+  { label: "Health Insurance Assistance", href: "/services/health-insurance", Icon: FaBriefcaseMedical },
+  { label: "Student Accommodation Assistance", href: "/services/student-accommodations", Icon: FaHouse },
+];
+
+const aboutItems = [
+  { label: "Awards & Achievements", href: "/aboutus/awards-and-achievements", Icon: FaAward },
+  { label: "Our Leadership Team", href: "/aboutus/our-leadership-team", Icon: FaUsers },
+];
 
 // items (optional) is the dropdown of a link: it opens on hover on desktop and on tap in the mobile menu.
 // section (optional) is the start of the URLs that belong to the link, used to highlight it on its inner pages.
 // destinationItems and scholarshipItems are the lines of the two dropdowns: { label, href, flag }
 const buildLinks = (destinationItems, scholarshipItems) => [
-  { label: "About Us", href: "#" },
+  { label: "About Us", href: "/aboutus", section: "/aboutus", items: aboutItems },
   { label: "Destinations", href: "/destinations", section: "/destinations", items: destinationItems },
-  { label: "Our Services", href: "/services" },
+  { label: "Our Services", href: "/services", section: "/services", items: serviceItems },
   { label: "Blog", href: "/blogs" },
   { label: "Scholarships", href: "/scholarships", section: "/scholarships", items: scholarshipItems },
   // Scrolls to the Contact section, which is on every page
   { label: "Contact Us", href: "#contact" },
 ];
+
+// The small round icon beside a line of the About Us and Our Services dropdowns
+const itemIcon = (Icon) => (
+  <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
+    <Icon className="h-3 w-3" />
+  </span>
+);
 
 const chevron = (className) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -26,7 +53,7 @@ const chevron = (className) => (
 );
 
 // destinationItems and scholarshipItems come from Strapi (see NavbarWithCms.js); without them the built-in lists are used.
-// flag is the small round picture beside a line - a line without one simply has no picture.
+// flag is the small round picture beside a line, Icon a small round icon instead - a line without either simply has none.
 export default function Navbar({ destinationItems = destinations, scholarshipItems = scholarships }) {
   const links = buildLinks(destinationItems, scholarshipItems);
   const [open, setOpen] = useState(false);
@@ -146,6 +173,7 @@ export default function Navbar({ destinationItems = destinations, scholarshipIte
                                 className="h-[22px] w-[22px] shrink-0 rounded-full object-cover"
                               />
                             )}
+                            {item.Icon && itemIcon(item.Icon)}
                             {item.label}
                           </Link>
                         </li>
@@ -245,6 +273,7 @@ export default function Navbar({ destinationItems = destinations, scholarshipIte
                               className="h-[22px] w-[22px] shrink-0 rounded-full object-cover"
                             />
                           )}
+                          {item.Icon && itemIcon(item.Icon)}
                           {item.label}
                         </Link>
                       </li>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import * as motion from "motion/react-client";
 import { fadeUp, zoomIn } from "@/lib/motion";
 
-const courses = [
+export const courses = [
   "Architecture & Civil Engineering",
   "Business, Commerce & Management",
   "Education",

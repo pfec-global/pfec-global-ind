@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import NavbarWithCms from "@/components/NavbarWithCms";
 import Footer from "@/components/Footer";
+import FooterWithCms from "@/components/FooterWithCms";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -45,7 +46,10 @@ export default function RootLayout({ children }) {
             <NavbarWithCms />
           </Suspense>
           <main>{children}</main>
-          <Footer />
+          {/* Same as the navbar: shows straight away with the built-in lists, then swaps to the ones from Strapi */}
+          <Suspense fallback={<Footer />}>
+            <FooterWithCms />
+          </Suspense>
         </MotionConfig>
       </body>
     </html>

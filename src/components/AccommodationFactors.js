@@ -70,7 +70,7 @@ export default function AccommodationFactors() {
 
           {/* CTA Button */}
           <a
-            href="/contact"
+            href="/contact-us"
             className="group mt-6 inline-flex items-center gap-2 rounded-lg border border-[#FF493D] px-3 py-2 text-xs font-medium text-[#FF493D] transition-all duration-300 hover:bg-[#FF493D] hover:text-white"
           >
             Book a Free Consultation

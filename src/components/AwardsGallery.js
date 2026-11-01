@@ -1,6 +1,6 @@
-import Image from "next/image";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import AwardsRow from "@/components/AwardsRow";
 
 const awards = [
   {
@@ -36,7 +36,7 @@ const awards = [
   },
   {
     name: "Swinburne University of Technology",
-    logo: "/images/awards/Frame 1000001718-4.png    ",
+    logo: "/images/awards/Frame 1000001718-4.png",
     awards: [
       "Appreciation for Outstanding Partnership & Support for Sarawak Campus (2024)",
       "Partner of the Decade - Emerging Excellence (2020)",
@@ -202,8 +202,10 @@ const awards = [
 ];
 
 export default function AwardsGallery() {
+  const half = Math.ceil(awards.length / 2);
+
   return (
-    <section className="bg-white py-12 sm:py-16 lg:py-20">
+    <section className="overflow-hidden bg-white py-12 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Heading */}
@@ -213,51 +215,13 @@ export default function AwardsGallery() {
           </h2>
         </motion.div>
 
-        {/* Gallery */}
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {awards.map((item, index) => (
-            <motion.div
-              key={`${item.name}-${index}`}
-              {...fadeUp(index * 0.04)}
-              className="group overflow-hidden rounded-xl border border-black/5 bg-white shadow-[0_4px_15px_rgba(0,0,0,0.10)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_14px_35px_rgba(0,0,0,0.16)]"
-            >
-              {/* Logo Section */}
-              <div className="flex min-h-[125px] flex-col items-center justify-center bg-white px-5 py-4">
-                <span className="mb-1 text-[10px] text-black/40">
-                  Recognized by
-                </span>
-
-                <div className="relative h-[70px] w-full">
-                  <Image
-                    src={item.logo}
-                    alt={`${item.name} logo`}
-                    fill
-                    className="object-contain transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                </div>
-              </div>
-
-              {/* Awards Content */}
-              <div className="min-h-[135px] bg-[#fff9e8] px-6 py-5">
-                <ul className="space-y-2 text-sm leading-5 text-black/80">
-                  {item.awards.map((award) => (
-                    <li
-                      key={award}
-                      className="flex items-start gap-2"
-                    >
-                      <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-black/70" />
-
-                      <span>{award}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
       </div>
+
+      {/* Two endless rows, moving in opposite directions */}
+      <motion.div {...fadeUp(0.1)} className="mt-7 space-y-3">
+        <AwardsRow items={awards.slice(0, half)} direction={1} />
+        <AwardsRow items={awards.slice(half)} direction={-1} />
+      </motion.div>
     </section>
   );
 }

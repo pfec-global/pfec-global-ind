@@ -52,7 +52,7 @@ export default function AdmissionSupportPage() {
         subtitle="Unlock global opportunities with seamless guidance from application to acceptance."
         image="/images/services/admission-support.webp"
         buttonText="Book a Free Consultation"
-        buttonHref="/contact"
+        buttonHref="/contact-us"
       />
 
       {/* Other sections */}

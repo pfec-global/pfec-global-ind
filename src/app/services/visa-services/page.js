@@ -51,7 +51,7 @@ export default function VisaServicesPage() {
         subtitle="Get expert guidance and seamless support for your student visa application and approval."
         image="/images/services/admission-support.webp"
         buttonText="Book a Free Consultation"
-        buttonHref="/contact"
+        buttonHref="/contact-us"
       />
 
       {/* Other sections */}

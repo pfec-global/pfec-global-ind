@@ -12,10 +12,20 @@ const text = (value) => (typeof value === "string" && value.trim() ? value.trim(
 // An empty list counts as "not sent", so the built-in list is used
 const list = (items, map) => (Array.isArray(items) && items.length > 0 ? items.map(map) : undefined);
 
+// Strapi slug of a service -> the page it links to. A service that is not listed links to the services page.
+const serviceHrefs = {
+  "university-admission-assistance": "/services/admission-support",
+  "scholarship-guidance": "/scholarships",
+  "student-visa-assistance": "/services/visa-services",
+  "health-insurance-assistance": "/services/health-insurance",
+  "student-accommodation-assistance": "/services/student-accommodations",
+};
+
 // One service card. Its small picture is the service's icon, or its cardImage when no icon is uploaded.
 // Also used by the services page (src/lib/servicePage.js).
 export const serviceCard = (service) => ({
   title: service.name.trim(),
+  href: serviceHrefs[service.slug] ?? "/services",
   icon: toImage(service.icon) ?? toImage(service.cardImage),
 });
 
@@ -25,6 +35,26 @@ const eventDate = (value) => {
   if (!value || Number.isNaN(date.getTime())) return undefined;
   return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "Asia/Kolkata" }).format(date);
 };
+
+// "2026-11-24T10:00:00.000Z" -> "2026" (Indian time)
+const eventYear = (value) => {
+  const date = new Date(value);
+  if (!value || Number.isNaN(date.getTime())) return undefined;
+  return new Intl.DateTimeFormat("en-GB", { year: "numeric", timeZone: "Asia/Kolkata" }).format(date);
+};
+
+// One event card. Also used by the events page (src/lib/events.js).
+export const eventCard = (event) => ({
+  id: event.slug,
+  date: eventDate(event.startDateTime) ?? "",
+  year: eventYear(event.startDateTime) ?? "",
+  startsAt: event.startDateTime ?? "",
+  location: [event.venueName, event.city].filter(Boolean).join(", "),
+  type: event.eventType === "online" ? "Online Event" : "In-person Event",
+  title: event.title,
+  description: event.shortDescription ?? "",
+  image: toImage(event.bannerImage, event.title),
+});
 
 // One function per Strapi section (__component: "sections.<name>")
 const mappers = {
@@ -56,15 +86,7 @@ const mappers = {
   events: (section) => ({
     heading: text(section.heading),
     subheading: text(section.subheading),
-    items: list(section.events, (event) => ({
-      id: event.slug,
-      date: eventDate(event.startDateTime) ?? "",
-      location: [event.venueName, event.city].filter(Boolean).join(", "),
-      type: event.eventType === "online" ? "Online Event" : "In-person Event",
-      title: event.title,
-      description: event.shortDescription ?? "",
-      image: toImage(event.bannerImage, event.title),
-    })),
+    items: list(section.events, eventCard),
   }),
 
   services: (section) => ({

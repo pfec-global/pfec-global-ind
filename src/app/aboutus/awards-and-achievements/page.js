@@ -6,7 +6,6 @@ import Contact from "@/components/Contact";
 
 
 
-import Footer from "@/components/Footer";
 
 export default function AwardsAndAchievements() {
   return (
@@ -19,7 +18,6 @@ export default function AwardsAndAchievements() {
        <Contact />
 
       </main>
-            <Footer />
     </>
   );
 }

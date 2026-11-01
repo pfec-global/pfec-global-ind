@@ -4,11 +4,11 @@ import { fadeUp } from "@/lib/motion";
 
 export default function AwardsHero() {
   return (
-    <section className="bg-[#e8f8fc] py-12 sm:py-16 lg:py-20">
+    <section className="overflow-hidden bg-[#e8f8fc] pt-12 sm:pt-16 lg:pt-20">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
 
         {/* Left Content */}
-        <motion.div {...fadeUp()}>
+        <motion.div {...fadeUp()} className="lg:pb-20">
           <span className="inline-flex rounded-md bg-[#fff0ee] px-7 py-3 text-sm font-medium text-[#ef4b3b]">
             Awards and Achievements
           </span>
@@ -34,16 +34,22 @@ export default function AwardsHero() {
         {/* Right Hero Image */}
         <motion.div
           {...fadeUp(0.12)}
-          className="flex justify-center lg:justify-end"
+          className="flex justify-center self-end lg:justify-end"
         >
-          <div className="relative w-full max-w-[650px]">
+          <div className="relative aspect-[3/2] w-full max-w-[650px]">
+            {/* The three slanted bars behind the people - same colours as in Key Highlights */}
+            <span className="absolute bottom-0 left-[3%] top-[14%] w-[20%] -skew-x-[20deg] bg-[#150f92]" />
+            <span className="absolute bottom-0 left-[33%] top-[14%] w-[20%] -skew-x-[20deg] bg-[#958bc1]" />
+            <span className="absolute bottom-0 left-[63%] top-[14%] w-[20%] -skew-x-[20deg] bg-[#c8cce6]" />
+            {/* award.png has a wide empty area on its left: object position frames just the people */}
             <Image
-              src="/images/Awards-page-banner-1.webp"
+              src="/images/award.png"
               alt="PFEC Global awards and achievements"
-              width={900}
-              height={520}
+              fill
               priority
-              className="h-auto w-full object-contain"
+              // The picture is drawn about twice as wide as its frame (the sides are cut off), and sizes has to say so
+              sizes="(min-width: 1024px) 1330px, 205vw"
+              className="object-cover object-[93%_bottom]"
             />
           </div>
         </motion.div>

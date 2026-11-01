@@ -4,41 +4,11 @@ import { FaLinkedin, FaYoutubeSquare, FaFacebookSquare, FaInstagramSquare } from
 import { FaSquareXTwitter } from "react-icons/fa6";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import { destinations, scholarships } from "@/data/countries";
+import { courses } from "@/components/PopularCourses";
 
-// Each inner array is one footer column
-const columns = [
-  [
-    {
-      title: "Study Abroad",
-      links: ["Study in USA", "Study in UK", "Study In Canada", "Study In Australia", "Other topics to be added here"],
-    },
-    {
-      title: "PFEC Global",
-      links: ["Contact Us", "About Us", "Careers"],
-    },
-  ],
-  [
-    {
-      title: "Scholarships",
-      links: ["UK Scholarships", "UK Scholarships", "UK Scholarships", "UK Scholarships", "UK Scholarships"],
-    },
-    {
-      title: "Resources",
-      links: ["Blogs", "Downloadable Content", "Upcoming Events"],
-    },
-  ],
-  [
-    {
-      title: "Popular Courses",
-      links: [
-        "Architecture & Civil Engineering",
-        "Architecture & Civil Engineering",
-        "Architecture & Civil Engineering",
-        "Architecture & Civil Engineering",
-      ],
-    },
-  ],
-];
+// Footer lists stay short: only the first few lines of each are shown
+const firstFew = (items, count = 5) => items.slice(0, count);
 
 const socials = [
   { label: "LinkedIn", Icon: FaLinkedin, color: "text-[#0a66c2]" },
@@ -53,7 +23,42 @@ const legalLinks = [
   { label: "Privacy Policy", href: "/privacy-policy" },
 ];
 
-export default function Footer() {
+// destinationItems, scholarshipItems and courseItems come from Strapi (see FooterWithCms.js); without them the built-in lists are used.
+// courseItems is a list of course names, the other two are lists of { label, href }.
+// year also comes from FooterWithCms.js, because the shell of the page is built ahead of time and cannot read the date.
+export default function Footer({
+  destinationItems = destinations,
+  scholarshipItems = scholarships,
+  courseItems = courses,
+  year = 2026,
+}) {
+  // Each inner array is one footer column
+  const columns = [
+    [
+      { title: "Study Abroad", links: firstFew(destinationItems) },
+      {
+        title: "PFEC Global",
+        links: [
+          { label: "Contact Us", href: "/contact-us" },
+          { label: "About Us", href: "/aboutus" },
+          { label: "Careers", href: "#" },
+        ],
+      },
+    ],
+    [
+      { title: "Scholarships", links: firstFew(scholarshipItems) },
+      {
+        title: "Resources",
+        links: [
+          { label: "Blogs", href: "/blogs" },
+          { label: "Downloadable Content", href: "#" },
+          { label: "Upcoming Events", href: "/events" },
+        ],
+      },
+    ],
+    [{ title: "Popular Courses", links: firstFew(courseItems).map((label) => ({ label, href: "#" })) }],
+  ];
+
   return (
     <footer className="bg-[#f8f9fb] text-ink">
       <div className="mx-auto max-w-7xl px-4 pt-12 sm:px-6 lg:px-8">
@@ -138,9 +143,9 @@ export default function Footer() {
                 <div key={group.title}>
                   <h3 className="font-semibold text-accent">{group.title}</h3>
                   <ul className="mt-3 space-y-3 text-sm">
-                    {group.links.map((label, j) => (
+                    {group.links.map(({ label, href }, j) => (
                       <li key={j}>
-                        <Link href="#" className="hover:text-accent">
+                        <Link href={href} className="hover:text-accent">
                           {label}
                         </Link>
                       </li>
@@ -154,7 +159,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col items-center gap-4 border-t border-black/10 py-5 text-sm md:flex-row md:justify-between">
-          <p>© 2025 PFEC Global | All Rights Reserved</p>
+          <p>© {year} PFEC Global | All Rights Reserved</p>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2">
             {legalLinks.map(({ label, href }) => (
               <Link key={label} href={href} className="hover:text-accent">
