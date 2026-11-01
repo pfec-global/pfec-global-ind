@@ -11,7 +11,43 @@ import Achievements from "@/components/Achievements";
 import Partners from "@/components/Partners";
 import Testimonials from "@/components/Testimonials";
 import Blogs from "@/components/Blogs";
+import Faq from "@/components/Faq"; 
+
 import Contact from "@/components/Contact";
+
+
+const homeFaqs = [
+  {
+    question:
+      "What services does PFEC Global India offer for study abroad aspirants?",
+    answer:
+      "PFEC Global India supports students with university admissions, visa processing, scholarship guidance, pre-departure preparation, health insurance, and other study abroad services.",
+  },
+  {
+    question:
+      "Which countries can I study in with PFEC Global's support?",
+    answer:
+      "PFEC Global operates in 11 countries and collaborates with over 550 universities. Australia, the United Kingdom, Canada, Germany, the United States, and Ireland are some of the destinations available to students.",
+  },
+  {
+    question:
+      "How experienced is PFEC Global in international education consultancy?",
+    answer:
+      "PFEC Global has over 18 years of experience as a study abroad agency, with more than 22,000 student success stories.",
+  },
+  {
+    question:
+      "Is there a fee to get guidance from PFEC Global India?",
+    answer:
+      "PFEC Global India offers consultations and student services. Available services and fees may depend on the university and the service selected.",
+  },
+  {
+    question: "How do I get started with PFEC Global India?",
+    answer:
+      "Fill out the consultation form on our homepage with your contact details, preferred study destination, and English language proficiency level. Our counselors can then guide you through the next steps.",
+  },
+];
+
 
 // The home page waits for Strapi on every visit while caching is switched off (CACHE_STRAPI in src/lib/strapi.js).
 // This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
@@ -45,6 +81,7 @@ export default async function Home() {
       <Partners {...cms.partnerships} />
       <Testimonials {...cms.testimonials} />
       <Blogs items={latestBlogs} />
+     <Faq faqs={homeFaqs} />
       <Contact />
     </>
   );
