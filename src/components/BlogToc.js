@@ -51,21 +51,21 @@ export default function BlogToc({ headings }) {
     <nav
       ref={navRef}
       aria-label="Jump to topic"
-      className="sticky top-18 z-30 max-w-2xl rounded-lg border border-ink/10 bg-[#f1f5f8] shadow-md lg:top-22"
+      className="sticky top-[116px] z-30 w-full rounded-xl border border-indigo/15 bg-[#f1f5f8] shadow-lg"
     >
       <button
         type="button"
         aria-expanded={open}
         onClick={() => setOpen(!open)}
-        className="flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-xs sm:text-sm"
+        className="flex w-full cursor-pointer items-center gap-3 px-4 py-3.5 text-left text-sm sm:px-5 sm:py-4 sm:text-base"
       >
         <span className="shrink-0 font-bold text-accent">Jump to Topic</span>
-        <span aria-hidden="true" className="h-4 w-px shrink-0 bg-ink/50" />
+        <span aria-hidden="true" className="h-5 w-px shrink-0 bg-ink/40" />
         <span className="min-w-0 flex-1 truncate font-bold">
           {activeIndex + 1}. {headings[activeIndex].text}
         </span>
         <svg
-          className={`h-4 w-4 shrink-0 text-accent transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+          className={`h-5 w-5 shrink-0 text-accent transition-transform duration-300 ${open ? "rotate-180" : ""}`}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -84,7 +84,7 @@ export default function BlogToc({ headings }) {
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <ol className="mx-3 max-h-[50vh] overflow-y-auto border-t border-ink/30 py-2 text-xs sm:text-sm">
+          <ol className="mx-4 max-h-[50vh] overflow-y-auto border-t border-ink/25 py-3 text-sm sm:mx-5 sm:text-base">
             {headings.map((heading, i) => (
               <li key={heading.id}>
                 {/* A normal #link: the browser scrolls to the heading (smoothly, see scroll-smooth in layout.js) */}
@@ -92,7 +92,7 @@ export default function BlogToc({ headings }) {
                   href={`#${heading.id}`}
                   aria-current={heading.id === activeId ? "location" : undefined}
                   onClick={() => setOpen(false)}
-                  className={`block py-1.5 transition-colors duration-300 hover:text-accent ${
+                  className={`block py-2.5 transition-colors duration-300 hover:text-accent ${
                     heading.id === activeId ? "font-bold text-ink" : "text-ink/75"
                   }`}
                 >

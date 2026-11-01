@@ -62,8 +62,8 @@ export default function BlogPostHero({ post }) {
         <motion.div {...fadeUpOnLoad(0.1)} className="space-y-6 lg:col-start-1">
           {post.summary && (
             <div>
-              <h2 className="text-sm text-accent">Summary</h2>
-              <p className="mt-1 text-sm text-ink/85">{post.summary}</p>
+              <h2 className="text-[18px] font-semibold text-accent">Summary</h2>
+              <p className="mt-1 text-[16px] leading-relaxed text-ink/85">{post.summary}</p>
             </div>
           )}
           <ShareLinks title={post.title} />

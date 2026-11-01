@@ -10,10 +10,10 @@ import { FaqItem, FaqList } from "@/components/FaqAccordion";
 const components = {
   // scroll-mt leaves room for the sticky navbar and the floating "Jump to Topic" box when jumping to a heading
   h2: ({ node, ...props }) => (
-    <h2 className="mt-10 scroll-mt-36 text-lg font-bold text-indigo first:mt-0 sm:text-xl" {...props} />
+    <h2 className="mt-10 scroll-mt-36 text-[18px] font-bold text-indigo first:mt-0" {...props} />
   ),
-  h3: ({ node, ...props }) => <h3 className="mt-8 text-base font-bold text-ink sm:text-lg" {...props} />,
-  h4: ({ node, ...props }) => <h4 className="mt-6 text-base font-bold text-ink" {...props} />,
+  h3: ({ node, ...props }) => <h3 className="mt-8 text-[18px] font-bold text-ink" {...props} />,
+  h4: ({ node, ...props }) => <h4 className="mt-6 text-[16px] font-bold text-ink" {...props} />,
   h5: ({ node, ...props }) => <h5 className="mt-6 font-bold text-ink" {...props} />,
   h6: ({ node, ...props }) => <h6 className="mt-6 font-semibold text-ink" {...props} />,
   p: ({ node, ...props }) => <p className="mt-4" {...props} />,
@@ -60,7 +60,7 @@ const components = {
   // Tables scroll sideways on small screens instead of squeezing their columns
   table: ({ node, ...props }) => (
     <div className="mt-6 overflow-x-auto rounded-lg border border-indigo/15 bg-white">
-      <table className="w-full min-w-[480px] text-left text-sm [&_p]:mt-0" {...props} />
+      <table className="w-full min-w-[480px] text-left text-[16px] [&_p]:mt-0" {...props} />
     </div>
   ),
   thead: ({ node, ...props }) => <thead className="bg-[#f1f1f4] text-xs font-semibold text-ink" {...props} />,
@@ -85,7 +85,7 @@ const components = {
 // The order of the plugins matters: raw -> sanitize -> heading ids and FAQ.
 export default function BlogContent({ markdown, headings }) {
   return (
-    <article className="min-w-0 text-sm leading-relaxed text-ink/80">
+    <article className="min-w-0 text-[16px] leading-relaxed text-ink/80">
       <Markdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw, rehypeSanitize, [rehypeHeadingIds, headings], rehypeFaqAccordion]}

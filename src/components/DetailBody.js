@@ -19,7 +19,7 @@ export default function DetailBody({ content, showCta = false, banners = [] }) {
           Without promo cards the content takes the full width. */}
       <div
         className={`mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:items-start lg:px-8 ${
-          hasSidebar ? "lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-12" : ""
+          hasSidebar ? "lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12" : ""
         }`}
       >
         {/* The "Jump to Topic" box floats inside this column, so it needs to be next to the content */}
@@ -32,7 +32,7 @@ export default function DetailBody({ content, showCta = false, banners = [] }) {
 
         {/* The sidebar floats beside the content while scrolling (desktop only - on smaller screens it is below the content) */}
         {hasSidebar && (
-          <div className="mx-auto w-full max-w-xs space-y-6 lg:sticky lg:top-28">
+          <div className="mx-auto w-full max-w-[22rem] space-y-6 lg:sticky lg:top-28">
             {showCta && <StudyAbroadCta />}
             {banners.map((banner) => (
               <PromoBanner key={banner.title} {...banner} />
