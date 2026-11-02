@@ -5,7 +5,7 @@ import AccommodationFactors from "@/components/AccommodationFactors";
 import Faq from "@/components/Faq";
 import Steps from "@/components/Steps";
 
-import Testimonials from "@/components/Testimonials";
+import TestimonialsWithCms from "@/components/TestimonialsWithCms";
 
 
 
@@ -63,7 +63,7 @@ export default function StudentAccommodationsPage() {
         
                 <Steps />
         
-         <Testimonials />
+         <TestimonialsWithCms />
           {/* Homepage FAQ */}
                 <Faq
                   title="Frequently Asked Questions"

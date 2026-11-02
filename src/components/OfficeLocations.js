@@ -2,110 +2,126 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
+// Every country with its offices. To add a country, add one more entry here:
+// a tab, its flag and its office cards appear on their own.
+// flag is a round picture in public/images/flags. buttonText (optional) replaces "Schedule a Virtual Meeting".
+// map: true adds a "Get Location on Google Map" link to the office address.
 const countries = [
-  { id: "india", name: "India", code: "IN" },
-  { id: "australia", name: "Australia", code: "AU" },
-  { id: "bangladesh", name: "Bangladesh", code: "BD" },
-  { id: "sri-lanka", name: "Sri Lanka", code: "LK" },
+  {
+    id: "india",
+    name: "India",
+    flag: "/images/flags/india.svg",
+    offices: [
+      {
+        city: "Kolkata",
+        address:
+          "Landmark Building (Opp. of Minto Park Bus Stand), 9th Floor, 228A, A.J.C Bose Road, Kolkata - 700020",
+        phone: "+91 98 3693 4948",
+      },
+      {
+        city: "Ahmedabad",
+        address:
+          "Unit No. 102, First Floor, Mahalaxya Building, Chimanlal Girdharlal Rd, Ahmedabad, Gujarat 380009",
+        phone: "+91 79 4090 3800",
+      },
+    ],
+  },
+  {
+    id: "australia",
+    name: "Australia",
+    flag: "/images/flags/australia.png",
+    buttonText: "Book an Appointment",
+    offices: [
+      {
+        city: "Sydney",
+        address:
+          "Suite 402, Level 4/447 Kent St, Sydney NSW 2000, Australia",
+        phone: "+61 2 8378 4282",
+        map: true,
+      },
+      {
+        city: "Melbourne",
+        address:
+          "11/50 Queen St, Melbourne VIC 3000, Australia",
+        phone: "+61 3 9620 1773",
+        map: true,
+      },
+      {
+        city: "Adelaide",
+        address:
+          "Level M/90 King William St, Adelaide SA 5000, Australia",
+        phone: "+61 8 7099 2258",
+        map: true,
+      },
+      {
+        city: "Perth",
+        address:
+          "Suite A, Level 8th/16 St Georges Terrace, Perth WA 6000, Australia",
+        phone: "+61 8 6266 8335",
+      },
+      {
+        city: "Brisbane",
+        address:
+          "Level 18/324 Queen St, Brisbane City QLD 4000, Australia",
+        phone: "+61 7 3102 1707",
+        map: true,
+      },
+      {
+        city: "Lakemba",
+        address:
+          "13/61-67 Haldon St, Lakemba NSW 2195, Australia",
+        phone: "+61 2 8378 4282",
+        map: true,
+      },
+    ],
+  },
+  {
+    id: "bangladesh",
+    name: "Bangladesh",
+    flag: "/images/flags/bangladesh.svg",
+    offices: [
+      {
+        city: "Dhanmondi",
+        address:
+          "SIMA Blossom (5th Floor) Plot 390 (Old), 03 (New), Road-27 (Old) 16, New, Dhaka 1209, Bangladesh",
+        phone: "+880 9609 80 03 00",
+      },
+      {
+        city: "Banani",
+        address:
+          "RSR Tower (7th Floor), House no. 50, Block C, Rd No. 11, Banani, Dhaka 1213",
+        phone: "+880 9609 80 07 00",
+      },
+      {
+        city: "Chattogram",
+        address:
+          "5th floor, Equity Centrum, O R Nizam Road, GEC Circle, Chattogram",
+        phone: "+880 9609 80 04 00",
+      },
+      {
+        city: "Uttara",
+        address:
+          "Level 8, RM Plaza, 20 Sonargaon Jonopath Road, Sector 11, Dhaka 1230",
+        phone: "+880 9609 80 05 00",
+      },
+    ],
+  },
+  {
+    id: "sri-lanka",
+    name: "Sri Lanka",
+    flag: "/images/flags/sri-lanka.svg",
+    offices: [
+      {
+        city: "Colombo",
+        address:
+          "PFEC Global, 2nd Floor, 72C Bauddhaloka Mawatha, Colombo 04 (Irish Consulate Building)",
+        phone: "+94 77 734 3234",
+      },
+    ],
+  },
 ];
-
-const offices = {
-  india: [
-    {
-      city: "Kolkata",
-      address:
-        "Landmark Building (Opp. of Minto Park Bus Stand), 9th Floor, 228A, A.J.C Bose Road, Kolkata - 700020",
-      phone: "+91 98 3693 4948",
-    },
-    {
-      city: "Ahmedabad",
-      address:
-        "Unit No. 102, First Floor, Mahalaxya Building, Chimanlal Girdharlal Rd, Ahmedabad, Gujarat 380009",
-      phone: "+91 79 4090 3800",
-    },
-  ],
-
-  australia: [
-    {
-      city: "Sydney",
-      address:
-        "Suite 402, Level 4/447 Kent St, Sydney NSW 2000, Australia",
-      phone: "+61 2 8378 4282",
-      map: true,
-    },
-    {
-      city: "Melbourne",
-      address:
-        "11/50 Queen St, Melbourne VIC 3000, Australia",
-      phone: "+61 3 9620 1773",
-      map: true,
-    },
-    {
-      city: "Adelaide",
-      address:
-        "Level M/90 King William St, Adelaide SA 5000, Australia",
-      phone: "+61 8 7099 2258",
-      map: true,
-    },
-    {
-      city: "Perth",
-      address:
-        "Suite A, Level 8th/16 St Georges Terrace, Perth WA 6000, Australia",
-      phone: "+61 8 6266 8335",
-    },
-    {
-      city: "Brisbane",
-      address:
-        "Level 18/324 Queen St, Brisbane City QLD 4000, Australia",
-      phone: "+61 7 3102 1707",
-      map: true,
-    },
-    {
-      city: "Lakemba",
-      address:
-        "13/61-67 Haldon St, Lakemba NSW 2195, Australia",
-      phone: "+61 2 8378 4282",
-      map: true,
-    },
-  ],
-
-  bangladesh: [
-    {
-      city: "Dhanmondi",
-      address:
-        "SIMA Blossom (5th Floor) Plot 390 (Old), 03 (New), Road-27 (Old) 16, New, Dhaka 1209, Bangladesh",
-      phone: "+880 9609 80 03 00",
-    },
-    {
-      city: "Banani",
-      address:
-        "RSR Tower (7th Floor), House no. 50, Block C, Rd No. 11, Banani, Dhaka 1213",
-      phone: "+880 9609 80 07 00",
-    },
-    {
-      city: "Chattogram",
-      address:
-        "5th floor, Equity Centrum, O R Nizam Road, GEC Circle, Chattogram",
-      phone: "+880 9609 80 04 00",
-    },
-    {
-      city: "Uttara",
-      address:
-        "Level 8, RM Plaza, 20 Sonargaon Jonopath Road, Sector 11, Dhaka 1230",
-      phone: "+880 9609 80 05 00",
-    },
-  ],
-
-  "sri-lanka": [
-    {
-      city: "Colombo",
-      address:
-        "PFEC Global, 2nd Floor, 72C Bauddhaloka Mawatha, Colombo 04 (Irish Consulate Building)",
-      phone: "+94 77 734 3234",
-    },
-  ],
-};
 
 /* Inline SVG icons */
 
@@ -137,12 +153,7 @@ function PhoneIcon() {
   );
 }
 
-function OfficeCard({ office, countryId }) {
-  const buttonText =
-    countryId === "australia"
-      ? "Book an Appointment"
-      : "Schedule a Virtual Meeting";
-
+function OfficeCard({ office, buttonText = "Schedule a Virtual Meeting" }) {
   const mapQuery = encodeURIComponent(
     `${office.address}, ${office.city}`
   );
@@ -203,23 +214,8 @@ function OfficeCard({ office, countryId }) {
 }
 
 export default function OfficeLocations() {
-  const [activeCountry, setActiveCountry] = useState("india");
-
-  const selectedOffices = offices[activeCountry];
-
-  /*
-   * India: 2 columns
-   * Australia: 3 columns
-   * Bangladesh: 3 columns, last card centered
-   * Sri Lanka: 1 centered card with the same width as other cards
-   */
-
-  const gridClass =
-    activeCountry === "india"
-      ? "grid-cols-1 sm:grid-cols-2 max-w-[800px]"
-      : activeCountry === "sri-lanka"
-        ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-[1200px]"
-        : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-[1440px]";
+  const [activeCountry, setActiveCountry] = useState(countries[0].id);
+  const country = countries.find((item) => item.id === activeCountry);
 
   return (
     <section
@@ -229,7 +225,7 @@ export default function OfficeLocations() {
       <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-12">
 
         {/* Appointment Instructions */}
-        <div className="bg-white px-4 py-8 sm:py-10">
+        <div className="px-4 py-8 sm:py-10">
           <h2 className="text-center text-2xl font-bold leading-tight text-black sm:text-[26px]">
             Schedule an Appointment
             <br />
@@ -271,7 +267,7 @@ export default function OfficeLocations() {
         {/* Country Offices */}
         <div className="pt-10 sm:pt-12">
           <h2 className="text-center text-2xl font-bold text-black sm:text-[25px]">
-            Our Services can be Availed in 4 Countries
+            Our Services can be Availed in {countries.length} Countries
           </h2>
 
           <p className="mt-2 text-center text-base leading-7 text-[#7B8491] sm:text-xl">
@@ -285,65 +281,52 @@ export default function OfficeLocations() {
             role="tablist"
             aria-label="Select country"
           >
-            {countries.map((country) => {
-              const isActive = activeCountry === country.id;
+            {countries.map((item) => {
+              const isActive = activeCountry === item.id;
 
               return (
                 <button
-                  key={country.id}
-                  id={`tab-${country.id}`}
+                  key={item.id}
+                  id={`tab-${item.id}`}
                   type="button"
                   role="tab"
                   aria-selected={isActive}
                   aria-controls="office-panel"
-                  onClick={() => setActiveCountry(country.id)}
+                  onClick={() => setActiveCountry(item.id)}
                   className={`inline-flex min-h-[50px] items-center justify-center gap-2 rounded-xl px-5 py-3 text-base shadow-sm transition duration-200 sm:px-6 sm:text-lg ${
                     isActive
                       ? "bg-[#10004F] text-white ring-1 ring-[#10004F]"
                       : "bg-white text-[#161616] hover:bg-[#E7E5F4]"
                   }`}
                 >
-                  <span className="text-sm font-medium">
-                    {country.code}
-                  </span>
-                  {country.name}
+                  <Image
+                    src={item.flag}
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="h-6 w-6 shrink-0 rounded-full object-cover"
+                  />
+                  {item.name}
                 </button>
               );
             })}
           </div>
 
-          {/* Office Cards Grid */}
+          {/* Office Cards: up to three per row, a row that is not full is centred */}
           <div
             id="office-panel"
             role="tabpanel"
             aria-labelledby={`tab-${activeCountry}`}
-            className={`mx-auto mt-8 grid items-stretch gap-6 ${gridClass}`}
+            className="mx-auto mt-8 flex max-w-[1200px] flex-wrap justify-center gap-6"
           >
-            {selectedOffices.map((office, index) => {
-              const isLastBangladeshCard =
-                activeCountry === "bangladesh" &&
-                index === selectedOffices.length - 1;
-
-              const isSriLanka = activeCountry === "sri-lanka";
-
-              return (
-                <div
-                  key={office.city}
-                  className={
-                    isLastBangladeshCard
-                      ? "sm:col-span-2 sm:mx-auto sm:w-[calc(50%-12px)] lg:col-span-3 lg:w-[calc(33.333%-16px)]"
-                      : isSriLanka
-                        ? "sm:col-span-2 sm:mx-auto sm:w-[calc(50%-12px)] lg:col-span-1 lg:col-start-2 lg:w-full"
-                        : ""
-                  }
-                >
-                  <OfficeCard
-                    office={office}
-                    countryId={activeCountry}
-                  />
-                </div>
-              );
-            })}
+            {country.offices.map((office) => (
+              <div
+                key={office.city}
+                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              >
+                <OfficeCard office={office} buttonText={country.buttonText} />
+              </div>
+            ))}
           </div>
         </div>
       </div>

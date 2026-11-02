@@ -34,9 +34,9 @@ const buildLinks = (destinationItems, scholarshipItems) => [
   { label: "Destinations", href: "/destinations", section: "/destinations", items: destinationItems },
   { label: "Our Services", href: "/services", section: "/services", items: serviceItems },
   { label: "Blog", href: "/blogs" },
+  { label: "Events", href: "/events" },
   { label: "Scholarships", href: "/scholarships", section: "/scholarships", items: scholarshipItems },
-  // Scrolls to the Contact section, which is on every page
-  { label: "Contact Us", href: "#contact" },
+  { label: "Contact Us", href: "/contact-us" },
 ];
 
 // The small round icon beside a line of the About Us and Our Services dropdowns

@@ -3,7 +3,7 @@ import ContactusHome from "@/components/ContactusHome";
 import OfficeLocations from "@/components/OfficeLocations";
 import Achievements from "@/components/Achievements";
 import Steps from "@/components/Steps";
-import Testimonials from "@/components/Testimonials";
+import TestimonialsWithCms from "@/components/TestimonialsWithCms";
 
 
 export default function ContactPage() {
@@ -14,7 +14,7 @@ export default function ContactPage() {
       <OfficeLocations />
       <Achievements />
       <Steps />
-       <Testimonials />
+       <TestimonialsWithCms />
 
      
     </>
