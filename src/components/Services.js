@@ -67,19 +67,24 @@ export function ServiceCards({ items }) {
   );
 }
 
+// One card for every service that has its own page (the "Our Services" menu, src/data/services.js), linked to it.
+// Also used by the services page. cmsItems (optional, from Strapi) lend their title and picture to the card
+// that links to the same page.
+export function activeServiceCards(cmsItems) {
+  return serviceItems.map(({ label, href }) => ({
+    ...services.find((service) => service.href === href),
+    title: label,
+    ...cmsItems?.find((item) => item.href === href),
+  }));
+}
+
 // heading, subheading and items come from Strapi; without them the built-in content is used
 export default function Services({
   heading = "How PFEC Global Assists International Students in Australia",
   subheading = "Get comprehensive guidance & end-to-end assistance from expert Education & migration agents for FREE!*",
   items,
 }) {
-  // Every service that has its own page, linked to it.
-  // A Strapi service that links to the same page lends its title and picture.
-  const cards = serviceItems.map(({ label, href }) => ({
-    ...services.find((service) => service.href === href),
-    title: label,
-    ...items?.find((item) => item.href === href),
-  }));
+  const cards = activeServiceCards(items);
 
   return (
     <section className="bg-[#f9f9f9] bg-linear-to-b from-ink/15 to-ink/0 py-12 lg:py-16">

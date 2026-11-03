@@ -22,11 +22,21 @@ const serviceHrefs = {
 };
 
 // One service card. Its small picture is the service's icon, or its cardImage when no icon is uploaded.
-// Also used by the services page (src/lib/servicePage.js).
+// Also used by the home page service cards (src/components/Services.js).
 export const serviceCard = (service) => ({
   title: service.name.trim(),
   href: serviceHrefs[service.slug] ?? "/services",
   icon: toImage(service.icon) ?? toImage(service.cardImage),
+});
+
+// One testimonial card. Also used by the contact page (src/lib/contactPage.js).
+export const testimonialCard = (item, i) => ({
+  id: item.id ?? i,
+  text: item.message ?? "",
+  name: item.studentName,
+  course: item.course ?? "",
+  university: item.university ?? "",
+  photo: toImage(item.image, item.studentName)?.src,
 });
 
 // "2026-11-24T10:00:00.000Z" -> "24 Nov" (Indian time)
@@ -114,14 +124,7 @@ const mappers = {
   }),
 
   testimonials: (section) => ({
-    items: list(section.testimonials, (item, i) => ({
-      id: i,
-      text: item.message ?? "",
-      name: item.studentName,
-      course: item.course ?? "",
-      university: item.university ?? "",
-      photo: toImage(item.image, item.studentName)?.src,
-    })),
+    items: list(section.testimonials, testimonialCard),
   }),
 
   partnerships: (section) => ({
