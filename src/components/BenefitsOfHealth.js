@@ -141,12 +141,19 @@ export default function BenefitsOfHealth() {
           {/* CTA BUTTON */}
           <a
             href="#register-now"
-            className="mt-6 inline-flex items-center gap-3 rounded-sm bg-[#ef4938] px-7 py-3 font-montserrat text-xs font-bold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-[#d83a2b] sm:text-sm"
+            className="group mt-6 inline-flex items-center gap-3 rounded-sm bg-[#ef4938] px-7 py-3 font-montserrat text-xs font-bold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-[#d83a2b] sm:text-sm"
           >
             Book a Free Consultation
-            <span aria-hidden="true" className="text-base">
-              →
-            </span>
+            <svg
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden="true"
+            >
+              <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </a>
         </div>
 

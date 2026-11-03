@@ -151,12 +151,16 @@ export default function AccommodationProviders() {
                 className="group mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#EF4939] px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#D93628] focus:outline-none focus:ring-2 focus:ring-[#EF4939] focus:ring-offset-2 sm:w-fit sm:min-w-[180px]"
               >
                 Explore Now
-                <span
+                <svg
+                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
                   aria-hidden="true"
-                  className="text-lg transition-transform duration-300 group-hover:translate-x-1"
                 >
-                  →
-                </span>
+                  <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </a>
             </article>
           ))}

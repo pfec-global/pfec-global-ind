@@ -24,10 +24,19 @@ export default function AwardsHero() {
 
           <a
             href="#register-now"
-            className="mt-7 inline-flex items-center gap-3 rounded-md bg-[#ef4b3b] px-7 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-1 hover:bg-[#d83a2b]"
+            className="group mt-7 inline-flex items-center gap-3 rounded-md bg-[#ef4b3b] px-7 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-1 hover:bg-[#d83a2b]"
           >
             Book a FREE Consultation
-            <span aria-hidden="true">→</span>
+            <svg
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden="true"
+            >
+              <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </a>
         </motion.div>
 

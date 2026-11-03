@@ -47,13 +47,20 @@ export default function ServiceHero({
           <motion.div {...fadeUpOnLoad(0.3)} className="mt-7">
             <a
               href={buttonHref}
-              className="inline-flex items-center gap-3 rounded-lg bg-[#f4513b] px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#e84430] hover:shadow-lg sm:px-6 sm:py-3.5 sm:text-base"
+              className="group inline-flex items-center gap-3 rounded-lg bg-[#f4513b] px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#e84430] hover:shadow-lg sm:px-6 sm:py-3.5 sm:text-base"
             >
               {buttonText}
 
-              <span className="text-xl leading-none">
-                →
-              </span>
+              <svg
+                className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                aria-hidden="true"
+              >
+                <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </a>
           </motion.div>
         </div>

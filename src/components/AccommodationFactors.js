@@ -74,9 +74,16 @@ export default function AccommodationFactors() {
             className="group mt-6 inline-flex items-center gap-2 rounded-lg border border-[#FF493D] px-3 py-2 text-xs font-medium text-[#FF493D] transition-all duration-300 hover:bg-[#FF493D] hover:text-white"
           >
             Book a Free Consultation
-            <span className="text-base transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
+            <svg
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden="true"
+            >
+              <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </a>
         </div>
 

@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa6";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import { serviceItems } from "@/data/services";
 
 const services = [
   { title: "University Admission Assistance", href: "/services/admission-support", Icon: FaBuildingColumns, color: "bg-sky-100 text-sky-500" },
@@ -29,7 +30,8 @@ export function ServiceCards({ items }) {
     : services;
 
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+    // Four cards sit two by two, more than four in rows of three
+    <div className={`grid grid-cols-2 gap-3 ${cards.length > 4 ? "md:grid-cols-3" : ""}`}>
       {cards.map((service, i) => (
         <motion.div key={service.title} {...fadeUp(i * 0.08)}>
           <Link
@@ -71,6 +73,14 @@ export default function Services({
   subheading = "Get comprehensive guidance & end-to-end assistance from expert Education & migration agents for FREE!*",
   items,
 }) {
+  // Every service that has its own page, linked to it.
+  // A Strapi service that links to the same page lends its title and picture.
+  const cards = serviceItems.map(({ label, href }) => ({
+    ...services.find((service) => service.href === href),
+    title: label,
+    ...items?.find((item) => item.href === href),
+  }));
+
   return (
     <section className="bg-[#f9f9f9] bg-linear-to-b from-ink/15 to-ink/0 py-12 lg:py-16">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[2fr_3fr] lg:px-8">
@@ -81,7 +91,8 @@ export default function Services({
           <p className="mt-4 max-w-md text-sm text-ink/70 sm:text-base">
             {subheading}
           </p>
-          <Link href="#" className="group mt-5 inline-flex items-center gap-3 text-sm font-semibold text-accent">
+          {/* On hover an orange fill sweeps in from the left behind the text */}
+          <Link href="#" className="group mt-3 -ml-4 relative isolate inline-flex items-center gap-3 overflow-hidden rounded-lg px-4 py-2.5 text-sm font-semibold text-accent transition-colors duration-300 hover:text-white focus-visible:text-white before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-accent before:transition-transform before:duration-300 hover:before:scale-x-100 focus-visible:before:scale-x-100">
             Book a FREE Consultation
             <svg
               className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5"
@@ -95,7 +106,7 @@ export default function Services({
           </Link>
         </motion.div>
 
-        <ServiceCards items={items} />
+        <ServiceCards items={cards} />
       </div>
     </section>
   );

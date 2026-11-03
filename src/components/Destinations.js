@@ -133,7 +133,8 @@ export default function Destinations({
           <p className="text-sm text-ink/70 sm:text-base">
             Not sure where to start? Our team of experts can provide free end-to-end assistance
           </p>
-          <Link href="#" className="group mt-4 inline-flex items-center gap-3 text-sm font-semibold text-accent">
+          {/* On hover an orange fill sweeps in from the left behind the text */}
+          <Link href="#" className="group mt-2 relative isolate inline-flex items-center gap-3 overflow-hidden rounded-lg px-4 py-2.5 text-sm font-semibold text-accent transition-colors duration-300 hover:text-white focus-visible:text-white before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-accent before:transition-transform before:duration-300 hover:before:scale-x-100 focus-visible:before:scale-x-100">
             Book a FREE Consultation
             <svg
               className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5"

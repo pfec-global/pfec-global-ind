@@ -4,22 +4,9 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  FaAward,
-  FaBriefcaseMedical,
-  FaBuildingColumns,
-  FaHouse,
-  FaPlane,
-  FaUsers,
-} from "react-icons/fa6";
+import { FaAward, FaUsers } from "react-icons/fa6";
 import { destinations, scholarships } from "@/data/countries";
-
-const serviceItems = [
-  { label: "University Admission Assistance", href: "/services/admission-support", Icon: FaBuildingColumns },
-  { label: "Student Visa Assistance", href: "/services/visa-services", Icon: FaPlane },
-  { label: "Health Insurance Assistance", href: "/services/health-insurance", Icon: FaBriefcaseMedical },
-  { label: "Student Accommodation Assistance", href: "/services/student-accommodations", Icon: FaHouse },
-];
+import { serviceItems } from "@/data/services";
 
 const aboutItems = [
   { label: "Awards & Achievements", href: "/aboutus/awards-and-achievements", Icon: FaAward },

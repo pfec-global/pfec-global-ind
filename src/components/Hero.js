@@ -106,10 +106,10 @@ export default function Hero({
             href={button.href}
             target={button.newTab ? "_blank" : undefined}
             rel={button.newTab ? "noopener noreferrer" : undefined}
-            className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold hover:opacity-90"
+            className="group inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold hover:opacity-90"
           >
             {button.label}
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
