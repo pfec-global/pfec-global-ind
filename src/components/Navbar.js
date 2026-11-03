@@ -4,29 +4,31 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaAward, FaUsers } from "react-icons/fa6";
+import { FaAward, FaCalendarDays, FaUsers } from "react-icons/fa6";
 import { destinations, scholarships } from "@/data/countries";
 import { serviceItems } from "@/data/services";
 
-const aboutItems = [
+const resourceItems = [
+  { label: "Events", href: "/events", Icon: FaCalendarDays },
   { label: "Awards & Achievements", href: "/aboutus/awards-and-achievements", Icon: FaAward },
   { label: "Our Leadership Team", href: "/aboutus/our-leadership-team", Icon: FaUsers },
 ];
 
 // items (optional) is the dropdown of a link: it opens on hover on desktop and on tap in the mobile menu.
 // section (optional) is the start of the URLs that belong to the link, used to highlight it on its inner pages.
+// A link is also highlighted on the pages of its dropdown. href "#" means the link only opens its dropdown.
 // destinationItems and scholarshipItems are the lines of the two dropdowns: { label, href, flag }
 const buildLinks = (destinationItems, scholarshipItems) => [
-  { label: "About Us", href: "/aboutus", section: "/aboutus", items: aboutItems },
+  { label: "About Us", href: "/aboutus" },
   { label: "Destinations", href: "/destinations", section: "/destinations", items: destinationItems },
   { label: "Our Services", href: "/services", section: "/services", items: serviceItems },
   { label: "Blog", href: "/blogs" },
-  { label: "Events", href: "/events" },
+  { label: "Resources", href: "#", items: resourceItems },
   { label: "Scholarships", href: "/scholarships", section: "/scholarships", items: scholarshipItems },
   { label: "Contact Us", href: "/contact-us" },
 ];
 
-// The small round icon beside a line of the About Us and Our Services dropdowns
+// The small round icon beside a line of the Resources and Our Services dropdowns
 const itemIcon = (Icon) => (
   <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
     <Icon className="h-3 w-3" />
@@ -53,7 +55,10 @@ export default function Navbar({ destinationItems = destinations, scholarshipIte
   // pathname is also used to highlight the nav item of the page being viewed
   const pathname = usePathname();
   const light = scrolled || pathname !== "/";
-  const isActive = (link) => pathname === link.href || (link.section && pathname.startsWith(link.section));
+  const isActive = (link) =>
+    pathname === link.href ||
+    (link.section && pathname.startsWith(link.section)) ||
+    Boolean(link.items?.some((item) => pathname === item.href));
 
   // Track scroll: progress bar (0 to 1) and whether to switch to the white navbar
   useEffect(() => {

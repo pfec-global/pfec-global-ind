@@ -1,14 +1,29 @@
 import Link from "next/link";
+import { getLegalPage } from "@/lib/legalPage";
+import { toMetadata } from "@/lib/seo";
 import LegalPage from "@/components/LegalPage";
 
-export const metadata = {
+// The page waits for Strapi on every visit while caching is switched off (CACHE_STRAPI in src/lib/strapi.js).
+// This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
+export const instant = false;
+
+// SEO tags come from the "seo" block of the page in Strapi; these are used for whatever Strapi does not send
+const defaultMetadata = {
   title: "Terms of Use | PFEC Global",
   description: "The terms and conditions that apply when you use the PFEC Global website.",
 };
 
-export default function TermsOfUsePage() {
+export async function generateMetadata() {
+  const { seo } = await getLegalPage("terms-of-use");
+  return toMetadata(seo, defaultMetadata);
+}
+
+// The text comes from Strapi (GET /api/terms-of-use); the built-in text below is shown when Strapi sends none
+export default async function TermsOfUsePage() {
+  const { content, updatedAt } = await getLegalPage("terms-of-use");
+
   return (
-    <LegalPage title="Terms of Use">
+    <LegalPage title="Terms of Use" markdown={content} updatedAt={updatedAt}>
       <p>
         This website is owned and managed by PFEC Global, and the organization will be referred to as “We”, “Our” and
         “Us” in the Terms of Use policy, as well as throughout the site: www.pfecglobal.au

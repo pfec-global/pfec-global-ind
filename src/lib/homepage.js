@@ -58,18 +58,31 @@ export const eventCard = (event) => ({
 
 // One function per Strapi section (__component: "sections.<name>")
 const mappers = {
+  // Every slide of the hero slider. Each part of a slide is optional: a slide is only dropped when it has nothing to show.
   hero: (section) => {
-    // The hero design has one heading, so the first slide is used
-    const slide = section.slides?.[0];
-    const button = slide?.buttons?.[0];
+    const slides = (section.slides ?? [])
+      .map((slide) => ({
+        id: slide.id,
+        heading: text(slide.heading),
+        subheading: text(slide.subheading),
+        link: text(slide.link),
+        desktopImage: toImage(slide.desktopImage, text(slide.heading)),
+        mobileImage: toImage(slide.mobileImage, text(slide.heading)),
+        buttons: (slide.buttons ?? [])
+          .filter((button) => text(button.label))
+          .map((button) => ({
+            label: button.label.trim(),
+            href: text(button.url) ?? "#",
+            newTab: Boolean(button.openNewTab),
+            style: button.style === "secondary" ? "secondary" : "primary",
+          })),
+      }))
+      .filter((slide) => slide.heading || slide.subheading || slide.desktopImage || slide.mobileImage || slide.buttons.length);
     return {
-      heading: text(slide?.heading),
-      subheading: text(slide?.subheading),
-      button: text(button?.label) && {
-        label: button.label,
-        href: text(button.url) ?? "#",
-        newTab: Boolean(button.openNewTab),
-      },
+      slides: slides.length > 0 ? slides : undefined,
+      autoplay: section.autoplay !== false,
+      // seconds per slide
+      autoplaySpeed: section.autoplaySpeed > 0 ? section.autoplaySpeed : 5,
     };
   },
 

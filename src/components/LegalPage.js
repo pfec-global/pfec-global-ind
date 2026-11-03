@@ -1,9 +1,12 @@
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
 
 // Layout shared by the text-only pages (privacy policy, terms of use).
-// The page passes plain h2 / h3 / p / ul / ol / a tags as children and they are styled here.
-export default function LegalPage({ tag = "Documentation", title, children }) {
+// markdown is the page text from Strapi; without it the page's children are shown (plain h2 / h3 / p / ul / ol / a tags).
+// Both are styled here. updatedAt (optional) is shown under the title as "Last updated ...".
+export default function LegalPage({ tag = "Documentation", title, markdown, updatedAt, children }) {
   return (
     <section className="bg-[#f9f9f9] px-4 pb-12 pt-12 sm:px-6 lg:pb-16 lg:pt-20">
       <div className="text-center">
@@ -19,13 +22,18 @@ export default function LegalPage({ tag = "Documentation", title, children }) {
         >
           {title}
         </motion.h1>
+        {updatedAt && (
+          <motion.p {...fadeUpOnLoad(0.1)} className="mt-3 text-xs text-ink/60">
+            Last updated: {updatedAt}
+          </motion.p>
+        )}
       </div>
 
       <motion.div
         {...fadeUpOnLoad(0.15)}
         className="mx-auto mt-8 max-w-4xl text-sm leading-relaxed text-ink/75 lg:mt-12 [&_a]:break-words [&_a]:text-accent [&_a]:underline [&_h2]:mt-6 [&_h2]:text-lg [&_h2]:font-bold [&_h2]:text-ink sm:[&_h2]:text-xl [&_h3]:mt-4 [&_h3]:font-semibold [&_h3]:text-ink [&_li]:mt-1 [&_ol]:mt-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mt-2 [&_ul]:mt-2 [&_ul]:list-disc [&_ul]:pl-6"
       >
-        {children}
+        {markdown ? <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown> : children}
       </motion.div>
     </section>
   );

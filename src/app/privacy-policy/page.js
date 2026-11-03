@@ -1,13 +1,28 @@
+import { getLegalPage } from "@/lib/legalPage";
+import { toMetadata } from "@/lib/seo";
 import LegalPage from "@/components/LegalPage";
 
-export const metadata = {
+// The page waits for Strapi on every visit while caching is switched off (CACHE_STRAPI in src/lib/strapi.js).
+// This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
+export const instant = false;
+
+// SEO tags come from the "seo" block of the page in Strapi; these are used for whatever Strapi does not send
+const defaultMetadata = {
   title: "Privacy Policy | PFEC Global",
   description: "Why PFEC Global collects personal information, how it is used, protected, accessed and corrected.",
 };
 
-export default function PrivacyPolicyPage() {
+export async function generateMetadata() {
+  const { seo } = await getLegalPage("privacy-policy");
+  return toMetadata(seo, defaultMetadata);
+}
+
+// The text comes from Strapi (GET /api/privacy-policy); the built-in text below is shown when Strapi sends none
+export default async function PrivacyPolicyPage() {
+  const { content, updatedAt } = await getLegalPage("privacy-policy");
+
   return (
-    <LegalPage title="Privacy Policy">
+    <LegalPage title="Privacy Policy" markdown={content} updatedAt={updatedAt}>
       <p>
         This policy highlights why PFEC Global collects and stores personal information, how it is collected and used,
         ways of disclosing information, protection and security; and finally, how submitted information can be

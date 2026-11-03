@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
+import HeroSlider from "@/components/HeroSlider";
 
 // Country labels on the desktop banner. left/top are % of the banner, width/height are the image's pixel size.
 const heroLabels = [
@@ -80,9 +81,16 @@ function CountryLabels({ labels, folder, bannerWidth }) {
   ));
 }
 
-// heading, subheading and button ({ label, href, newTab }) come from Strapi; without them the built-in text is used.
+// The home page hero. slides, autoplay and autoplaySpeed come from the hero section in Strapi (see src/lib/homepage.js):
+// with at least one slide the slider is shown, otherwise the built-in banner below.
+export default function Hero({ slides, autoplay, autoplaySpeed }) {
+  if (slides) return <HeroSlider slides={slides} autoplay={autoplay} autoplaySpeed={autoplaySpeed} />;
+  return <DefaultHero />;
+}
+
+// The built-in banner: student, landmarks and floating country labels.
 // A line break in the heading starts a new line.
-export default function Hero({
+function DefaultHero({
   heading = "Your Study Abroad Dream\nis our only Priority!",
   subheading = "From education to visas, we've got your back.",
   button = { label: "Book a FREE Consultation", href: "#" },
