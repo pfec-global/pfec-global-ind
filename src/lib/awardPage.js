@@ -29,3 +29,4 @@ export async function getAwardPage() {
     awards: awards.length > 0 ? awards : undefined,
   };
 }
+
