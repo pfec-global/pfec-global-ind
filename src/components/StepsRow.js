@@ -82,12 +82,14 @@ export default function StepsRow() {
       ref={section}
       className={`hidden md:block ${finished ? "" : "h-[220vh] motion-reduce:h-auto"}`}
     >
-      {/* Stays pinned on screen while the visitor scrolls through the section, until all steps are shown */}
+      {/* Stays pinned just under the navbar (h-16 / lg:h-20) while the visitor scrolls through the section,
+          until all steps are shown. Same spacing pinned and unpinned, so nothing moves when it lets go
+          and there is no empty band above the heading on wide, short screens. */}
       <div
         className={
           finished
             ? "py-14"
-            : "sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-16 motion-reduce:static motion-reduce:h-auto motion-reduce:py-14"
+            : "sticky top-16 overflow-hidden py-14 motion-reduce:static lg:top-20"
         }
       >
         <div className="mx-auto w-full max-w-screen-2xl">
