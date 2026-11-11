@@ -12,11 +12,25 @@ export function groupByDate(events) {
   return [...groups.values()];
 }
 
+// The home page only sends a few fields of each event, without its registration form link (registrationUrl).
+// So each of those events is looked up on its own (GET /api/events/<documentId>) to add the link.
+// If a lookup fails the event is still shown; its "Register Now" then goes to the contact form.
+async function withRegisterLinks(items) {
+  return Promise.all(
+    items.map(async (item) => {
+      if (item.registerLink || !item.documentId) return item;
+      const response = await getFromStrapi(`events/${item.documentId}`, "events");
+      return response?.data ? { ...item, registerLink: eventCard(response.data).registerLink } : item;
+    }),
+  );
+}
+
 // All events from Strapi (GET /api/events), grouped by day.
 // When that list is empty, the events picked for the home page are used, so the page matches the home page slider.
 export async function getEventGroups() {
   const response = await getFromStrapi("events?populate=*&pagination[pageSize]=100", "events");
   const events = Array.isArray(response?.data) ? response.data : [];
-  const items = events.length > 0 ? events.map(eventCard) : (await getHomeSections()).events?.items;
-  return groupByDate(items ?? []);
+  const items =
+    events.length > 0 ? events.map(eventCard) : await withRegisterLinks((await getHomeSections()).events?.items ?? []);
+  return groupByDate(items);
 }

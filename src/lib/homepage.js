@@ -56,6 +56,7 @@ const eventYear = (value) => {
 // One event card. Also used by the events page (src/lib/events.js).
 export const eventCard = (event) => ({
   id: event.slug,
+  documentId: event.documentId,
   date: eventDate(event.startDateTime) ?? "",
   year: eventYear(event.startDateTime) ?? "",
   startsAt: event.startDateTime ?? "",
@@ -64,6 +65,8 @@ export const eventCard = (event) => ({
   title: event.title,
   description: event.shortDescription ?? "",
   image: toImage(event.bannerImage, event.title),
+  // Registration form link from Strapi (registrationUrl). When it is empty, "Register Now" goes to the contact form instead.
+  registerLink: text(event.registrationUrl),
 });
 
 // One function per Strapi section (__component: "sections.<name>")

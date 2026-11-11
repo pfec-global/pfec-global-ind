@@ -86,7 +86,7 @@ const values = [
 
 export default function CoreValues() {
   return (
-    <section className="bg-white py-12 sm:py-16">
+    <section className="bg-[#f6f7fb] py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <motion.div {...fadeUp()} className="text-center">
@@ -95,28 +95,34 @@ export default function CoreValues() {
           </h2>
         </motion.div>
 
-        {/* Values */}
-        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+        {/* Values: one card each. On hover the card lifts, its border turns red, a red bar sweeps
+            in along the bottom and the icon pops. (The hover lives on the inner card, because the
+            outer motion.div controls its own transform for the scroll-in animation.) */}
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {values.map((value, index) => (
-            <motion.div
-              key={value.title}
-              {...fadeUp(index * 0.08)}
-              className="group"
-            >
-              {/* Icon */}
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#ef4b3b] text-white transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-110">
-                {value.icon}
+            <motion.div key={value.title} {...fadeUp(index * 0.08)} className="h-full">
+              <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#e6e8ef] bg-white p-6 shadow-[0_4px_14px_rgba(16,0,79,0.06)] transition duration-300 ease-out hover:-translate-y-2 hover:border-[#ef4b3b]/40 hover:shadow-[0_18px_40px_rgba(239,75,59,0.18)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-7">
+                {/* Icon - grows and gets a soft red glow on hover */}
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#ef4b3b] text-white ring-0 ring-[#ef4b3b]/15 transition duration-300 group-hover:scale-110 group-hover:-rotate-6 group-hover:ring-8 [&_svg]:h-6 [&_svg]:w-6">
+                  {value.icon}
+                </div>
+
+                {/* Title */}
+                <h3 className="mt-5 text-lg font-semibold text-[#ef4b3b] sm:text-xl">
+                  {value.title}
+                </h3>
+
+                {/* Description */}
+                <p className="mt-2 text-sm leading-6 text-black/75 sm:text-base">
+                  {value.description}
+                </p>
+
+                {/* Red bar that sweeps in from the left along the bottom on hover */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-[#ef4b3b] transition-transform duration-500 ease-out group-hover:scale-x-100"
+                />
               </div>
-
-              {/* Title */}
-              <h3 className="mt-2 text-lg font-semibold text-[#ef4b3b] sm:text-xl">
-                {value.title}
-              </h3>
-
-              {/* Description */}
-              <p className="mt-3 max-w-xs text-sm leading-6 text-black/80 sm:text-base">
-                {value.description}
-              </p>
             </motion.div>
           ))}
         </div>

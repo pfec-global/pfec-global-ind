@@ -41,7 +41,7 @@ export default function Footer({
       title: "PFEC Global",
       links: [
         { label: "Contact Us", href: "/contact-us" },
-        { label: "About Us", href: "/aboutus" },
+        { label: "About Us", href: "/about-us" },
         // { label: "Careers", href: "#" },
       ],
     },

@@ -4,6 +4,7 @@ import { getLatestBlogs } from "@/lib/blogs";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Destinations from "@/components/Destinations";
+import CourseFinder from "@/components/CourseFinder";
 import PopularCourses from "@/components/PopularCourses";
 import Steps from "@/components/Steps";
 import Events from "@/components/Events";
@@ -73,6 +74,8 @@ export default async function Home() {
     <>
       <Hero {...cms.hero} />
       <Services {...cms.services} />
+      {/* CourseFinder search, just above "Top Institutions across the Globe" */}
+      <CourseFinder />
       <Destinations {...cms.countries} />
       <PopularCourses {...cms["study-areas"]} />
       <Steps />

@@ -12,8 +12,10 @@ export default function Scholarship() {
         Check your eligibility and receive end to end assistance for FREE!
       </motion.p>
       <motion.div {...fadeUp(0.3)} className="mt-6">
+        {/* data-consultation: opens the registration popup (see ConsultationModal) */}
         <Link
           href="#"
+          data-consultation
           className="group inline-flex items-center gap-3 rounded-lg bg-accent px-5 py-3 text-sm font-semibold shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/30"
         >
           Get Started

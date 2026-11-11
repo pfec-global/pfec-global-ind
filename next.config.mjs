@@ -18,6 +18,9 @@ const nextConfig = {
       { source: "/blogs/author/:slug", destination: "/author/:slug", permanent: true },
       // Country pages moved from /destinations/<slug> to /<slug>
       { source: "/destinations/:slug", destination: "/:slug", permanent: true },
+      // About Us moved from /aboutus to /about-us (its sub-pages too)
+      { source: "/aboutus", destination: "/about-us", permanent: true },
+      { source: "/aboutus/:path*", destination: "/about-us/:path*", permanent: true },
     ];
   },
   // Lets the blog CMS show a post inside its "preview" panel (see isBlogPreview in src/lib/blogs.js)

@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import NavbarWithCms from "@/components/NavbarWithCms";
 import Footer from "@/components/Footer";
 import FooterWithCms from "@/components/FooterWithCms";
+import ConsultationModal from "@/components/ConsultationModal";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -50,6 +51,8 @@ export default function RootLayout({ children }) {
           <Suspense fallback={<Footer />}>
             <FooterWithCms />
           </Suspense>
+          {/* Popup with the registration form - opens from any "Book a FREE Consultation" button */}
+          <ConsultationModal />
         </MotionConfig>
       </body>
     </html>

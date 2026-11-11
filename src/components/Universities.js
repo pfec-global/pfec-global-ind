@@ -109,8 +109,10 @@ export default function Universities({ heading = "Study at a top global Universi
 
         <motion.div {...fadeUp(0.2)} className="mt-4 text-center">
           <p className="text-sm text-ink/70 sm:text-base">You may be eligible for these renowned institutions.</p>
+          {/* data-consultation: opens the registration popup (see ConsultationModal) */}
           <Link
             href="#"
+            data-consultation
             className="group mt-4 inline-flex items-center gap-2 rounded-lg border border-accent px-5 py-2.5 text-sm font-semibold text-accent transition duration-300 hover:bg-accent hover:text-white"
           >
             Get a free profile assessment

@@ -10,8 +10,8 @@ import { serviceItems } from "@/data/services";
 
 const resourceItems = [
   { label: "Events", href: "/events", Icon: FaCalendarDays },
-  { label: "Awards & Achievements", href: "/aboutus/awards-and-achievements", Icon: FaAward },
-  { label: "Our Leadership Team", href: "/aboutus/our-leadership-team", Icon: FaUsers },
+  { label: "Awards & Achievements", href: "/about-us/awards-and-achievements", Icon: FaAward },
+  { label: "Our Leadership Team", href: "/about-us/our-leadership-team", Icon: FaUsers },
 ];
 
 // items (optional) is the dropdown of a link: it opens on hover on desktop and on tap in the mobile menu.
@@ -19,7 +19,7 @@ const resourceItems = [
 // A link is also highlighted on the pages of its dropdown. href "#" means the link only opens its dropdown.
 // destinationItems and scholarshipItems are the lines of the two dropdowns: { label, href, flag }
 const buildLinks = (destinationItems, scholarshipItems) => [
-  { label: "About Us", href: "/aboutus" },
+  { label: "About Us", href: "/about-us" },
   { label: "Destinations", href: "/destinations", section: "/destinations", items: destinationItems },
   { label: "Our Services", href: "/services", section: "/services", items: serviceItems },
   { label: "Blog", href: "/blogs" },

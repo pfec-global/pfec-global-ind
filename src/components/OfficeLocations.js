@@ -76,7 +76,7 @@ function OfficeCard({ office, buttonText = "Schedule a Virtual Meeting" }) {
       {/* Phone */}
       <a
         href={`tel:${office.phone.replace(/\s/g, "")}`}
-        className="mt-3 flex items-center gap-3 text-[15px] leading-6 text-[#626B7A] transition hover:text-[#FF4050]"
+        className="mb-4 mt-3 flex items-center gap-3 text-[15px] leading-6 text-[#626B7A] transition hover:text-[#FF4050]"
       >
         <span className="shrink-0 text-[#FF4058]">
           <PhoneIcon />
@@ -84,10 +84,12 @@ function OfficeCard({ office, buttonText = "Schedule a Virtual Meeting" }) {
         <span>{office.phone}</span>
       </a>
 
-      {/* Button */}
+      {/* Button - mt-auto keeps it at the bottom of the card, so the buttons of a row line up
+          whatever the length of the addresses above them */}
       <a
         href="#contact"
-        className="mt-4 inline-flex min-h-[60px] w-full items-center justify-center rounded-[10px] bg-[#EF4939] px-3 py-3 text-center text-base font-medium leading-6 text-white transition duration-300 hover:bg-[#D9362B] focus:outline-none focus:ring-2 focus:ring-[#EF4939] focus:ring-offset-2 sm:text-lg"
+        data-consultation
+        className="mt-auto inline-flex min-h-[60px] w-full items-center justify-center rounded-[10px] bg-[#EF4939] px-3 py-3 text-center text-base font-medium leading-6 text-white transition duration-300 hover:bg-[#D9362B] focus:outline-none focus:ring-2 focus:ring-[#EF4939] focus:ring-offset-2 sm:text-lg"
       >
         {buttonText}
       </a>

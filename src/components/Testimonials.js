@@ -31,11 +31,15 @@ export default function Testimonials({ items = testimonials }) {
   const [active, setActive] = useState(0);
 
   // Work out how many pages of cards there are and which one is showing
+  // While the slider has no width yet (still laying out, or hidden) the sum gives 0 cards per page, and the
+  // page count would be "items / 0" = Infinity - which crashes the dots below. So: at least 1 card per page.
   const measure = () => {
     const track = trackRef.current;
-    const perPage = Math.round((track.clientWidth + GAP) / (track.firstElementChild.offsetWidth + GAP));
-    setPages(Math.ceil(items.length / perPage));
-    setActive(Math.round(track.scrollLeft / (track.clientWidth + GAP)));
+    const card = track?.firstElementChild;
+    if (!track || !card) return;
+    const perPage = Math.max(1, Math.round((track.clientWidth + GAP) / (card.offsetWidth + GAP)) || 1);
+    setPages(Math.max(1, Math.ceil(items.length / perPage)));
+    setActive(Math.round(track.scrollLeft / (track.clientWidth + GAP)) || 0);
   };
 
   const goTo = (page) => {
@@ -51,6 +55,7 @@ export default function Testimonials({ items = testimonials }) {
     const timer = setInterval(() => {
       if (pausedRef.current) return;
       const track = trackRef.current;
+      if (!track) return;
       const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 5;
       track.scrollTo({ left: atEnd ? 0 : track.scrollLeft + track.clientWidth + GAP, behavior: "smooth" });
     }, 5000);

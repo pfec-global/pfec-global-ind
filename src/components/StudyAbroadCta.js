@@ -17,8 +17,10 @@ export default function StudyAbroadCta({
       <div className="p-5">
         <h2 className="text-lg font-bold leading-snug">{title}</h2>
         <p className="mt-2 text-xs text-ink/70">{text}</p>
+        {/* data-consultation: opens the registration popup (see ConsultationModal) instead of following href */}
         <Link
           href={href}
+          data-consultation
           className="group mt-4 inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-xs font-semibold text-white transition duration-300 hover:opacity-90"
         >
           {buttonLabel}
