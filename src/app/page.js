@@ -12,11 +12,13 @@ import Achievements from "@/components/Achievements";
 import Partners from "@/components/Partners";
 import Testimonials from "@/components/Testimonials";
 import Blogs from "@/components/Blogs";
-import Faq from "@/components/Faq"; 
+import Faq from "@/components/Faq";
+import FaqSchema from "@/components/FaqSchema";
 
 import Contact from "@/components/Contact";
 
 
+// Built-in questions, shown only when Strapi sends no FAQ section (or the CMS cannot be reached)
 const homeFaqs = [
   {
     question:
@@ -69,6 +71,8 @@ export default async function Home() {
   // and the section then shows its built-in content - so the page also works with the CMS switched off.
   // The blog posts come from a separate CMS; both are asked at the same time.
   const [cms, latestBlogs] = await Promise.all([getHomeSections(), getLatestBlogs(10)]);
+  // The same questions feed the FAQ section and its schema for search engines, so the two always match
+  const faqs = cms.faq?.faqs ?? homeFaqs;
 
   return (
     <>
@@ -84,7 +88,9 @@ export default async function Home() {
       <Partners {...cms.partnerships} />
       <Testimonials {...cms.testimonials} />
       <Blogs items={latestBlogs} />
-     <Faq faqs={homeFaqs} />
+      {/* Heading and questions from the FAQ section of the home page in Strapi; the built-in questions when it sends none */}
+      <Faq {...cms.faq} faqs={faqs} />
+      <FaqSchema faqs={faqs} />
       <Contact />
     </>
   );

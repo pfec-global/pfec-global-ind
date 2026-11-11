@@ -130,6 +130,15 @@ const mappers = {
     items: list(section.testimonials, testimonialCard),
   }),
 
+  // Frequently Asked Questions: the heading and the questions. A question without an answer is left out.
+  faq: (section) => ({
+    title: text(section.heading),
+    faqs: list(
+      (section.items ?? []).filter((item) => text(item?.question) && text(item?.answer)),
+      (item) => ({ question: item.question.trim(), answer: item.answer.trim() }),
+    ),
+  }),
+
   partnerships: (section) => ({
     heading: text(section.heading),
     subheading: text(section.subheading),
@@ -146,7 +155,7 @@ export async function getHomeSeo() {
   return (response?.data ?? response)?.seo ?? undefined;
 }
 
-// Returns { hero, countries, events, services, "study-areas", testimonials, partnerships }.
+// Returns { hero, countries, events, services, "study-areas", testimonials, partnerships, faq }.
 // A section that Strapi did not send (or the whole object, if Strapi is down) is simply missing.
 export async function getHomeSections() {
   const response = await getFromStrapi("homepage", "homepage");
