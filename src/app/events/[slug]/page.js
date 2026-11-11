@@ -8,10 +8,13 @@ import Contact from "@/components/Contact";
 // This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
 export const instant = false;
 
-// One page per event in Strapi: /events/<slug>
+// One page per event in Strapi: /events/<slug>.
+// With Cache Components the list must never be empty, or the build fails. There are no built-in events,
+// so when Strapi sends none (or cannot be reached during the build) one placeholder slug is listed:
+// its page is a "not found" page, and the real events are still built when they are first visited.
 export async function generateStaticParams() {
   const slugs = await getEventSlugs();
-  return (slugs ?? []).map((slug) => ({ slug }));
+  return (slugs?.length ? slugs : ["no-events-yet"]).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }) {
