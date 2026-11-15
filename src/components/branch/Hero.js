@@ -5,7 +5,7 @@ import ConsultationForm from "./ConsultationForm";
 const stats = [
   { end: 22000, label: "Students Assisted" },
   { end: 550, label: "Institutions across 11 Countries" },
-  { end: 19, label: "Years of Experience" },
+  { end: 20, label: "Years of Experience" },
 ];
 
 // The three slanted bars behind the hat, left to right.

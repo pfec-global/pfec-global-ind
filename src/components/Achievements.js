@@ -11,7 +11,7 @@ const stats = [
   { value: 22000, decimals: 0, suffix: "+", label: "Students Assisted", Icon: LuUser },
   { value: 550, decimals: 0, suffix: "+", label: "Partner Institutions", Icon: LuGem },
   { value: 96.7, decimals: 1, suffix: "%", label: "Visa Grants", Icon: LuCrown },
-  { value: 18, decimals: 0, suffix: "", label: "Years of Expertise", Icon: LuTrophy },
+  { value: 20, decimals: 0, suffix: "", label: "Years of Expertise", Icon: LuTrophy },
 ];
 
 export default function Achievements() {

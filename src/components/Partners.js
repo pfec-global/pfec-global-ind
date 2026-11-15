@@ -35,16 +35,17 @@ export default function Partners({
           </p>
         </motion.div>
 
-        {/* Mobile: always 2 logos per row (a leftover odd logo is centred). Tablet and up: one wrapping row. */}
+        {/* Mobile: always 2 logos per row (a leftover odd logo is centred). Tablet and up: one wrapping row -
+            on laptops five 220px logos fill the row. */}
         <div className="mt-8 grid grid-cols-2 place-items-center gap-4 sm:flex sm:flex-wrap sm:justify-center sm:gap-6">
           {items.map((partner, i) => (
             <motion.div key={partner.src} {...fadeUp(i * 0.08)} className="last:odd:col-span-2">
               <Image
                 src={partner.src}
                 alt={partner.name}
-                width={200}
-                height={120}
-                className="h-[84px] w-full max-w-[140px] object-contain transition duration-300 hover:-translate-y-1.5 hover:scale-105 sm:h-[120px] sm:w-[200px] sm:max-w-none"
+                width={220}
+                height={150}
+                className="h-[112px] w-full max-w-[165px] object-contain transition duration-300 hover:-translate-y-1.5 hover:scale-105 sm:h-[130px] sm:w-[210px] sm:max-w-none lg:h-[150px] lg:w-[220px]"
               />
             </motion.div>
           ))}

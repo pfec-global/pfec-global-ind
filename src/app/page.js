@@ -37,7 +37,7 @@ const homeFaqs = [
     question:
       "How experienced is PFEC Global in international education consultancy?",
     answer:
-      "PFEC Global has over 18 years of experience as a study abroad agency, with more than 22,000 student success stories.",
+      "PFEC Global has over 20 years of experience as a study abroad agency, with more than 22,000 student success stories.",
   },
   {
     question:
