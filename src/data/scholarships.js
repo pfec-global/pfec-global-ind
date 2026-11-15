@@ -2,7 +2,7 @@ import { scholarships } from "@/data/countries";
 import { scholarshipContent } from "@/data/detailContent";
 
 // Dummy data for the scholarship details pages - replace with real data (CMS / API).
-// Each one has a page at /scholarships/<slug>, e.g. /scholarships/scholarships-in-australia.
+// Each one has a page at /<slug>/, e.g. /scholarships-in-australia/.
 
 // Scholarship details page: the slug of every page
 export const scholarshipSlugs = scholarships.map((item) => item.slug);

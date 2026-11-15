@@ -13,11 +13,11 @@ import { fadeUp } from "@/lib/motion";
 import { serviceItems } from "@/data/services";
 
 const services = [
-  { title: "University Admission Assistance", href: "/services/admission-support", Icon: FaBuildingColumns, color: "bg-sky-100 text-sky-500" },
+  { title: "University Admission Assistance", href: "/admission-support", Icon: FaBuildingColumns, color: "bg-sky-100 text-sky-500" },
   { title: "Scholarship Guidance", href: "/scholarships", Icon: FaHandHoldingDollar, color: "bg-red-100 text-red-500" },
-  { title: "Student Visa Assistance", href: "/services/visa-services", Icon: FaPlane, color: "bg-lime-100 text-lime-600" },
-  { title: "Health Insurance Assistance", href: "/services/health-insurance", Icon: FaBriefcaseMedical, color: "bg-amber-100 text-amber-500" },
-  { title: "Student Accommodation Assistance", href: "/services/student-accommodations", Icon: FaHouse, color: "bg-indigo-100 text-indigo-600" },
+  { title: "Student Visa Assistance", href: "/visa-services", Icon: FaPlane, color: "bg-lime-100 text-lime-600" },
+  { title: "Health Insurance Assistance", href: "/health-insurance", Icon: FaBriefcaseMedical, color: "bg-amber-100 text-amber-500" },
+  { title: "Student Accommodation Assistance", href: "/student-accommodations", Icon: FaHouse, color: "bg-indigo-100 text-indigo-600" },
   { title: "IELTS & PTE Coaching Classes", href: "/contact-us", Icon: FaClipboardCheck, color: "bg-emerald-100 text-emerald-600" },
 ];
 

@@ -5,7 +5,7 @@ import BlogSlider from "@/components/BlogSlider";
 
 // "Related Blogs" section at the bottom of the blog details page.
 // href is where the "Explore All" button goes.
-export default function RelatedBlogs({ posts, href = "/blogs" }) {
+export default function RelatedBlogs({ posts, href = "/blog" }) {
   if (posts.length === 0) return null;
 
   return (

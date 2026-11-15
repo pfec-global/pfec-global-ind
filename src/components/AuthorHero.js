@@ -13,7 +13,7 @@ export default function AuthorHero({ author, stats }) {
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
         <motion.div {...fadeUpOnLoad()}>
           <Link
-            href="/blogs"
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline"
           >
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

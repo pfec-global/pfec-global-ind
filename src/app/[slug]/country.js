@@ -10,17 +10,12 @@ import Universities from "@/components/Universities";
 import PopularCourses from "@/components/PopularCourses";
 import RelatedBlogs from "@/components/RelatedBlogs";
 
-// Country details page, at the root of the site: /study-in-australia, /study-in-canada...
-// Any one-part address that is not another page lands here; one that is not a country shows the 404 page.
-
-// The page waits for Strapi on every visit while caching is switched off (CACHE_STRAPI in src/lib/strapi.js).
-// This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
-export const instant = false;
+// Country details page, at the root of the site: /study-in-australia/, /study-in-canada/...
+// Shown by src/app/[slug]/page.js, which shares the root of the site with the scholarship pages.
 
 // One page per country in Strapi (the built-in countries if Strapi cannot be reached)
-export async function generateStaticParams() {
-  const slugs = (await getCountrySlugs()) ?? destinationSlugs;
-  return slugs.map((country) => ({ country }));
+export async function countrySlugs() {
+  return (await getCountrySlugs()) ?? destinationSlugs;
 }
 
 // The page content: from Strapi, or the built-in dummy page if Strapi cannot be reached.
@@ -44,16 +39,14 @@ async function loadCountry(slug) {
     : null;
 }
 
-export async function generateMetadata({ params }) {
-  const { country: slug } = await params;
+export async function countryMetadata(slug) {
   const country = await loadCountry(slug);
   if (!country) return {};
   // SEO tags from the "seo" block of the country in Strapi; the title and subtitle fill any gaps
   return toMetadata(country.seo, { title: `${country.titleTop} | PFEC Global`, description: country.subtitle });
 }
 
-export default async function CountryPage({ params }) {
-  const { country: slug } = await params;
+export async function CountryPage({ slug }) {
   const country = await loadCountry(slug);
   if (!country) notFound();
 

@@ -1,12 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaLinkedin, FaYoutubeSquare, FaFacebookSquare, FaInstagramSquare } from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
+import { FaPhone, FaSquareXTwitter } from "react-icons/fa6";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
 import { destinations, scholarships } from "@/data/countries";
 import { officeCountries } from "@/data/offices";
 import { serviceItems } from "@/data/services";
+
+// The branches listed under "PFEC Global Offices in India" - the India offices of src/data/offices.js
+const indiaOffices = officeCountries.find((country) => country.id === "india")?.offices ?? [];
 
 // Footer lists stay short: only the first few lines of each are shown
 const firstFew = (items, count = 5) => items.slice(0, count);
@@ -41,7 +44,7 @@ export default function Footer({
       title: "PFEC Global",
       links: [
         { label: "Contact Us", href: "/contact-us" },
-        { label: "About Us", href: "/about-us" },
+        { label: "About Us", href: "/about-pfec-global" },
         // { label: "Careers", href: "#" },
       ],
     },
@@ -49,9 +52,8 @@ export default function Footer({
     {
       title: "Resources",
       links: [
-        { label: "Blogs", href: "/blogs" },
+        { label: "Blogs", href: "/blog" },
         // { label: "Downloadable Content", href: "#" },
-        { label: "Upcoming Events", href: "/events" },
       ],
     },
   ];
@@ -106,6 +108,37 @@ export default function Footer({
             </div>
           ))}
         </motion.div>
+
+        {/* PFEC Global Offices in India - one card per branch, from src/data/offices.js */}
+        {indiaOffices.length > 0 && (
+          <div className="border-t border-black/10 py-10">
+            <h3 className="text-center text-xl font-semibold text-ink sm:text-2xl">PFEC Global Offices in India</h3>
+            <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {indiaOffices.map((office) => (
+                <div key={office.city} className="text-sm">
+                  <h4 className="text-xl text-accent">{office.city}</h4>
+                  <p className="mt-3 leading-7">{office.address}</p>
+                  <a
+                    href={`tel:${office.phone.replace(/\s/g, "")}`}
+                    className="mt-2 inline-flex items-center gap-2 transition-colors hover:text-accent"
+                  >
+                    <FaPhone className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                    {office.phone}
+                  </a>
+                  <p className="mt-2">
+                    <Link
+                      href={office.learnMoreHref ?? "/contact-us"}
+                      aria-label={`Learn more about the ${office.city} office`}
+                      className="text-accent transition-opacity hover:opacity-80"
+                    >
+                      Learn More &gt;&gt;
+                    </Link>
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Countries with a PFEC office - same list as the contact page, India first */}
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-t border-black/10 py-5 text-sm font-medium">

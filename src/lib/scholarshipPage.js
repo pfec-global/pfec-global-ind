@@ -17,7 +17,7 @@ export async function getScholarshipPage() {
             .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
             .map((scholarship) => ({
               label: scholarship.name.trim(),
-              href: `/scholarships/${scholarship.slug}`,
+              href: `/${scholarship.slug}`,
               image: toImage(scholarship.cardImage, scholarship.name.trim()),
               flag: toImage(scholarship.logo),
             }))

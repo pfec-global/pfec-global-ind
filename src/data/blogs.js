@@ -38,7 +38,7 @@ export const authors = [
 // Categories used as the tag on the dummy post cards
 const tags = ["pte", "gre", "ielts", "english-skills"];
 
-// The dummy posts. Each one has a details page at /blogs/<slug>
+// The dummy posts. Each one has a details page at /blog/<slug>/
 const postList = [
   { slug: "pte-score-for-canada-2025", title: "PTE Score for Canada 2025: Accepted Colleges and Universities", category: "pte" },
   { slug: "ielts-band-requirements-australia", title: "IELTS Band Requirements for Australian Universities", category: "ielts" },
@@ -91,7 +91,7 @@ const makePosts = (slug, count, { tag, post } = {}) =>
       date, // used for sorting
       updated: formatUpdated(date),
       readTime: "8 Min Read",
-      href: `/blogs/${item.slug}`, // the post itself
+      href: `/blog/${item.slug}`, // the post itself
     };
   });
 
@@ -153,4 +153,4 @@ export const getPost = (slug) => {
 };
 
 // Blog details page: the posts of the "Related Blogs" slider (the post being read is left out)
-export const getRelatedPosts = (slug) => makePosts("related", 8).filter((post) => post.href !== `/blogs/${slug}`);
+export const getRelatedPosts = (slug) => makePosts("related", 8).filter((post) => post.href !== `/blog/${slug}`);

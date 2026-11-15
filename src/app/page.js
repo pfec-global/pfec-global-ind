@@ -9,6 +9,7 @@ import PopularCourses from "@/components/PopularCourses";
 import Steps from "@/components/Steps";
 import Events from "@/components/Events";
 import Achievements from "@/components/Achievements";
+import WhyTrust from "@/components/WhyTrust";
 import Partners from "@/components/Partners";
 import Testimonials from "@/components/Testimonials";
 import Blogs from "@/components/Blogs";
@@ -85,6 +86,7 @@ export default async function Home() {
       <Steps />
       <Events {...cms.events} />
       <Achievements />
+      <WhyTrust />
       <Partners {...cms.partnerships} />
       <Testimonials {...cms.testimonials} />
       <Blogs items={latestBlogs} />

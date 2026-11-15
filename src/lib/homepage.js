@@ -14,18 +14,18 @@ const list = (items, map) => (Array.isArray(items) && items.length > 0 ? items.m
 
 // Strapi slug of a service -> the page it links to. A service that is not listed links to the services page.
 const serviceHrefs = {
-  "university-admission-assistance": "/services/admission-support",
+  "university-admission-assistance": "/admission-support",
   "scholarship-guidance": "/scholarships",
-  "student-visa-assistance": "/services/visa-services",
-  "health-insurance-assistance": "/services/health-insurance",
-  "student-accommodation-assistance": "/services/student-accommodations",
+  "student-visa-assistance": "/visa-services",
+  "health-insurance-assistance": "/health-insurance",
+  "student-accommodation-assistance": "/student-accommodations",
 };
 
 // One service card. Its small picture is the service's icon, or its cardImage when no icon is uploaded.
 // Also used by the home page service cards (src/components/Services.js).
 export const serviceCard = (service) => ({
   title: service.name.trim(),
-  href: serviceHrefs[service.slug] ?? "/services",
+  href: serviceHrefs[service.slug] ?? "/service-archive-page",
   icon: toImage(service.icon) ?? toImage(service.cardImage),
 });
 

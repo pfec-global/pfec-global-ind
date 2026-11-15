@@ -32,7 +32,7 @@ export async function generateMetadata({ params, searchParams }) {
 
   const title = post.seo?.title ?? post.title;
   const description = post.seo?.description ?? post.summary;
-  const url = `${(process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/+$/, "")}/blogs/${slug}`;
+  const url = `${(process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/+$/, "")}/blog/${slug}/`;
   return {
     title: `${title} | PFEC Global`,
     description,

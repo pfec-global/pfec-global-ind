@@ -3,7 +3,7 @@
 // which markdown would show as a block of code. These helpers turn all of that into normal content.
 
 // Posts were first written for the old website. Links to its posts are turned into links inside this site:
-// "https://pfecglobal.in/blog/some-post/" -> "/blogs/some-post"
+// "https://pfecglobal.in/blog/some-post/" -> "/blog/some-post"
 const OLD_POST_LINK = /https?:\/\/(?:www\.)?pfecglobal\.in\/blog\/([a-z0-9-]+)\/?(?=["')\s]|$)/gi;
 
 // <div class="blog-also-read-box"> ... <a href="url">text</a> </div>  ->  > **Also Read:** [text](url)
@@ -26,7 +26,7 @@ export function prepareBlogMarkdown(content) {
       // Some tables arrive with the body opened or closed twice
       .replace(/<tbody>\s*<tbody>/gi, "<tbody>")
       .replace(/<\/tbody>\s*<\/tbody>/gi, "</tbody>")
-      .replace(OLD_POST_LINK, "/blogs/$1")
+      .replace(OLD_POST_LINK, "/blog/$1")
       .replace(/\n{3,}/g, "\n\n")
       .trim()
   );

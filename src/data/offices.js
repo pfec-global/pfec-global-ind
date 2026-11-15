@@ -2,7 +2,9 @@
 // a tab, its flag and its office cards appear on their own.
 // flag is a round picture in public/images/flags. buttonText (optional) replaces "Schedule a Virtual Meeting".
 // map: true adds a "Get Location on Google Map" link to the office address.
-// The same list gives the flag row in the footer, in this order.
+// The same list gives the flag row in the footer, in this order, and the India offices also appear in the footer
+// under "PFEC Global Offices in India" - add a branch to India's offices and it shows there too.
+// learnMoreHref (optional) is where that footer card's "Learn More >>" goes (the contact page when not set).
 export const officeCountries = [
   {
     id: "india",
@@ -11,14 +13,16 @@ export const officeCountries = [
     offices: [
       {
         city: "Kolkata",
+        learnMoreHref: "/study-abroad-consultant-in-kolkata",
         address:
           "Landmark Building (Opp. of Minto Park Bus Stand), 9th Floor, 228A, A.J.C Bose Road, Kolkata - 700020",
         phone: "+91 98 3693 4948",
       },
       {
         city: "Ahmedabad",
+        learnMoreHref: "/study-abroad-consultant-in-ahmedabad",
         address:
-          "Unit No. 102, First Floor, Mahalaxya Building, Chimanlal Girdharlal Rd, Ahmedabad, Gujarat 380009",
+          "Unit No. 102, First Floor, Mahalaya Building, Nr. President Hotel, Off. C.G Road, Ahmedabad – 380009",
         phone: "+91 79 4090 3800",
       },
     ],

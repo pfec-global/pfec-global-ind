@@ -4,31 +4,32 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaAward, FaCalendarDays, FaUsers } from "react-icons/fa6";
+import { FaAward, FaNewspaper, FaUsers } from "react-icons/fa6";
 import { destinations, scholarships } from "@/data/countries";
 import { serviceItems } from "@/data/services";
 
-const resourceItems = [
-  { label: "Events", href: "/events", Icon: FaCalendarDays },
-  { label: "Awards & Achievements", href: "/about-us/awards-and-achievements", Icon: FaAward },
-  { label: "Our Leadership Team", href: "/about-us/our-leadership-team", Icon: FaUsers },
+const aboutItems = [
+  { label: "Awards and Achievements", href: "/awards-and-achievements", Icon: FaAward },
+  { label: "Our Leadership Team", href: "/our-leadership-team", Icon: FaUsers },
 ];
+
+const resourceItems = [{ label: "Blog", href: "/blog", Icon: FaNewspaper }];
 
 // items (optional) is the dropdown of a link: it opens on hover on desktop and on tap in the mobile menu.
 // section (optional) is the start of the URLs that belong to the link, used to highlight it on its inner pages.
 // A link is also highlighted on the pages of its dropdown. href "#" means the link only opens its dropdown.
 // destinationItems and scholarshipItems are the lines of the two dropdowns: { label, href, flag }
 const buildLinks = (destinationItems, scholarshipItems) => [
-  { label: "About Us", href: "/about-us" },
-  { label: "Destinations", href: "/destinations", section: "/destinations", items: destinationItems },
-  { label: "Our Services", href: "/services", section: "/services", items: serviceItems },
-  { label: "Blog", href: "/blogs" },
-  { label: "Resources", href: "#", items: resourceItems },
+  { label: "About us", href: "/about-pfec-global", items: aboutItems },
+  { label: "Destination", href: "/destination-page", items: destinationItems },
+  { label: "Our Services", href: "/service-archive-page", items: serviceItems },
+  // Blog posts (/blog/<post>/) also highlight Resources
+  { label: "Resources", href: "#", section: "/blog", items: resourceItems },
   { label: "Scholarships", href: "/scholarships", section: "/scholarships", items: scholarshipItems },
-  { label: "Contact Us", href: "/contact-us" },
+  { label: "Contact us", href: "/contact-us" },
 ];
 
-// The small round icon beside a line of the Resources and Our Services dropdowns
+// The small round icon beside a line of the About us, Our Services and Resources dropdowns
 const itemIcon = (Icon) => (
   <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
     <Icon className="h-3 w-3" />
@@ -53,7 +54,8 @@ export default function Navbar({ destinationItems = destinations, scholarshipIte
   // The home page starts with the dark navbar over its dark hero and turns white on scroll.
   // Every other page has a light hero, so the navbar is white from the start.
   // pathname is also used to highlight the nav item of the page being viewed
-  const pathname = usePathname();
+  // Addresses end in "/" (trailingSlash in next.config.mjs) but the links here are written without it
+  const pathname = (usePathname() ?? "/").replace(/(.)\/$/, "$1");
   const light = scrolled || pathname !== "/";
   const isActive = (link) =>
     pathname === link.href ||

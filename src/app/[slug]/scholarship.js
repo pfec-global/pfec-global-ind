@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getScholarship, scholarshipSlugs } from "@/data/scholarships";
+import { getScholarship, scholarshipSlugs as builtInScholarshipSlugs } from "@/data/scholarships";
 import { getRelatedPosts } from "@/data/blogs";
 import { getScholarshipDetail, getScholarshipSlugs } from "@/lib/scholarshipDetail";
 import { getRecentBlogPosts } from "@/lib/blogs";
@@ -8,14 +8,12 @@ import DetailHero from "@/components/DetailHero";
 import DetailBody from "@/components/DetailBody";
 import RelatedBlogs from "@/components/RelatedBlogs";
 
-// The page waits for Strapi on every visit while caching is switched off (CACHE_STRAPI in src/lib/strapi.js).
-// This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
-export const instant = false;
+// Scholarship details page, at the root of the site: /scholarships-in-australia/, /scholarships-in-uk/...
+// Shown by src/app/[slug]/page.js, which shares the root of the site with the country pages.
 
 // One page per scholarship in Strapi (the built-in ones if Strapi cannot be reached)
-export async function generateStaticParams() {
-  const slugs = (await getScholarshipSlugs()) ?? scholarshipSlugs;
-  return slugs.map((slug) => ({ slug }));
+export async function scholarshipSlugs() {
+  return (await getScholarshipSlugs()) ?? builtInScholarshipSlugs;
 }
 
 // The page content: from Strapi, or the built-in dummy page if Strapi cannot be reached.
@@ -41,8 +39,7 @@ async function loadScholarship(slug) {
   return getScholarship(slug) ?? null;
 }
 
-export async function generateMetadata({ params }) {
-  const { slug } = await params;
+export async function scholarshipMetadata(slug) {
   const scholarship = await loadScholarship(slug);
   if (!scholarship) return {};
   // SEO tags from the "seo" block of the scholarship in Strapi; the title and subtitle fill any gaps
@@ -53,8 +50,7 @@ export async function generateMetadata({ params }) {
 }
 
 // Same page as a blog post (markdown body, "Jump to Topic" box, sidebar, related blogs) with a different hero
-export default async function ScholarshipPage({ params }) {
-  const { slug } = await params;
+export async function ScholarshipPage({ slug }) {
   const scholarship = await loadScholarship(slug);
   if (!scholarship) notFound();
 

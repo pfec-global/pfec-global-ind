@@ -7,7 +7,7 @@ export default function BlogCategoryHero({ title, description }) {
   return (
     <section className="bg-[#E4F6FA] px-4 py-8 text-center sm:px-6 lg:py-10">
       <motion.div {...fadeUpOnLoad()}>
-        <Link href="/blogs" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
+        <Link href="/blog" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M20 12H4m6-6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

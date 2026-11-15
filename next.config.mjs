@@ -11,23 +11,39 @@ const nextConfig = {
   },
   cacheComponents: true,
   partialPrefetching: true,
-  // Pages that moved to a shorter address; old links are sent to the new one
+  // Every address ends in "/", like the live site: /contact-us/, /study-in-australia/ ("/contact-us" redirects there)
+  trailingSlash: true,
+  // The addresses follow the live site (pfecglobal.in). Earlier addresses of this site send visitors
+  // and search engines to the new one (308 permanent redirects).
   async redirects() {
     return [
-      { source: "/blogs/category/:slug", destination: "/category/:slug", permanent: true },
-      { source: "/blogs/author/:slug", destination: "/author/:slug", permanent: true },
-      // Country pages moved from /destinations/<slug> to /<slug>
-      { source: "/destinations/:slug", destination: "/:slug", permanent: true },
-      // About Us moved from /aboutus to /about-us (its sub-pages too)
-      { source: "/aboutus", destination: "/about-us", permanent: true },
-      { source: "/aboutus/:path*", destination: "/about-us/:path*", permanent: true },
+      // About Us and its two pages
+      { source: "/aboutus/awards-and-achievements", destination: "/awards-and-achievements/", permanent: true },
+      { source: "/aboutus/our-leadership-team", destination: "/our-leadership-team/", permanent: true },
+      { source: "/aboutus", destination: "/about-pfec-global/", permanent: true },
+      { source: "/about-us/awards-and-achievements", destination: "/awards-and-achievements/", permanent: true },
+      { source: "/about-us/our-leadership-team", destination: "/our-leadership-team/", permanent: true },
+      { source: "/about-us", destination: "/about-pfec-global/", permanent: true },
+      // Services: the list page, and the service pages that were under /services/
+      { source: "/services", destination: "/service-archive-page/", permanent: true },
+      { source: "/services/:slug", destination: "/:slug/", permanent: true },
+      // Destinations: the list page, and the country pages that were under /destinations/
+      { source: "/destinations", destination: "/destination-page/", permanent: true },
+      { source: "/destinations/:slug", destination: "/:slug/", permanent: true },
+      // Scholarship pages were under /scholarships/ (the list page itself stays at /scholarships/)
+      { source: "/scholarships/:slug", destination: "/:slug/", permanent: true },
+      // Blog: /blogs -> /blog. Categories and authors moved out of it earlier.
+      { source: "/blogs/category/:slug", destination: "/category/:slug/", permanent: true },
+      { source: "/blogs/author/:slug", destination: "/author/:slug/", permanent: true },
+      { source: "/blogs", destination: "/blog/", permanent: true },
+      { source: "/blogs/:slug", destination: "/blog/:slug/", permanent: true },
     ];
   },
   // Lets the blog CMS show a post inside its "preview" panel (see isBlogPreview in src/lib/blogs.js)
   async headers() {
     return [
       {
-        source: "/blogs/:slug",
+        source: "/blog/:slug",
         headers: [{ key: "Content-Security-Policy", value: `frame-ancestors 'self' ${blogCmsUrl.origin}` }],
       },
     ];

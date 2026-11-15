@@ -37,14 +37,14 @@ const toPost = (post) => {
   return {
     id: post.documentId ?? post.id,
     title: post.title,
-    href: `/blogs/${post.slug}`,
+    href: `/blog/${post.slug}`,
     image: cover?.url ? absolute(cover.url) : null,
     imageAlt: post.image_alt_text || post.title,
     tag: category?.name?.trim() ?? "Blog",
     tagSlug: category?.slug ?? null,
-    tagHref: category?.slug ? categoryHref(category.slug) : "/blogs",
+    tagHref: category?.slug ? categoryHref(category.slug) : "/blog",
     author: post.author?.name?.trim() ?? "PFEC Global",
-    authorHref: post.author?.slug ? `/author/${post.author.slug}` : "/blogs",
+    authorHref: post.author?.slug ? `/author/${post.author.slug}` : "/blog",
     date: new Date(post.published_time).getTime() || 0, // used for sorting
     updated: formatDate(post.published_time),
     readTime: post.reading_time ? `${post.reading_time} Min Read` : "",
@@ -213,7 +213,7 @@ export const getBlogAuthorSlugs = safely(async () => {
 
 // ---------- Blog details page ----------
 
-// Draft preview: Strapi opens a post as /blogs/<slug>?status=draft&secret=<BLOG_PREVIEW_SECRET>.
+// Draft preview: Strapi opens a post as /blog/<slug>/?status=draft&secret=<BLOG_PREVIEW_SECRET>.
 // Only when the secret matches is the unpublished draft fetched (with BLOG_CMS_TOKEN). Both live in .env, never in the code.
 export function isBlogPreview({ status, secret } = {}) {
   const expected = process.env.BLOG_PREVIEW_SECRET;

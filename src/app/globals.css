@@ -10,6 +10,70 @@
   --color-ink: #121212;
   --color-paper: #fdfdfd;
 
+  /* City branch pages (src/components/branch) - copied from the pfec_brunch_page design */
+  --color-brand: #100694;
+  --color-sun: #fbcb20;
+  --font-titan: var(--font-titan-one);
+  --font-bebas: var(--font-bebas-neue);
+  --font-poppins: var(--font-poppins);
+  --animate-float: float 3.5s ease-in-out infinite;
+  --animate-ring: ring 4s ease-in-out infinite;
+  --animate-bob: bob 4s ease-in-out infinite;
+  --animate-hop: hop 5s ease-in-out infinite;
+  --animate-breathe: breathe 7s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-28%) rotate(6deg);
+    }
+  }
+
+  @keyframes bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4%);
+    }
+  }
+
+  @keyframes hop {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10%);
+    }
+  }
+
+  @keyframes breathe {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.025);
+    }
+  }
+
+  @keyframes ring {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.06);
+      opacity: 0.45;
+    }
+  }
+
   /* Hero country labels: each label drifts sideways and up/down at two different speeds,
      so its path never repeats and the movement looks random. Speeds are set per label in Hero.js.
      The step pictures (StepPieces.js) and the hat and plane of PageHero.js reuse them.
@@ -39,4 +103,23 @@
 body {
   background: var(--color-paper);
   color: var(--color-ink);
+}
+
+/* Sections from the branch design (src/components/branch, and WhyTrust.js) write their sizes in --bu,
+   the "branch unit", instead of rem. It is fixed at 15px - a little under the design's 16px - so these sections
+   keep one size on every screen, inside the site's own 1280px container (max-w-7xl), like the other pages.
+   Make it bigger or smaller here to resize all of them at once. */
+.branch-page,
+.figma-scale {
+  --bu: 0.9375rem;
+}
+
+.branch-page {
+  background: #fffdf3;
+  color: #1c1c1c;
+}
+
+/* Links to a section of the branch page (#consultation) stop below the sticky navbar */
+html:has(.branch-page) {
+  scroll-padding-top: 5.5rem;
 }

@@ -17,28 +17,28 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").r
 // Used when src/app cannot be read on the server (e.g. a build deployed without the source files)
 const FALLBACK_PAGES = [
   "/",
-  "/about-us",
-  "/about-us/awards-and-achievements",
-  "/about-us/our-leadership-team",
-  "/blogs",
+  "/about-pfec-global",
+  "/admission-support",
+  "/awards-and-achievements",
+  "/blog",
   "/contact-us",
-  "/destinations",
+  "/destination-page",
   "/events",
+  "/health-insurance",
+  "/our-leadership-team",
   "/privacy-policy",
   "/scholarships",
-  "/services",
-  "/services/admission-support",
-  "/services/health-insurance",
-  "/services/student-accommodations",
-  "/services/visa-services",
+  "/service-archive-page",
+  "/student-accommodations",
   "/terms-of-use",
+  "/visa-services",
 ];
 
 // Folders that are not part of the address: route groups "(name)", private "_name", parallel "@name"
 const skipsInUrl = (name) => /^\(.*\)$/.test(name);
 const notAPage = (name) => name.startsWith("_") || name.startsWith("@") || name === "api";
 
-// Every page.js under src/app that has no [slug] part -> its address ("/", "/about-us", ...)
+// Every page.js under src/app that has no [slug] part -> its address ("/", "/about-pfec-global", ...)
 // The turbopackIgnore comments stop the build from copying the whole project into the server bundle
 // because of this folder scan. Where the source files are not on the server, FALLBACK_PAGES is used instead.
 async function findStaticPages(dir = path.join(/*turbopackIgnore: true*/ process.cwd(), "src", "app"), url = "") {
@@ -55,7 +55,7 @@ async function findStaticPages(dir = path.join(/*turbopackIgnore: true*/ process
 // How important a page is, and how often it changes (hints for search engines)
 function hints(url) {
   if (url === "/") return { changeFrequency: "daily", priority: 1 };
-  if (/^\/(blogs|events)(\/|$)/.test(url)) return { changeFrequency: "weekly", priority: 0.7 };
+  if (/^\/(blog|events)(\/|$)/.test(url)) return { changeFrequency: "weekly", priority: 0.7 };
   if (/^\/(privacy-policy|terms-of-use)$/.test(url)) return { changeFrequency: "yearly", priority: 0.3 };
   if (/^\/(category|author)\//.test(url)) return { changeFrequency: "weekly", priority: 0.5 };
   return { changeFrequency: "monthly", priority: 0.8 };
@@ -86,17 +86,18 @@ export default async function sitemap() {
   const urls = [
     ...staticPages,
     ...list(countries, countryHref),
-    ...list(scholarships, (slug) => `/scholarships/${slug}`),
+    ...list(scholarships, (slug) => `/${slug}`),
     ...list(events, (slug) => `/events/${slug}`),
-    ...list(posts, (slug) => `/blogs/${slug}`),
+    ...list(posts, (slug) => `/blog/${slug}`),
     ...list(categories, (slug) => `/category/${slug}`),
     ...list(authors, (slug) => `/author/${slug}`),
   ];
 
   const now = new Date();
   return [...new Set(urls)].sort().map((url) => ({
-    // encodeURI: an address with a space or another special character is written the way browsers send it
-    url: `${SITE_URL}${url === "/" ? "" : encodeURI(url)}`,
+    // encodeURI: an address with a space or another special character is written the way browsers send it.
+    // Every address ends in "/", as the site serves them (trailingSlash in next.config.mjs).
+    url: `${SITE_URL}${url === "/" ? "/" : `${encodeURI(url)}/`}`,
     lastModified: now,
     ...hints(url),
   }));
