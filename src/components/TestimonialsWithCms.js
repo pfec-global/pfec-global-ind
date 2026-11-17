@@ -6,7 +6,8 @@ import Testimonials from "@/components/Testimonials";
 // Without them the built-in testimonials are shown.
 async function TestimonialsFromCms() {
   const { testimonials } = await getHomeSections();
-  return <Testimonials {...testimonials} />;
+  // Only the cards: the heading and subheading belong to the home page
+  return <Testimonials items={testimonials?.items} />;
 }
 
 // Shows the built-in testimonials straight away and swaps to the ones from Strapi as soon as they arrive,

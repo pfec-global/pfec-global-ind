@@ -23,7 +23,8 @@ const GAP = 16; // gap-4 between cards
 
 // items come from Strapi; without them the built-in testimonials are shown.
 // A testimonial without a photo gets the default avatar.
-export default function Testimonials({ items = testimonials }) {
+// heading and subheading (from Strapi) are shown above the slider when they are given, and left out otherwise.
+export default function Testimonials({ items = testimonials, heading, subheading }) {
   const trackRef = useRef(null);
   useDragScroll(trackRef);
   const pausedRef = useRef(false);
@@ -71,6 +72,13 @@ export default function Testimonials({ items = testimonials }) {
   return (
     <section className="bg-[#f1f4f8] py-12 lg:py-16">
       <motion.div {...fadeUp()} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {(heading || subheading) && (
+          <div className="mb-4 text-center">
+            {heading && <h2 className="text-2xl font-semibold sm:text-3xl">{heading}</h2>}
+            {subheading && <p className="mt-4 text-sm text-ink/70 sm:text-base">{subheading}</p>}
+          </div>
+        )}
+
         {/* Slider: 1 card per page on mobile, 2 on tablet, 3 on desktop */}
         <div
           ref={trackRef}

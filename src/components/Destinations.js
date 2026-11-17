@@ -22,6 +22,7 @@ const destinations = [
 ].map((name) => ({ name, href: `/study-in-${name.toLowerCase().replaceAll(" ", "-")}`, image: null }));
 
 // heading, subheading and items ({ name, href, image }) come from Strapi; without them the built-in content is used
+// A heading or subheading passed as null is left out (the home page does this for fields Strapi does not send).
 export default function Destinations({
   heading,
   subheading = "PFEC Global is a partner of renowned institutions across 11 countries. Pick a destination below and learn everything you need to make an informed decision.",
@@ -54,16 +55,20 @@ export default function Destinations({
     <section className="bg-[#f9f9f9] py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div {...fadeUp()} className="text-center">
-          <h2 className="text-2xl font-semibold sm:text-3xl">
-            {heading ?? (
-              <>
-                Gain Access to <span className="text-indigo">Top Institutions across the Globe</span>
-              </>
-            )}
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm text-ink/70 sm:text-base">
-            {subheading}
-          </p>
+          {heading !== null && (
+            <h2 className="text-2xl font-semibold sm:text-3xl">
+              {heading ?? (
+                <>
+                  Gain Access to <span className="text-indigo">Top Institutions across the Globe</span>
+                </>
+              )}
+            </h2>
+          )}
+          {subheading && (
+            <p className="mx-auto mt-4 max-w-xl text-sm text-ink/70 sm:text-base">
+              {subheading}
+            </p>
+          )}
         </motion.div>
 
         <motion.div {...fadeUp(0.15)} className="mt-6 flex items-center gap-3">

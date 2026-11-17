@@ -1,4 +1,6 @@
 import { getFromStrapi, toImage } from "@/lib/strapi";
+import { toLeaderCards } from "@/lib/leadershipPage";
+import { toAwardCards } from "@/lib/awardPage";
 
 // Home page content from Strapi (GET /api/homepage), reshaped into the props of the home page sections.
 // Every value is optional: a section, heading or list that is missing or empty comes back as undefined,
@@ -127,6 +129,8 @@ const mappers = {
   }),
 
   testimonials: (section) => ({
+    heading: text(section.heading),
+    subheading: text(section.subheading),
     items: list(section.testimonials, testimonialCard),
   }),
 
@@ -147,6 +151,23 @@ const mappers = {
       (item) => ({ name: item.image.alternativeText || "Partner logo", src: toImage(item.image).src }),
     ),
   }),
+
+  // Leader cards, as on the leadership page
+  leadership: (section) => ({
+    heading: text(section.heading),
+    subheading: text(section.subheading),
+    leaders: toLeaderCards(section.leaders),
+  }),
+
+  // Award pictures, as on the awards page; "limit" (when set) is the most that are shown
+  awards: (section) => {
+    const awards = toAwardCards(section.awards);
+    return {
+      heading: text(section.heading),
+      subheading: text(section.subheading),
+      awards: section.limit > 0 ? awards?.slice(0, section.limit) : awards,
+    };
+  },
 };
 
 // The "seo" block of the home page (meta title, description...), or undefined if Strapi did not send one
@@ -155,7 +176,9 @@ export async function getHomeSeo() {
   return (response?.data ?? response)?.seo ?? undefined;
 }
 
-// Returns { hero, countries, events, services, "study-areas", testimonials, partnerships, faq }.
+// Returns { hero, countries, events, services, "study-areas", testimonials, partnerships, faq, leadership, awards },
+// each the first section of that kind, plus all: { <kind>: [every section of that kind, in Strapi order] }
+// for a kind the page uses more than once (the home page has two partnerships sections).
 // A section that Strapi did not send (or the whole object, if Strapi is down) is simply missing.
 export async function getHomeSections() {
   const response = await getFromStrapi("homepage", "homepage");
@@ -163,10 +186,13 @@ export async function getHomeSections() {
   // The sections are the list on the page whose entries carry a __component name
   const sections = Object.values(page).find((value) => Array.isArray(value) && value.some((item) => item?.__component)) ?? [];
 
-  const result = {};
+  const result = { all: {} };
   for (const section of sections) {
     const name = section.__component?.replace("sections.", "");
-    if (mappers[name] && !result[name]) result[name] = mappers[name](section);
+    if (!mappers[name]) continue;
+    const data = mappers[name](section);
+    result.all[name] = [...(result.all[name] ?? []), data];
+    if (!result[name]) result[name] = data;
   }
   return result;
 }

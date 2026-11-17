@@ -16,18 +16,21 @@ export const courses = [
 ];
 
 // heading and items (a list of course names) come from Strapi; without them the built-in content is used
+// A heading passed as null is left out (the home page does this for fields Strapi does not send).
 export default function PopularCourses({ heading, items = courses }) {
   return (
     <section className="bg-[#f4f4f4] py-12 lg:py-16">
       <div className="mx-auto grid max-w-7xl items-end gap-10 px-4 sm:px-6 lg:grid-cols-[11fr_9fr] lg:px-8">
         <div>
-          <motion.h2 {...fadeUp()} className="max-w-md text-2xl font-semibold leading-snug sm:text-3xl">
-            {heading ?? (
-              <>
-                <span className="text-indigo">Explore Popular courses</span> chosen by other study abroad aspirants
-              </>
-            )}
-          </motion.h2>
+          {heading !== null && (
+            <motion.h2 {...fadeUp()} className="max-w-md text-2xl font-semibold leading-snug sm:text-3xl">
+              {heading ?? (
+                <>
+                  <span className="text-indigo">Explore Popular courses</span> chosen by other study abroad aspirants
+                </>
+              )}
+            </motion.h2>
+          )}
 
           <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3">
             {items.map((course, i) => (

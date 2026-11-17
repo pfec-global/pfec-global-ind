@@ -18,6 +18,7 @@ const defaultFaqs = [
   },
 ];
 
+// title passed as null is left out (the home page does this when Strapi sends no FAQ heading)
 export default function Faq({
   title = "Frequently Asked Questions",
   faqs = defaultFaqs,
@@ -36,9 +37,11 @@ export default function Faq({
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <motion.div {...fadeUp()} className="text-center">
-          <h2 className="font-montserrat text-2xl font-semibold text-black sm:text-3xl">
-            {title}
-          </h2>
+          {title && (
+            <h2 className="font-montserrat text-2xl font-semibold text-black sm:text-3xl">
+              {title}
+            </h2>
+          )}
         </motion.div>
 
         {/* FAQ List */}

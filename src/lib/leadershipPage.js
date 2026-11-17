@@ -15,11 +15,10 @@ const points = (description) =>
     .map((line) => line.replace(/^\s*[-*•]\s*/, "").trim())
     .filter(Boolean);
 
-export async function getLeadershipPage() {
-  const response = await getFromStrapi("leadership-page?populate=*", "leadership-page");
-  const page = response?.data ?? response ?? {};
-
-  const leaders = (Array.isArray(page.leaders) ? page.leaders : [])
+// Strapi leaders -> the leader cards, sorted by "order"; undefined when there are none.
+// Also used for the leadership section of the home page (src/lib/homepage.js).
+export function toLeaderCards(list) {
+  const leaders = (Array.isArray(list) ? list : [])
     .filter((leader) => text(leader.name))
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
     .map((leader) => ({
@@ -30,9 +29,15 @@ export async function getLeadershipPage() {
       points: points(leader.description),
       linkedinUrl: text(leader.linkedinUrl),
     }));
+  return leaders.length > 0 ? leaders : undefined;
+}
+
+export async function getLeadershipPage() {
+  const response = await getFromStrapi("leadership-page?populate=*", "leadership-page");
+  const page = response?.data ?? response ?? {};
 
   return {
     seo: page.seo ?? undefined,
-    leaders: leaders.length > 0 ? leaders : undefined,
+    leaders: toLeaderCards(page.leaders),
   };
 }

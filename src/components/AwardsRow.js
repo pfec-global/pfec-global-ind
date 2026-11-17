@@ -46,11 +46,35 @@ function AwardCard({ item }) {
   );
 }
 
+// An award picture from Strapi (the trophy photo with its title printed on it), small, in a fixed frame
+function PictureCard({ item }) {
+  return (
+    <div className="relative aspect-[670/1070] w-32 shrink-0 sm:w-36 lg:w-40">
+      <Image
+        src={item.image.src}
+        alt={item.image.alt}
+        fill
+        draggable={false}
+        sizes="160px"
+        className="object-contain"
+      />
+    </div>
+  );
+}
+
+// A short list is repeated until a set has this many cards, so the loop never shows an empty gap on wide screens
+const MIN_SET = 10;
+
 // One endless row of award cards. direction 1 moves to the left, -1 to the right.
+// variant "logo" draws the university cards of the awards page ({ name, logo, awards }),
+// "picture" the award pictures of the home page ({ id, image: { src, alt } }).
 // The cards are drawn twice: when one full set has passed, the row jumps back by exactly that distance,
 // which looks the same, so the row never reaches an end - also when dragged by hand in either direction.
 // The movement pauses while the mouse is over the row, and "reduce motion" switches it off (dragging still works).
-export default function AwardsRow({ items, direction = 1 }) {
+export default function AwardsRow({ items, direction = 1, variant = "logo" }) {
+  const Card = variant === "picture" ? PictureCard : AwardCard;
+  const repeat = Math.max(1, Math.ceil(MIN_SET / items.length));
+  const set = Array.from({ length: repeat }, () => items).flat();
   const trackRef = useRef(null);
   const offsetRef = useRef(0);
   const hoveredRef = useRef(false);
@@ -69,7 +93,7 @@ export default function AwardsRow({ items, direction = 1 }) {
         offsetRef.current += direction * SPEED * seconds;
       }
       // Width of one set of cards, including the gap after it
-      const setWidth = track.children[items.length].offsetLeft - track.children[0].offsetLeft;
+      const setWidth = track.children[set.length].offsetLeft - track.children[0].offsetLeft;
       offsetRef.current = ((offsetRef.current % setWidth) + setWidth) % setWidth;
       track.style.transform = `translateX(${-offsetRef.current}px)`;
       frame = requestAnimationFrame(tick);
@@ -77,7 +101,7 @@ export default function AwardsRow({ items, direction = 1 }) {
 
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [direction, items.length]);
+  }, [direction, set.length]);
 
   const onPointerDown = (event) => {
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -102,14 +126,17 @@ export default function AwardsRow({ items, direction = 1 }) {
       onPointerCancel={onPointerEnd}
       className="cursor-grab touch-pan-y select-none overflow-hidden py-3 active:cursor-grabbing"
     >
-      <div ref={trackRef} className="flex w-max gap-6">
-        {items.map((item) => (
-          <AwardCard key={item.name} item={item} />
+      <div ref={trackRef} className={`flex w-max ${variant === "picture" ? "gap-4" : "gap-6"}`}>
+        {/* The cards repeated only to fill the row are hidden from screen readers, like the second set */}
+        {set.map((item, i) => (
+          <div key={i} aria-hidden={i >= items.length || undefined} className="flex">
+            <Card item={item} />
+          </div>
         ))}
         {/* The second set, only there for the endless effect */}
-        {items.map((item) => (
-          <div key={item.name} aria-hidden="true" className="flex">
-            <AwardCard item={item} />
+        {set.map((item, i) => (
+          <div key={`copy-${i}`} aria-hidden="true" className="flex">
+            <Card item={item} />
           </div>
         ))}
       </div>

@@ -19,6 +19,7 @@ const events = Array.from({ length: 12 }, (_, i) => ({
 }));
 
 // heading, subheading and items come from Strapi; without them the built-in content is used
+// A heading or subheading passed as null is left out (the home page does this for fields Strapi does not send).
 export default function Events({
   heading,
   subheading = "Take your study abroad dreams further with our roster of offline and online events",
@@ -53,16 +54,20 @@ export default function Events({
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div {...fadeUp()} className="flex items-end justify-between gap-6">
           <div>
-            <h2 className="text-2xl font-semibold sm:text-3xl">
-              {heading ?? (
-                <>
-                  Join us at our <span className="text-indigo">Upcoming Events</span>
-                </>
-              )}
-            </h2>
-            <p className="mt-3 text-sm text-ink/70 sm:text-base">
-              {subheading}
-            </p>
+            {heading !== null && (
+              <h2 className="text-2xl font-semibold sm:text-3xl">
+                {heading ?? (
+                  <>
+                    Join us at our <span className="text-indigo">Upcoming Events</span>
+                  </>
+                )}
+              </h2>
+            )}
+            {subheading && (
+              <p className="mt-3 text-sm text-ink/70 sm:text-base">
+                {subheading}
+              </p>
+            )}
           </div>
 
           <div className="flex shrink-0 gap-3">

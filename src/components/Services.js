@@ -79,6 +79,7 @@ export function activeServiceCards(cmsItems) {
 }
 
 // heading, subheading and items come from Strapi; without them the built-in content is used
+// A heading or subheading passed as null is left out (the home page does this for fields Strapi does not send).
 export default function Services({
   heading = "How PFEC Global Assists International Students in Australia",
   subheading = "Get comprehensive guidance & end-to-end assistance from expert Education & migration agents for FREE!*",
@@ -90,12 +91,16 @@ export default function Services({
     <section className="bg-[#f9f9f9] bg-linear-to-b from-ink/15 to-ink/0 py-12 lg:py-16">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[2fr_3fr] lg:px-8">
         <motion.div {...fadeUp()}>
-          <h2 className="text-2xl font-semibold leading-snug sm:text-3xl">
-            {heading}
-          </h2>
-          <p className="mt-4 max-w-md text-sm text-ink/70 sm:text-base">
-            {subheading}
-          </p>
+          {heading && (
+            <h2 className="text-2xl font-semibold leading-snug sm:text-3xl">
+              {heading}
+            </h2>
+          )}
+          {subheading && (
+            <p className="mt-4 max-w-md text-sm text-ink/70 sm:text-base">
+              {subheading}
+            </p>
+          )}
           {/* On hover an orange fill sweeps in from the left behind the text */}
           <Link href="#" className="group mt-3 -ml-4 relative isolate inline-flex items-center gap-3 overflow-hidden rounded-lg px-4 py-2.5 text-sm font-semibold text-accent transition-colors duration-300 hover:text-white focus-visible:text-white before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-accent before:transition-transform before:duration-300 hover:before:scale-x-100 focus-visible:before:scale-x-100">
             Book a FREE Consultation

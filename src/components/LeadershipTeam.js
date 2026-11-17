@@ -49,9 +49,11 @@ const defaultLeaders = [
 ];
 
 // leaders ({ id, name, designation, image, points, linkedinUrl }) come from Strapi; without them the built-in ones are shown
-export default function LeadershipTeam({ leaders = defaultLeaders }) {
+// heading and subheading (from Strapi on the home page): without them the built-in heading is shown;
+// passed as null they are left out. background is the section's colour class (the home page uses the site's light grey).
+export default function LeadershipTeam({ leaders = defaultLeaders, heading, subheading, background = "bg-[#e5f7fb]" }) {
   return (
-    <section className="bg-[#e5f7fb] py-12 sm:py-16 lg:py-20">
+    <section className={`${background} py-12 sm:py-16 lg:py-20`}>
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
         {/* Heading */}
@@ -59,21 +61,31 @@ export default function LeadershipTeam({ leaders = defaultLeaders }) {
           {...fadeUp()}
           className="mx-auto max-w-3xl text-center"
         >
-          <span className="inline-block rounded-sm bg-[#fff1ef] px-2 py-1 text-[11px] font-medium text-[#f15a4a]">
-            Our Leadership Team
-          </span>
+          {heading === undefined ? (
+            <>
+              <span className="inline-block rounded-sm bg-[#fff1ef] px-2 py-1 text-[11px] font-medium text-[#f15a4a]">
+                Our Leadership Team
+              </span>
 
-          <h2 className="mt-4 text-2xl font-bold leading-tight text-[#17318f] sm:text-3xl lg:text-[32px]">
-            Rich with Experience. Fueled by Passion.
-            <br />
-            Driven by the Dreams of Study Abroad
-            <br className="hidden sm:block" />
-            Aspirants.
-          </h2>
+              <h2 className="mt-4 text-2xl font-bold leading-tight text-[#17318f] sm:text-3xl lg:text-[32px]">
+                Rich with Experience. Fueled by Passion.
+                <br />
+                Driven by the Dreams of Study Abroad
+                <br className="hidden sm:block" />
+                Aspirants.
+              </h2>
+            </>
+          ) : (
+            heading && (
+              <h2 className="text-2xl font-bold leading-tight text-[#17318f] sm:text-3xl lg:text-[32px]">{heading}</h2>
+            )
+          )}
 
-          <p className="mt-4 text-sm text-black/80 sm:text-base">
-            Meet the team that spearheads PFEC Global.
-          </p>
+          {subheading !== null && (
+            <p className="mt-4 text-sm text-black/80 sm:text-base">
+              {subheading ?? "Meet the team that spearheads PFEC Global."}
+            </p>
+          )}
         </motion.div>
 
         {/* Leadership Cards */}

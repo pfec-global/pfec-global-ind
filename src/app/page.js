@@ -11,46 +11,14 @@ import Events from "@/components/Events";
 import Achievements from "@/components/Achievements";
 import WhyTrust from "@/components/WhyTrust";
 import Partners from "@/components/Partners";
+import LeadershipTeam from "@/components/LeadershipTeam";
+import AwardTrophies from "@/components/AwardTrophies";
 import Testimonials from "@/components/Testimonials";
 import Blogs from "@/components/Blogs";
 import Faq from "@/components/Faq";
 import FaqSchema from "@/components/FaqSchema";
 
 import Contact from "@/components/Contact";
-
-
-// Built-in questions, shown only when Strapi sends no FAQ section (or the CMS cannot be reached)
-const homeFaqs = [
-  {
-    question:
-      "What services does PFEC Global India offer for study abroad aspirants?",
-    answer:
-      "PFEC Global India supports students with university admissions, visa processing, scholarship guidance, pre-departure preparation, health insurance, and other study abroad services.",
-  },
-  {
-    question:
-      "Which countries can I study in with PFEC Global's support?",
-    answer:
-      "PFEC Global operates in 11 countries and collaborates with over 550 universities. Australia, the United Kingdom, Canada, Germany, the United States, and Ireland are some of the destinations available to students.",
-  },
-  {
-    question:
-      "How experienced is PFEC Global in international education consultancy?",
-    answer:
-      "PFEC Global has over 20 years of experience as a study abroad agency, with more than 22,000 student success stories.",
-  },
-  {
-    question:
-      "Is there a fee to get guidance from PFEC Global India?",
-    answer:
-      "PFEC Global India offers consultations and student services. Available services and fees may depend on the university and the service selected.",
-  },
-  {
-    question: "How do I get started with PFEC Global India?",
-    answer:
-      "Fill out the consultation form on our homepage with your contact details, preferred study destination, and English language proficiency level. Our counselors can then guide you through the next steps.",
-  },
-];
 
 
 // The home page waits for Strapi on every visit while caching is switched off (CACHE_STRAPI in src/lib/strapi.js).
@@ -67,32 +35,46 @@ export async function generateMetadata() {
   return toMetadata(await getHomeSeo(), defaultMetadata);
 }
 
+// A section's heading and subheading exactly as Strapi sends them: a field it leaves empty becomes null,
+// which the components read as "leave it out" (instead of showing their built-in text)
+const onlyFromCms = (section) => ({ ...section, heading: section.heading ?? null, subheading: section.subheading ?? null });
+
 export default async function Home() {
-  // Content from Strapi. Whatever Strapi does not send (a section, a heading, a list) is undefined here,
-  // and the section then shows its built-in content - so the page also works with the CMS switched off.
-  // The blog posts come from a separate CMS; both are asked at the same time.
+  // Content from Strapi (and the blog CMS). A section that gets no data - Strapi sends nothing for it,
+  // or cannot be reached - is left out of the page; it shows again as soon as its content is added.
+  // Inside a section, a heading or subheading Strapi does not send is left out too.
+  // Sections without a "?" test below have built-in content only.
   const [cms, latestBlogs] = await Promise.all([getHomeSections(), getLatestBlogs(10)]);
   // The same questions feed the FAQ section and its schema for search engines, so the two always match
-  const faqs = cms.faq?.faqs ?? homeFaqs;
+  const faqs = cms.faq?.faqs;
+  // The home page has a second partnerships section ("Our Partners") after the awards
+  const morePartners = cms.all.partnerships?.[1];
 
   return (
     <>
-      <Hero {...cms.hero} />
-      <Services {...cms.services} />
+      {cms.hero?.slides && <Hero {...cms.hero} />}
+      {/* The cards are the four service pages; Strapi gives the heading and the pictures */}
+      {cms.services?.items && <Services {...onlyFromCms(cms.services)} />}
       {/* CourseFinder search, just above "Top Institutions across the Globe" */}
       <CourseFinder />
-      <Destinations {...cms.countries} />
-      <PopularCourses {...cms["study-areas"]} />
+      {cms.countries?.items && <Destinations {...onlyFromCms(cms.countries)} />}
+      {cms["study-areas"]?.items && <PopularCourses {...onlyFromCms(cms["study-areas"])} />}
       <Steps />
-      <Events {...cms.events} />
+      {cms.events?.items && <Events {...onlyFromCms(cms.events)} />}
       <Achievements />
       <WhyTrust />
-      <Partners {...cms.partnerships} />
-      <Testimonials {...cms.testimonials} />
-      <Blogs items={latestBlogs} />
-      {/* Heading and questions from the FAQ section of the home page in Strapi; the built-in questions when it sends none */}
-      <Faq {...cms.faq} faqs={faqs} />
-      <FaqSchema faqs={faqs} />
+      {cms.partnerships?.items && <Partners {...onlyFromCms(cms.partnerships)} />}
+      {cms.leadership?.leaders && <LeadershipTeam {...onlyFromCms(cms.leadership)} background="bg-[#f9f9f9]" />}
+      {cms.awards?.awards && <AwardTrophies {...onlyFromCms(cms.awards)} slider />}
+      {morePartners?.items && <Partners {...onlyFromCms(morePartners)} />}
+      {cms.testimonials?.items && <Testimonials {...cms.testimonials} />}
+      {latestBlogs && <Blogs items={latestBlogs} />}
+      {faqs && (
+        <>
+          <Faq faqs={faqs} title={cms.faq.title ?? null} />
+          <FaqSchema faqs={faqs} />
+        </>
+      )}
       <Contact />
     </>
   );

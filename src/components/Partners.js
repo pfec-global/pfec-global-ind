@@ -14,6 +14,7 @@ const partners = [
 ];
 
 // heading, subheading and items ({ name, src }) come from Strapi; without them the built-in content is used
+// A heading or subheading passed as null is left out (the home page does this for fields Strapi does not send).
 export default function Partners({
   heading,
   subheading = "Strong Ties Created by Deep Rooted Industry Connections. Helping Us Provide Top-Notch Service.",
@@ -23,16 +24,20 @@ export default function Partners({
     <section className="bg-white py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <motion.div {...fadeUp()}>
-          <h2 className="text-2xl font-semibold sm:text-3xl">
-            {heading ?? (
-              <>
-                Our Industry <span className="text-indigo">Partnerships</span>
-              </>
-            )}
-          </h2>
-          <p className="mt-4 text-sm text-ink/70 sm:text-base">
-            {subheading}
-          </p>
+          {heading !== null && (
+            <h2 className="text-2xl font-semibold sm:text-3xl">
+              {heading ?? (
+                <>
+                  Our Industry <span className="text-indigo">Partnerships</span>
+                </>
+              )}
+            </h2>
+          )}
+          {subheading && (
+            <p className="mt-4 text-sm text-ink/70 sm:text-base">
+              {subheading}
+            </p>
+          )}
         </motion.div>
 
         {/* Mobile: always 2 logos per row (a leftover odd logo is centred). Tablet and up: one wrapping row -
