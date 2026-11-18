@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Agent instructions that next dev writes and re-adds on its own
+AGENTS.md

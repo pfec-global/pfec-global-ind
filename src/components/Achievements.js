@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { LuUser, LuGem, LuCrown, LuTrophy } from "react-icons/lu";
 import * as motion from "motion/react-client";
-import { fadeUp, zoomIn } from "@/lib/motion";
+import { fadeUp } from "@/lib/motion";
+import OfficeMap from "@/components/OfficeMap";
 
 const stats = [
   { value: 22000, decimals: 0, suffix: "+", label: "Students Assisted", Icon: LuUser },
@@ -89,28 +89,8 @@ export default function Achievements() {
           </Link>
         </div>
 
-        {/* Map with larger office labels for phones */}
-        <motion.div {...zoomIn(0.2)} className="md:hidden">
-          <Image
-            src="/images/world_map.webp"
-            alt="World map showing PFEC Global offices in India, Bangladesh, Sri Lanka and Australia"
-            width={822}
-            height={494}
-            sizes="100vw"
-            className="mx-auto h-auto w-full max-w-xl"
-          />
-        </motion.div>
-        {/* Detailed map for tablet and desktop */}
-        <motion.div {...zoomIn(0.2)} className="hidden md:block">
-          <Image
-            src="/images/world_map_mobile.webp"
-            alt="World map showing PFEC Global offices in India, Bangladesh, Sri Lanka and Australia"
-            width={1791}
-            height={1031}
-            sizes="(min-width: 1024px) 720px, 100vw"
-            className="mx-auto h-auto w-full"
-          />
-        </motion.div>
+        {/* World map of the offices, with animated pins and labels */}
+        <OfficeMap />
       </div>
     </section>
   );
