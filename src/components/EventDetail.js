@@ -5,6 +5,7 @@ import { fadeUp, fadeUpOnLoad, zoomIn } from "@/lib/motion";
 import { getHeadings } from "@/lib/markdown";
 import BlogContent from "@/components/BlogContent";
 import StudyAbroadCta from "@/components/StudyAbroadCta";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 // Event details page: hero (title, date, place, banner, "Register Now"), then the description and FAQs
 // with a sticky "Event Details" card beside them. event comes from getEventDetail (src/lib/eventDetail.js).
@@ -89,14 +90,8 @@ function Hero({ event }) {
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[1fr_1.05fr] lg:gap-14 lg:px-8 lg:py-16">
         <motion.div {...fadeUpOnLoad()}>
-          {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="text-xs text-ink/60">
-            <Link href="/" className="transition hover:text-accent">Home</Link>
-            <span className="mx-2">/</span>
-            <Link href="/events" className="transition hover:text-accent">Events</Link>
-            <span className="mx-2">/</span>
-            <span className="text-ink/80">{event.title}</span>
-          </nav>
+          {/* Breadcrumbs: Home > Events > the event (the same as every other page) */}
+          <Breadcrumbs items={[{ label: "Events", href: "/events" }, { label: event.title }]} />
 
           <div className="mt-5 flex flex-wrap items-center gap-2">
             <span className="rounded bg-accent/10 px-2.5 py-1 text-xs font-medium text-accent">{event.type}</span>

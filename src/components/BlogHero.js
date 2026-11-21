@@ -1,42 +1,61 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
-// Hero of the blog list page: title and search on the left, image on the right (stacked on mobile).
-// The image sits on the bottom edge of the section, so the section has no bottom padding.
-export default function BlogHero() {
+// Hero of the blog pages: breadcrumbs, title, text (and the search box) on the left, image on the right
+// (stacked on mobile). The image sits on the bottom edge of the section, so the section has no bottom padding.
+// Without props it is the hero of the blog list page (/blog); the category pages (/category/...) pass their own
+// title, description and breadcrumbs, and leave out the search box.
+const DEFAULT_DESCRIPTION =
+  "Expert tips, guides and the latest updates on studying abroad - from choosing a university and " +
+  "securing scholarships to student visas, accommodation and life in your new country.";
+
+export default function BlogHero({
+  title = "Blogs",
+  description = DEFAULT_DESCRIPTION,
+  breadcrumbs = [{ label: "Blog" }],
+  showSearch = true,
+}) {
   return (
     <section className="overflow-hidden bg-[#E4F6FA]">
       <div className="mx-auto grid max-w-7xl items-end gap-8 px-4 pt-10 sm:px-6 md:grid-cols-2 lg:gap-12 lg:px-8">
         <div className="md:self-center md:pb-10">
+          {/* Breadcrumbs: Home > Blog (> the category) */}
+          <motion.div {...fadeUpOnLoad()} className="mb-4">
+            <Breadcrumbs items={breadcrumbs} />
+          </motion.div>
           <motion.h1 {...fadeUpOnLoad()} className="text-3xl font-bold text-navy sm:text-4xl">
-            Blogs
+            {title}
           </motion.h1>
-          <motion.p {...fadeUpOnLoad(0.1)} className="mt-4 max-w-lg text-[16px] text-ink/75">
-            Expert tips, guides and the latest updates on studying abroad - from choosing a university and
-            securing scholarships to student visas, accommodation and life in your new country.
-          </motion.p>
+          {description && (
+            <motion.p {...fadeUpOnLoad(0.1)} className="mt-4 max-w-lg text-[16px] text-ink/75">
+              {description}
+            </motion.p>
+          )}
 
           {/* Search box - not connected yet: hook it up once the blogs come from real data */}
-          <motion.form {...fadeUpOnLoad(0.2)} role="search" className="relative mt-6 max-w-xs">
-            <input
-              type="search"
-              name="q"
-              placeholder="Search Topic"
-              aria-label="Search blog topics"
-              className="w-full rounded-lg border border-ink/10 bg-white py-3 pl-4 pr-11 text-sm shadow-sm outline-none transition focus:border-accent"
-            />
-            <button
-              type="submit"
-              aria-label="Search"
-              className="absolute right-1 top-1/2 -translate-y-1/2 p-2 text-ink transition-colors hover:text-accent"
-            >
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="11" cy="11" r="7" />
-                <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
-              </svg>
-            </button>
-          </motion.form>
+          {showSearch && (
+            <motion.form {...fadeUpOnLoad(0.2)} role="search" className="relative mt-6 max-w-xs">
+              <input
+                type="search"
+                name="q"
+                placeholder="Search Topic"
+                aria-label="Search blog topics"
+                className="w-full rounded-lg border border-ink/10 bg-white py-3 pl-4 pr-11 text-sm shadow-sm outline-none transition focus:border-accent"
+              />
+              <button
+                type="submit"
+                aria-label="Search"
+                className="absolute right-1 top-1/2 -translate-y-1/2 p-2 text-ink transition-colors hover:text-accent"
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
+                </svg>
+              </button>
+            </motion.form>
+          )}
         </div>
 
         <motion.div {...fadeUpOnLoad(0.3)} className="mx-auto w-full max-w-md md:max-w-none">

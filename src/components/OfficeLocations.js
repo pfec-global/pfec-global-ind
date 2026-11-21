@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { LuCalendarCheck } from "react-icons/lu";
 import { officeCountries as countries } from "@/data/offices";
 
 /* Inline SVG icons */
@@ -84,13 +85,19 @@ function OfficeCard({ office, buttonText = "Schedule a Virtual Meeting" }) {
         <span>{office.phone}</span>
       </a>
 
-      {/* Button - mt-auto keeps it at the bottom of the card, so the buttons of a row line up
+      {/* Button - the same size as the other red buttons of the site (as on the AU site).
+          mt-auto keeps it at the bottom of the card, so the buttons of a row line up
           whatever the length of the addresses above them */}
       <a
         href="#contact"
         data-consultation
-        className="mt-auto inline-flex min-h-[60px] w-full items-center justify-center rounded-[10px] bg-[#EF4939] px-3 py-3 text-center text-base font-medium leading-6 text-white transition duration-300 hover:bg-[#D9362B] focus:outline-none focus:ring-2 focus:ring-[#EF4939] focus:ring-offset-2 sm:text-lg"
+        className="group mt-auto inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-center text-sm font-semibold text-white shadow-md shadow-accent/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
       >
+        {/* Calendar icon; gives a little bounce when the button is hovered */}
+        <LuCalendarCheck
+          className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110"
+          aria-hidden="true"
+        />
         {buttonText}
       </a>
     </article>

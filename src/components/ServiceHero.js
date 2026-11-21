@@ -1,6 +1,11 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
+import { PlaneRibbon } from "@/components/HeroDecorations";
+import Breadcrumbs from "@/components/Breadcrumbs";
+
+// planeRibbon: the ribbon line with the gliding paper plane above the picture (laptops and up)
+// breadcrumbs (optional, [{ label, href }] after Home): shown instead of the tag
 
 export default function ServiceHero({
   tag,
@@ -10,20 +15,33 @@ export default function ServiceHero({
   image,
   buttonText = "Book a Free Consultation",
   buttonHref = "#",
+  planeRibbon = false,
+  breadcrumbs,
 }) {
   return (
     <section className="overflow-hidden bg-[#e5f7fb]">
-      <div className="mx-auto grid max-w-7xl items-end gap-8 px-5 pt-10 sm:px-8 lg:grid-cols-2 lg:gap-10 lg:px-10 lg:pt-16">
+      <div
+        className={`mx-auto grid max-w-7xl items-end gap-8 px-5 pt-10 sm:px-8 lg:grid-cols-2 lg:gap-10 lg:px-10 ${
+          planeRibbon ? "lg:pt-6" : "lg:pt-16"
+        }`}
+      >
 
         {/* Left Content */}
-        <div className="pb-8 lg:pb-12">
-          {/* Tag */}
-          <motion.span
-            {...fadeUpOnLoad()}
-            className="inline-block rounded-sm bg-[#fff1ef] px-3 py-2 text-xs font-medium text-[#f15a4a] sm:text-sm"
-          >
-            {tag}
-          </motion.span>
+        {/* With the plane ribbon the picture side is taller: the text is then centred beside it (not pushed down) */}
+        <div className={`pb-8 lg:pb-12 ${planeRibbon ? "lg:self-center lg:pb-6 lg:pt-6" : ""}`}>
+          {/* Breadcrumbs (Home > ... > this page) when given, otherwise the small tag */}
+          {breadcrumbs ? (
+            <motion.div {...fadeUpOnLoad()}>
+              <Breadcrumbs items={breadcrumbs} />
+            </motion.div>
+          ) : (
+            <motion.span
+              {...fadeUpOnLoad()}
+              className="inline-block rounded-sm bg-[#fff1ef] px-3 py-2 text-xs font-medium text-[#f15a4a] sm:text-sm"
+            >
+              {tag}
+            </motion.span>
+          )}
 
           {/* Heading */}
           <motion.h1
@@ -68,9 +86,12 @@ export default function ServiceHero({
         {/* Right Banner Image */}
         <motion.div
           {...fadeUpOnLoad(0.2)}
-          className="relative flex h-full items-end justify-center lg:justify-end"
+          className={`relative flex h-full items-end justify-center lg:justify-end ${planeRibbon ? "lg:pt-24" : ""}`}
         >
           <div className="relative w-full max-w-[650px]">
+            {/* The ribbon line with the gliding paper plane in the free space just above the picture, clear of
+                the title on the left. Laptops only: on smaller screens the picture sits right under the button. */}
+            {planeRibbon && <PlaneRibbon className="bottom-full left-[16%] mb-1 hidden w-[50%] lg:block" />}
             <Image
               src={image}
               alt={tag}

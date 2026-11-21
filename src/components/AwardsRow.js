@@ -2,13 +2,17 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import { hoverShine, shineSweep } from "@/lib/motion";
 
 // Pixels per second of the automatic movement
 const SPEED = 40;
 
 function AwardCard({ item }) {
   return (
-    <div className="group flex w-72 shrink-0 flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-[0_4px_15px_rgba(0,0,0,0.10)] transition-shadow duration-300 hover:shadow-[0_14px_35px_rgba(0,0,0,0.16)]">
+    // On hover the card lifts and a band of light sweeps across it (shineSweep)
+    <div
+      className={`group relative flex w-72 shrink-0 flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-[0_4px_15px_rgba(0,0,0,0.10)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_14px_35px_rgba(0,0,0,0.16)] ${shineSweep}`}
+    >
       {/* Logo Section */}
       <div className="flex min-h-[125px] flex-col items-center justify-center bg-white px-5 py-4">
         <span className="mb-1 text-[10px] text-black/40">
@@ -46,18 +50,21 @@ function AwardCard({ item }) {
   );
 }
 
-// An award picture from Strapi (the trophy photo with its title printed on it), small, in a fixed frame
+// An award picture from Strapi (the trophy photo with its title printed on it), small, in a fixed frame.
+// On hover it lifts, grows a little and a band of light sweeps across it (hoverShine).
 function PictureCard({ item }) {
   return (
-    <div className="relative aspect-[670/1070] w-32 shrink-0 sm:w-36 lg:w-40">
-      <Image
-        src={item.image.src}
-        alt={item.image.alt}
-        fill
-        draggable={false}
-        sizes="160px"
-        className="object-contain"
-      />
+    <div className={`${hoverShine} shrink-0`}>
+      <div className="relative aspect-[670/1070] w-32 sm:w-36 lg:w-40">
+        <Image
+          src={item.image.src}
+          alt={item.image.alt}
+          fill
+          draggable={false}
+          sizes="160px"
+          className="object-contain"
+        />
+      </div>
     </div>
   );
 }

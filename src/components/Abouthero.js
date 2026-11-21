@@ -1,22 +1,26 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import HeroDecorations from "@/components/HeroDecorations";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export default function AboutHero() {
   return (
-    <section className="bg-[#e9faff] py-12 sm:py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
-        {/* Small Label */}
-        <motion.div {...fadeUp()} className="text-center">
-          <span className="inline-flex rounded-md bg-[#fff1ef] px-8 py-3 text-sm font-medium text-[#ef4b3b]">
-            About Us
-          </span>
+    <section className="relative overflow-hidden bg-[#e9faff] py-12 sm:py-16 lg:pb-20 lg:pt-24 2xl:pt-28">
+      {/* The ribbon lines with the floating graduation hat and paper plane, the same as the other page heroes */}
+      <HeroDecorations />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        {/* Breadcrumbs: Home > About PFEC Global */}
+        <motion.div {...fadeUp()}>
+          <Breadcrumbs items={[{ label: "About PFEC Global" }]} center />
         </motion.div>
 
         {/* Main Heading */}
         <motion.div {...fadeUp(0.08)} className="mt-7 text-center">
-          <h1 className="mx-auto max-w-6xl font-serif text-3xl font-bold leading-tight text-[#152b96] sm:text-4xl lg:text-3xl">
+          {/* max-w-3xl: the title stays in the middle, clear of the decorative lines and hat at the sides */}
+          <h1 className="mx-auto max-w-3xl font-serif text-3xl font-bold leading-tight text-[#152b96] sm:text-4xl">
             Helping Students Achieve their Study Abroad Dreams with Expert
             Guidance
           </h1>

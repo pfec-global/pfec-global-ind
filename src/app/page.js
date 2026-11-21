@@ -13,7 +13,9 @@ import WhyTrust from "@/components/WhyTrust";
 import Partners from "@/components/Partners";
 import LeadershipTeam from "@/components/LeadershipTeam";
 import AwardTrophies from "@/components/AwardTrophies";
-import Testimonials from "@/components/Testimonials";
+import Certifications from "@/components/Certifications";
+import Recognitions from "@/components/Recognitions";
+import HomeTestimonials from "@/components/HomeTestimonials";
 import Blogs from "@/components/Blogs";
 import Faq from "@/components/Faq";
 import FaqSchema from "@/components/FaqSchema";
@@ -58,7 +60,7 @@ export default async function Home() {
       {/* CourseFinder search, just above "Top Institutions across the Globe" */}
       <CourseFinder />
       {cms.countries?.items && <Destinations {...onlyFromCms(cms.countries)} />}
-      {cms["study-areas"]?.items && <PopularCourses {...onlyFromCms(cms["study-areas"])} />}
+      {cms["study-areas"]?.items && <PopularCourses {...onlyFromCms(cms["study-areas"])} moreHref="/courses" />}
       <Steps />
       {cms.events?.items && <Events {...onlyFromCms(cms.events)} />}
       <Achievements />
@@ -66,8 +68,11 @@ export default async function Home() {
       {cms.partnerships?.items && <Partners {...onlyFromCms(cms.partnerships)} />}
       {cms.leadership?.leaders && <LeadershipTeam {...onlyFromCms(cms.leadership)} background="bg-[#f9f9f9]" />}
       {cms.awards?.awards && <AwardTrophies {...onlyFromCms(cms.awards)} slider />}
+      {/* "Our Professional Certifications, Memberships, and Partnerships" and "Recognitions": animated logos */}
+      <Certifications />
+      <Recognitions />
       {morePartners?.items && <Partners {...onlyFromCms(morePartners)} />}
-      {cms.testimonials?.items && <Testimonials {...cms.testimonials} />}
+      <HomeTestimonials />
       {latestBlogs && <Blogs items={latestBlogs} />}
       {faqs && (
         <>

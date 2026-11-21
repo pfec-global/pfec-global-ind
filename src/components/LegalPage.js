@@ -2,20 +2,19 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 // Layout shared by the text-only pages (privacy policy, terms of use).
 // markdown is the page text from Strapi; without it the page's children are shown (plain h2 / h3 / p / ul / ol / a tags).
 // Both are styled here. updatedAt (optional) is shown under the title as "Last updated ...".
-export default function LegalPage({ tag = "Documentation", title, markdown, updatedAt, children }) {
+export default function LegalPage({ title, markdown, updatedAt, children }) {
   return (
     <section className="bg-[#f9f9f9] px-4 pb-12 pt-12 sm:px-6 lg:pb-16 lg:pt-20">
       <div className="text-center">
-        <motion.span
-          {...fadeUpOnLoad()}
-          className="mb-4 inline-block rounded bg-accent/10 px-3 py-1 text-xs font-semibold text-accent"
-        >
-          {tag}
-        </motion.span>
+        {/* Breadcrumbs: Home > the page */}
+        <motion.div {...fadeUpOnLoad()} className="mb-4">
+          <Breadcrumbs items={[{ label: title }]} center />
+        </motion.div>
         <motion.h1
           {...fadeUpOnLoad()}
           className="font-serif text-3xl leading-tight text-indigo sm:text-4xl xl:text-5xl"

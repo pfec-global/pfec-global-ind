@@ -3,6 +3,7 @@
 
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import AdmissionForm from "@/components/AdmissionForm";
 
 export default function ContactUs() {
@@ -15,9 +16,8 @@ export default function ContactUs() {
 
         {/* Left Content */}
         <motion.div {...fadeUp()} className="w-full">
-          <span className="inline-flex rounded-md bg-[#FFF0ED] px-3 py-2 text-sm font-semibold text-[#F04438]">
-            Contact us
-          </span>
+          {/* Breadcrumbs: Home > Contact Us */}
+          <Breadcrumbs items={[{ label: "Contact Us" }]} />
 
           <h1 className="mt-6 max-w-[600px] font-serif text-3xl font-bold leading-tight text-[#192B82] sm:text-4xl lg:text-[34px]">
             Reach out to us and get started on your Study Abroad Dreams

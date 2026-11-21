@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import useLoopSlider from "@/components/branch/useLoopSlider";
+import { CertLogo, CertShineStyle } from "@/components/Certifications";
 
 const AUTOPLAY_MS = 3500;
 
@@ -30,9 +31,10 @@ const awards = [
 ];
 
 // Logos in public/images/branch/affiliations, in the order of the design; className sizes each one.
+// coin: round badges - they spin like a coin on hover (the same animation as Certifications.js, see CertLogo).
 const affiliations = [
-  { src: "affiliations_4.png", width: 250, height: 250, alt: "AIRC - American International Recruitment Council certified", className: "h-20 xl:h-[calc(8.1*var(--bu))]" },
-  { src: "affiliations_3.png", width: 650, height: 762, alt: "ICEF accredited agency", className: "h-20 xl:h-[calc(8*var(--bu))]" },
+  { src: "affiliations_4.png", width: 250, height: 250, alt: "AIRC - American International Recruitment Council certified", className: "h-20 xl:h-[calc(8.1*var(--bu))]", coin: true },
+  { src: "affiliations_3.png", width: 650, height: 762, alt: "ICEF accredited agency", className: "h-20 xl:h-[calc(8*var(--bu))]", coin: true },
   { src: "affiliations_5.png", width: 420, height: 650, alt: "QEAC #12934", className: "h-[calc(4.75*var(--bu))] xl:h-[calc(7.75*var(--bu))]" },
   { src: "affiliations_2.png", width: 772, height: 731, alt: "Member of Migration Institute of Australia", className: "h-[calc(4.75*var(--bu))] xl:h-[calc(7.6*var(--bu))]" },
   { src: "affiliations_1.png", width: 281, height: 101, alt: "IEAA - International Education Association of Australia", className: "h-7 xl:h-[calc(2.75*var(--bu))]" },
@@ -150,16 +152,13 @@ export default function WhyTrust() {
             </p>
           </div>
 
+          {/* The logos pop in one after another, float, a light keeps sweeping across them, and on hover the
+              round badges spin like a coin, the others grow and tilt (CertLogo, the same as Certifications.js) */}
+          <CertShineStyle />
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-4 xl:gap-x-[calc(1.4*var(--bu))]">
-            {affiliations.map(({ src, width, height, alt, className }) => (
+            {affiliations.map(({ src, className, ...logo }, index) => (
               <li key={src}>
-                <Image
-                  src={`/images/branch/affiliations/${src}`}
-                  alt={alt}
-                  width={width}
-                  height={height}
-                  className={`w-auto ${className}`}
-                />
+                <CertLogo logo={{ ...logo, src: `/images/branch/affiliations/${src}` }} index={index} className={className} />
               </li>
             ))}
           </ul>

@@ -60,12 +60,15 @@ export async function ScholarshipPage({ slug }) {
   return (
     <>
       <DetailHero
+        breadcrumbs={[{ label: "Scholarships", href: "/scholarships" }, { label: scholarship.titleTop }]}
         titleTop={scholarship.titleTop}
         titleBottom={scholarship.titleBottom}
         subtitle={scholarship.subtitle}
         image={scholarship.image}
         imageAlt={scholarship.imageAlt}
         floatingIcons
+        // No slanted PFEC bars behind the photo, as on the country pages
+        stripes={false}
       />
       <DetailBody content={scholarship.content} showCta={scholarship.showCta} banners={scholarship.banners} />
       <RelatedBlogs posts={related} />

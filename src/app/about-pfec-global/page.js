@@ -3,7 +3,8 @@ import AboutHero from "@/components/Abouthero";
 import WhoAreWe from "@/components/WhoAreWe";
 import Achievements from "@/components/Achievements";
 import MissionVision from "@/components/MissionVision";
-import Professional from "@/components/Professional";
+import Certifications from "@/components/Certifications";
+import Recognitions from "@/components/Recognitions";
 import CoreValues from "@/components/CoreValues";
 
 
@@ -14,7 +15,8 @@ export default function AboutPage() {
       <AboutHero />
       <WhoAreWe />
       <Achievements />
-      <Professional /> 
+      <Certifications />
+      <Recognitions />
       <MissionVision /> 
       <CoreValues />
 

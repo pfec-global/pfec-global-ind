@@ -50,6 +50,7 @@ export default function HealthInsurancePage() {
   return (
     <>
       <ServiceHero
+        breadcrumbs={[{ label: "Our Services", href: "/service-archive-page" }, { label: "Health Insurance Assistance" }]}
         tag="Health Insurance"
         titleTop="Overseas Health Insurance for"
         titleBottom="Your Study Abroad Journey"
@@ -57,6 +58,7 @@ export default function HealthInsurancePage() {
         image="/images/services/Health-insurance.webp"
         buttonText="Book a Free Consultation"
         buttonHref="/contact-us"
+        planeRibbon
       />
 
       {/* Other sections */}

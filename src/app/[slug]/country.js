@@ -58,11 +58,13 @@ export async function CountryPage({ slug }) {
   return (
     <>
       <DetailHero
+        breadcrumbs={[{ label: "Destinations", href: "/destination-page" }, { label: `Study in ${country.name}` }]}
         titleTop={country.titleTop}
         titleBottom="with Expert Guidance"
         subtitle={country.subtitle}
         image={country.image?.src ?? "/images/study_area_image.webp"}
         imageAlt={country.image?.alt ?? ""}
+        stripes={false}
       />
       <DetailBody content={country.content} showCta banners={country.banners ?? []} />
       {country.institutions.length > 0 && (

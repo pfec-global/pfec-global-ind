@@ -1,6 +1,7 @@
 import Image from "next/image";
 import CountUp from "./CountUp";
 import ConsultationForm from "./ConsultationForm";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const stats = [
   { end: 22000, label: "Students Assisted" },
@@ -50,6 +51,8 @@ export default function Hero({ branch }) {
     <section className="overflow-hidden bg-linear-to-b from-[#011642] to-[#0338A8] text-white">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-[1fr_calc(26*var(--bu))] lg:gap-12 lg:px-8 xl:grid-cols-[1fr_calc(36.6*var(--bu))] xl:gap-16 xl:py-[calc(2.75*var(--bu))]">
         <div className="xl:pl-4">
+          {/* Breadcrumbs: Home > this branch page (light text on the dark background) */}
+          <Breadcrumbs items={[{ label: `Study Abroad Consultant in ${branch.city}` }]} dark className="mb-5" />
           <h1 className="text-3xl font-bold leading-tight sm:text-4xl xl:text-[length:calc(3*var(--bu))]">
             PFEC Global - {branch.city}
             <span className="mt-1 block max-w-[calc(30*var(--bu))] text-2xl font-normal leading-tight sm:text-3xl xl:max-w-[calc(40*var(--bu))] xl:text-[length:calc(2.55*var(--bu))] xl:leading-[1.2]">

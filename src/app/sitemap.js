@@ -5,11 +5,12 @@ import { countryHref } from "@/lib/homepage";
 import { getCountrySlugs } from "@/lib/countryDetail";
 import { getScholarshipSlugs } from "@/lib/scholarshipDetail";
 import { getEventSlugs } from "@/lib/eventDetail";
+import { getCourseSlugs } from "@/lib/courses";
 import { getBlogAuthorSlugs, getBlogCategorySlugs, getBlogPostSlugs } from "@/lib/blogs";
 
 // /sitemap.xml - every page of the site, built fresh on each request so new content shows up by itself:
 //   - the fixed pages: every page.js under src/app (so a page added to the code is listed automatically)
-//   - the pages made from the CMS: countries, scholarships, events, blog posts, blog categories and authors
+//   - the pages made from the CMS: countries, scholarships, events, courses, blog posts, blog categories and authors
 // The full address of each page starts with NEXT_PUBLIC_SITE_URL from .env (e.g. https://pfecglobal.com.bd).
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/+$/, "");
@@ -22,6 +23,7 @@ const FALLBACK_PAGES = [
   "/awards-and-achievements",
   "/blog",
   "/contact-us",
+  "/courses",
   "/destination-page",
   "/events",
   "/health-insurance",
@@ -73,7 +75,7 @@ export default async function sitemap() {
   // Build the list on every request, never once at build time, so it always matches the CMS
   await connection();
 
-  const [staticPages, countries, scholarships, events, posts, categories, authors] = await Promise.all([
+  const [staticPages, countries, scholarships, events, posts, categories, authors, courses] = await Promise.all([
     findStaticPages().catch(() => FALLBACK_PAGES),
     getCountrySlugs(),
     getScholarshipSlugs(),
@@ -81,6 +83,7 @@ export default async function sitemap() {
     getBlogPostSlugs(),
     getBlogCategorySlugs(),
     getBlogAuthorSlugs(),
+    getCourseSlugs(),
   ]);
 
   const urls = [
@@ -91,6 +94,7 @@ export default async function sitemap() {
     ...list(posts, (slug) => `/blog/${slug}`),
     ...list(categories, (slug) => `/category/${slug}`),
     ...list(authors, (slug) => `/author/${slug}`),
+    ...list(courses, (slug) => `/courses/${slug}`),
   ];
 
   const now = new Date();

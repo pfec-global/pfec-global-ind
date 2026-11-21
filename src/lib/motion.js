@@ -25,3 +25,13 @@ export const zoomIn = (delay = 0) => ({
   viewport: { once: true, amount: 0.2 },
   transition: { duration: 0.9, delay, ease },
 });
+
+// Hover effect of a picture card (partner logos, award pictures): it lifts, grows a little and a band of light
+// sweeps across it, like a reflection. Put it on a wrapper around the picture - the band is drawn by its ::after.
+export const hoverShine =
+  "relative overflow-hidden rounded-xl transition-transform duration-300 hover:-translate-y-1.5 hover:scale-105 after:pointer-events-none after:absolute after:inset-y-0 after:-left-full after:w-1/2 after:-skew-x-12 after:bg-linear-to-r after:from-transparent after:via-white/60 after:to-transparent after:transition-[left] after:duration-700 hover:after:left-[150%]";
+
+// The same band of light alone, for a card that already has its own hover lift and rounded corners
+// (it needs "relative overflow-hidden" too)
+export const shineSweep =
+  "after:pointer-events-none after:absolute after:inset-y-0 after:-left-full after:w-1/2 after:-skew-x-12 after:bg-linear-to-r after:from-transparent after:via-white/70 after:to-transparent after:transition-[left] after:duration-700 hover:after:left-[150%]";

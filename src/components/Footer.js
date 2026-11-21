@@ -113,9 +113,11 @@ export default function Footer({
         {indiaOffices.length > 0 && (
           <div className="border-t border-black/10 py-10">
             <h3 className="text-center text-xl font-semibold text-ink sm:text-2xl">PFEC Global Offices in India</h3>
-            <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {/* The offices sit centred under the heading, however many there are (a row that is not full stays
+                in the middle too); the text inside each one stays left-aligned */}
+            <div className="mt-8 flex flex-wrap justify-center gap-x-12 gap-y-8 lg:gap-x-16">
               {indiaOffices.map((office) => (
-                <div key={office.city} className="text-sm">
+                <div key={office.city} className="w-full max-w-xs text-sm sm:w-72">
                   <h4 className="text-xl text-accent">{office.city}</h4>
                   <p className="mt-3 leading-7">{office.address}</p>
                   <a

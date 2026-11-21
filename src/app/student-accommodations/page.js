@@ -47,6 +47,7 @@ export default function StudentAccommodationsPage() {
   return (
     <>
       <ServiceHero
+        breadcrumbs={[{ label: "Our Services", href: "/service-archive-page" }, { label: "Student Accommodation Assistance" }]}
         tag="Student Accommodations"
         titleTop="Find Affordable and Trusted "
         titleBottom="Student Accommodations"
@@ -54,6 +55,7 @@ export default function StudentAccommodationsPage() {
         image="/images/services/Student-Accommodations.webp"
         buttonText="Book a Free Consultation"
         buttonHref="/contact-us"
+        planeRibbon
       />
 
       {/* Other sections */}

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { categories, getCategoryPosts } from "@/data/blogs";
 import { getBlogCategory, getBlogCategorySlugs } from "@/lib/blogs";
-import BlogCategoryHero from "@/components/BlogCategoryHero";
+import BlogHero from "@/components/BlogHero";
 import BlogListing from "@/components/BlogListing";
 
 // The page waits for the blog CMS on every visit while caching is switched off.
@@ -20,6 +20,7 @@ async function loadCategory(slug) {
   const category = await getBlogCategory(slug);
   if (category) {
     return {
+      name: category.name,
       title: `${category.name} Blogs`,
       description: `Articles, guides and updates about ${category.name}, written by the PFEC Global team.`,
       posts: category.posts,
@@ -28,7 +29,7 @@ async function loadCategory(slug) {
   if (category === null) return null; // the CMS answered: no category with this slug
 
   const fallback = categories.find((item) => item.slug === slug);
-  return fallback ? { title: fallback.title, description: fallback.description, posts: getCategoryPosts(slug) } : null;
+  return fallback ? { name: fallback.name, title: fallback.title, description: fallback.description, posts: getCategoryPosts(slug) } : null;
 }
 
 export async function generateMetadata({ params }) {
@@ -45,7 +46,13 @@ export default async function BlogCategoryPage({ params }) {
 
   return (
     <>
-      <BlogCategoryHero title={category.title} description={category.description} />
+      {/* The same hero as the blog list page, with Home > Blog > the category as breadcrumbs */}
+      <BlogHero
+        title={category.title}
+        description={category.description}
+        breadcrumbs={[{ label: "Blog", href: "/blog" }, { label: category.name }]}
+        showSearch={false}
+      />
       <BlogListing posts={category.posts} />
     </>
   );

@@ -46,6 +46,7 @@ export default function AdmissionSupportPage() {
   return (
     <>
       <ServiceHero
+        breadcrumbs={[{ label: "Our Services", href: "/service-archive-page" }, { label: "University Admission Assistance" }]}
         tag="Services"
         titleTop="Expert Admission Support"
         titleBottom="for Your Study Abroad Journey"
@@ -53,6 +54,7 @@ export default function AdmissionSupportPage() {
         image="/images/services/admission-support.webp"
         buttonText="Book a Free Consultation"
         buttonHref="/contact-us"
+        planeRibbon
       />
 
       {/* Other sections */}

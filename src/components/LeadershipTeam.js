@@ -1,6 +1,8 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import HeroDecorations from "@/components/HeroDecorations";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { FaLinkedin } from "react-icons/fa";
 
 // The built-in leaders, shown until Strapi sends its own (see src/lib/leadershipPage.js).
@@ -50,11 +52,27 @@ const defaultLeaders = [
 
 // leaders ({ id, name, designation, image, points, linkedinUrl }) come from Strapi; without them the built-in ones are shown
 // heading and subheading (from Strapi on the home page): without them the built-in heading is shown;
-// passed as null they are left out. background is the section's colour class (the home page uses the site's light grey).
-export default function LeadershipTeam({ leaders = defaultLeaders, heading, subheading, background = "bg-[#e5f7fb]" }) {
+// passed as null they are left out. decorations: the ribbon lines, hat and plane of the page heroes at the top
+// (the leadership page). breadcrumbs (optional, [{ label, href }] after Home): centred above the heading.
+// background is the section's colour class (the home page uses the site's light grey).
+export default function LeadershipTeam({
+  leaders = defaultLeaders,
+  heading,
+  subheading,
+  background = "bg-[#e5f7fb]",
+  decorations = false,
+  breadcrumbs,
+}) {
   return (
-    <section className={`${background} py-12 sm:py-16 lg:py-20`}>
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <section className={`${background} py-12 sm:py-16 lg:py-20 ${decorations ? "relative overflow-hidden" : ""}`}>
+      {decorations && <HeroDecorations />}
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+
+        {breadcrumbs && (
+          <motion.div {...fadeUp()} className="mb-6">
+            <Breadcrumbs items={breadcrumbs} center />
+          </motion.div>
+        )}
 
         {/* Heading */}
         <motion.div

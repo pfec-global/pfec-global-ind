@@ -10,6 +10,9 @@ import { toAwardCards } from "@/lib/awardPage";
 // Strapi sends the slug as "study-in-australia"; older entries may only have "australia".
 export const countryHref = (slug) => `/${slug.startsWith("study-in-") ? slug : `study-in-${slug}`}`;
 
+// The most study areas the home page shows in "Explore Popular courses"
+const HOME_STUDY_AREAS = 10;
+
 const text = (value) => (typeof value === "string" && value.trim() ? value.trim() : undefined);
 // An empty list counts as "not sent", so the built-in list is used
 const list = (items, map) => (Array.isArray(items) && items.length > 0 ? items.map(map) : undefined);
@@ -123,9 +126,22 @@ const mappers = {
     items: list(section.services, serviceCard),
   }),
 
+  // "Explore Popular courses": at most HOME_STUDY_AREAS study areas, sorted by their "order" field.
+  // icon is null when Strapi has no icon for the area - the button then shows its name only.
+  // Each button opens the course's page (/courses/<slug>/).
   "study-areas": (section) => ({
     heading: text(section.heading),
-    items: list(section.studyAreas, (area) => area.name.trim()),
+    items: list(
+      (Array.isArray(section.studyAreas) ? section.studyAreas : [])
+        .filter((area) => text(area?.name))
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        .slice(0, HOME_STUDY_AREAS),
+      (area) => ({
+        name: area.name.trim(),
+        href: area.slug ? `/courses/${area.slug.trim()}` : "#",
+        icon: toImage(area.icon),
+      }),
+    ),
   }),
 
   testimonials: (section) => ({

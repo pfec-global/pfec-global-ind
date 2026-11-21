@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FaLinkedin } from "react-icons/fa";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 // Hero of the author page: photo, name and bio on the left, the stat boxes on the right (below on mobile).
 // author = { name, avatar, bio, linkedin } - an author without a photo gets the default avatar.
@@ -11,16 +12,9 @@ export default function AuthorHero({ author, stats }) {
   return (
     <section className="bg-[#E4F6FA]">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        {/* Breadcrumbs: Home > Blog > the author (like the other blog pages) */}
         <motion.div {...fadeUpOnLoad()}>
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline"
-          >
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M20 12H4m6-6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Go Back
-          </Link>
+          <Breadcrumbs items={[{ label: "Blog", href: "/blog" }, { label: author.name }]} />
         </motion.div>
 
         <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10">

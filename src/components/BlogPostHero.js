@@ -3,6 +3,7 @@ import Link from "next/link";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
 import ShareLinks from "@/components/ShareLinks";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 // Hero of the blog details page: a card with the tag, title, author line, summary, share icons and cover image.
 // Desktop: text on the left, image on the right.
@@ -14,6 +15,16 @@ export default function BlogPostHero({ post }) {
 
   return (
     <section className="px-4 pt-4 sm:px-6 lg:px-8">
+      {/* Breadcrumbs: Home > Blog > the post's category (when it has one) > the post */}
+      <div className="mx-auto mb-4 max-w-7xl">
+        <Breadcrumbs
+          items={[
+            { label: "Blog", href: "/blog" },
+            ...(post.tagHref && post.tagHref !== "/blog" ? [{ label: post.tag, href: post.tagHref }] : []),
+            { label: post.title },
+          ]}
+        />
+      </div>
       <div
         className={`mx-auto grid max-w-7xl gap-6 rounded-xl bg-[#F3F3F8] p-5 shadow-md sm:p-8 lg:gap-x-12 lg:p-10 ${
           post.image ? "lg:grid-cols-2" : ""

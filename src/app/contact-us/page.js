@@ -4,8 +4,7 @@ import ContactusHome from "@/components/ContactusHome";
 import OfficeLocations from "@/components/OfficeLocations";
 import Achievements from "@/components/Achievements";
 import Steps from "@/components/Steps";
-import Testimonials from "@/components/Testimonials";
-import TestimonialsWithCms from "@/components/TestimonialsWithCms";
+import HomeTestimonials from "@/components/HomeTestimonials";
 
 // The page waits for Strapi on every visit while caching is switched off (CACHE_STRAPI in src/lib/strapi.js).
 // This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
@@ -22,18 +21,15 @@ export async function generateMetadata() {
   return toMetadata(seo, defaultMetadata);
 }
 
-export default async function ContactPage() {
-  // The testimonials picked for this page in Strapi (GET /api/contact-page);
-  // without them the ones from the home page are shown, and the built-in ones after that
-  const { testimonials } = await getContactPage();
-
+export default function ContactPage() {
   return (
     <>
       <ContactusHome />
       <OfficeLocations />
       <Achievements />
       <Steps />
-      {testimonials ? <Testimonials items={testimonials} /> : <TestimonialsWithCms />}
+      {/* The same testimonials section as the home page (heading, subheading and cards from Strapi) */}
+      <HomeTestimonials />
     </>
   );
 }

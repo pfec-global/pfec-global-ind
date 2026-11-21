@@ -1,6 +1,8 @@
 
 "use client";
 
+import { hoverShine } from "@/lib/motion";
+
 const partners = [
   {
     name: "nib",
@@ -58,7 +60,8 @@ export default function Partners() {
           {partners.map((partner) => (
             <div
               key={partner.name}
-              className="flex shrink-0 items-center justify-center transition-transform duration-300 hover:scale-105"
+              // On hover the logo lifts, grows a little and a band of light sweeps across it (hoverShine)
+              className={`${hoverShine} flex shrink-0 items-center justify-center`}
             >
               <img
                 src={partner.image}

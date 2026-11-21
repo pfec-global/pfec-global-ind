@@ -32,6 +32,7 @@ export default async function DestinationsPage() {
   return (
     <>
       <PageHero
+        breadcrumbs={[{ label: "Destinations" }]}
         titleTop="Wherever you wish to Study,"
         titleBottom="We Will Take you There!"
         subtitle="Explore Various factors that you need to consider before you choose a study destination"

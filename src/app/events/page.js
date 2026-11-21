@@ -18,6 +18,7 @@ export default async function EventsPage() {
   return (
     <>
       <PageHero
+        breadcrumbs={[{ label: "Events" }]}
         tag="Events"
         titleTop="Join us at our"
         titleBottom="Upcoming Events"

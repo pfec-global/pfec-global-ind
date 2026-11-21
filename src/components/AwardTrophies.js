@@ -1,6 +1,6 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
-import { fadeUp } from "@/lib/motion";
+import { fadeUp, hoverShine } from "@/lib/motion";
 import AwardsRow from "@/components/AwardsRow";
 
 // The trophies from the awards page in Strapi (see src/lib/awardPage.js).
@@ -38,22 +38,20 @@ export default function AwardTrophies({ awards, heading, subheading, slider = fa
         {!slider && (
           <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
             {awards.map((award, index) => (
-              <motion.figure
-                key={award.id ?? index}
-                {...fadeUp((index % 4) * 0.08)}
-                // The pictures bring their own white card and shadow, so only the hover lift is added here
-                className="transition-transform duration-300 hover:-translate-y-2"
-              >
-                {/* Every picture gets the same frame (the size most of them are uploaded at, 670 x 1070),
-                    so the cards line up even when one is uploaded a little narrower or wider; nothing is cropped */}
-                <div className="relative aspect-[670/1070]">
-                  <Image
-                    src={award.image.src}
-                    alt={award.image.alt}
-                    fill
-                    sizes="(min-width: 1280px) 296px, (min-width: 1024px) 23vw, 48vw"
-                    className="object-contain"
-                  />
+              <motion.figure key={award.id ?? index} {...fadeUp((index % 4) * 0.08)}>
+                {/* The pictures bring their own white card and shadow. On hover the card lifts and a band of light
+                    sweeps across it (hoverShine). Every picture gets the same frame (the size most of them are
+                    uploaded at, 670 x 1070), so the cards line up even when one is a little narrower or wider */}
+                <div className={hoverShine}>
+                  <div className="relative aspect-[670/1070]">
+                    <Image
+                      src={award.image.src}
+                      alt={award.image.alt}
+                      fill
+                      sizes="(min-width: 1280px) 296px, (min-width: 1024px) 23vw, 48vw"
+                      className="object-contain"
+                    />
+                  </div>
                 </div>
                 {(award.title || award.awardedBy || award.year) && (
                   <figcaption className="px-2 pt-3 text-center">

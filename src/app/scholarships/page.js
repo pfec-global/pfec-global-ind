@@ -34,6 +34,7 @@ export default async function ScholarshipsPage() {
   return (
     <>
       <PageHero
+        breadcrumbs={[{ label: "Scholarships" }]}
         titleTop="Whichever Scholarship you Need,"
         titleBottom="We Will Help you Get It!"
         subtitle="Explore scholarships for international students in every study destination"

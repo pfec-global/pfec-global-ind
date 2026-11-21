@@ -72,7 +72,8 @@ export default function Achievements() {
           </div>
 
           <p className="mt-8 max-w-xs text-sm text-ink/70">
-            lorem ipsum something something lorem ipsum something something
+            Founded in Melbourne in 2006, PFEC Global now guides students from offices in five countries – from
+            choosing a course to settling in abroad.
           </p>
           {/* Same hover as the "Book a FREE Consultation" links: an orange fill sweeps in from the left behind the text */}
           <Link href="/about-pfec-global" className="group mt-3 -ml-4 relative isolate inline-flex items-center gap-3 overflow-hidden rounded-lg px-4 py-2.5 text-sm font-semibold text-accent transition-colors duration-300 hover:text-white focus-visible:text-white before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-accent before:transition-transform before:duration-300 hover:before:scale-x-100 focus-visible:before:scale-x-100">

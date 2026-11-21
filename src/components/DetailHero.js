@@ -1,11 +1,13 @@
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import * as motion from "motion/react-client";
-import { fadeUpOnLoad } from "@/lib/motion";
+import { fadeUpOnLoad, shineSweep } from "@/lib/motion";
+import { PlaneRibbon } from "@/components/HeroDecorations";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 // Hero of the country and scholarship details pages: light blue band with the title, subtitle and
 // consultation button on the left, a photo on the right and slanted stripes in the bottom right corner.
-// Mobile: text first, then the photo.
+// Mobile: text first, then the photo. On laptops the ribbon line with the gliding paper plane sits above the photo.
 // floatingIcons: shows the graduation hat and paper plane floating faded in the background (mobile and tablet only).
 
 // One floating background icon: slow sideways sway on the span, up-and-down bob with a slight tilt on the image
@@ -37,6 +39,19 @@ function FloatingIcon({ src, className, driftX, tilt, duration, delay }) {
   );
 }
 
+// The band of light for an artwork picture. The picture has see-through edges, so the band is masked by the picture
+// itself and only lights up its solid parts. The mask is Next.js's resized copy of the picture (/_next/image),
+// served from this site, so a picture from Strapi works as a mask too.
+function ArtworkShine({ image, width, height }) {
+  const mask = getImageProps({ src: image, alt: "", width: 640, height: Math.round((640 * height) / width) }).props.src;
+  const maskStyle = { maskImage: `url("${mask}")`, WebkitMaskImage: `url("${mask}")`, maskSize: "100% 100%", WebkitMaskSize: "100% 100%" };
+  return (
+    <span aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden motion-reduce:hidden" style={maskStyle}>
+      <span className="absolute inset-y-0 -left-full w-1/2 -skew-x-12 bg-linear-to-r from-transparent via-white/75 to-transparent transition-[left] duration-700 group-hover:left-[150%]" />
+    </span>
+  );
+}
+
 export default function DetailHero({
   titleTop,
   titleBottom,
@@ -44,18 +59,29 @@ export default function DetailHero({
   image,
   imageAlt = "",
   floatingIcons = false,
+  // stripes: the three slanted bars behind the photo (switched off on the country and scholarship pages)
+  stripes = true,
+  // artwork (the course pages): light grey band, and the picture drawn exactly as uploaded - the course pictures
+  // in Strapi are finished designs with their own frame, shadow and slanted shapes built in, so the stripes and the
+  // white photo card are left out. imageWidth / imageHeight: the picture's size, so it keeps its shape.
+  artwork = false,
+  imageWidth,
+  imageHeight,
+  breadcrumbs,
 }) {
   return (
-    <section className="relative overflow-hidden bg-[#e3f3fb]">
+    <section className={`relative overflow-hidden ${artwork ? "bg-[#f9f9f9]" : "bg-[#e3f3fb]"}`}>
       {/* Slanted stripes behind the photo */}
-      <div
-        aria-hidden="true"
-        className="absolute -bottom-2 right-0 flex h-2/5 -skew-x-[20deg] gap-2 sm:gap-3 lg:right-[4%] lg:h-[45%]"
-      >
-        <div className="w-12 bg-[#6a62c4] sm:w-20 lg:w-24" />
-        <div className="w-12 bg-[#aeb1df] sm:w-20 lg:w-24" />
-        <div className="w-12 bg-[#cdd6ee] sm:w-20 lg:w-24" />
-      </div>
+      {stripes && !artwork && (
+        <div
+          aria-hidden="true"
+          className="absolute -bottom-2 right-0 flex h-2/5 -skew-x-[20deg] gap-2 sm:gap-3 lg:right-[4%] lg:h-[45%]"
+        >
+          <div className="w-12 bg-[#6a62c4] sm:w-20 lg:w-24" />
+          <div className="w-12 bg-[#aeb1df] sm:w-20 lg:w-24" />
+          <div className="w-12 bg-[#cdd6ee] sm:w-20 lg:w-24" />
+        </div>
+      )}
 
       {floatingIcons && (
         <FloatingIcon
@@ -70,13 +96,24 @@ export default function DetailHero({
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-8 px-4 py-10 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:px-8 lg:py-14">
         <div>
+          {/* breadcrumbs (optional, [{ label, href }] after Home): where the page sits in the site, above the title */}
+          {breadcrumbs && (
+            <motion.div {...fadeUpOnLoad()} className="mb-5">
+              <Breadcrumbs items={breadcrumbs} />
+            </motion.div>
+          )}
           <motion.h1
             {...fadeUpOnLoad()}
             className="font-serif text-3xl leading-tight sm:text-4xl xl:text-5xl"
           >
             <span className="text-indigo">{titleTop}</span>
-            <br />
-            {titleBottom}
+            {/* titleBottom is optional: without it the title is just the blue line */}
+            {titleBottom && (
+              <>
+                <br />
+                {titleBottom}
+              </>
+            )}
           </motion.h1>
           <motion.p
             {...fadeUpOnLoad(0.15)}
@@ -118,19 +155,45 @@ export default function DetailHero({
           </motion.div>
         </div>
 
-        <motion.div
-          {...fadeUpOnLoad(0.2)}
-          className="relative mx-auto aspect-video w-full max-w-xl overflow-hidden rounded-2xl bg-white shadow-lg"
-        >
-          <Image
-            src={image}
-            alt={imageAlt}
-            fill
-            priority
-            sizes="(min-width: 1024px) 576px, 100vw"
-            className="object-cover"
-          />
-        </motion.div>
+        {artwork ? (
+          // The picture as uploaded: a finished design with its own frame and shapes, so nothing is drawn around it
+          <motion.div {...fadeUpOnLoad(0.2)} className="mx-auto w-full max-w-2xl lg:max-w-none">
+            {/* On hover the picture lifts, grows a little and a band of light sweeps across it */}
+            <div className="group relative transition duration-500 ease-out hover:-translate-y-1.5 hover:scale-[1.02] motion-reduce:transition-none">
+              <Image
+                src={image}
+                alt={imageAlt}
+                width={imageWidth ?? 1240}
+                height={imageHeight ?? 732}
+                priority
+                sizes="(min-width: 1280px) 620px, (min-width: 1024px) 48vw, (min-width: 672px) 672px, 100vw"
+                className="h-auto w-full"
+              />
+              <ArtworkShine image={image} width={imageWidth ?? 1240} height={imageHeight ?? 732} />
+            </div>
+          </motion.div>
+        ) : (
+          // The photo with the ribbon line and paper plane just above it (laptops only, like the service pages)
+          <div className="relative mx-auto w-full max-w-xl lg:mt-24">
+            <PlaneRibbon className="bottom-full left-[8%] mb-8 hidden w-[55%] lg:block" />
+            <motion.div {...fadeUpOnLoad(0.2)}>
+              {/* On hover: the card lifts, the photo zooms in slowly and a band of light sweeps across it (shineSweep).
+                  Kept on this inner box: the outer one's position is driven by the fade-in animation. */}
+              <div
+                className={`group relative aspect-video w-full overflow-hidden rounded-2xl bg-white shadow-lg transition duration-500 hover:-translate-y-1.5 hover:shadow-2xl ${shineSweep}`}
+              >
+                <Image
+                  src={image}
+                  alt={imageAlt}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 576px, 100vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none"
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
       </div>
     </section>
   );

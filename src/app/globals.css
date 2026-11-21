@@ -98,6 +98,18 @@
       transform: translateY(var(--drift-y, 35%)) rotate(var(--drift-tilt, 2deg));
     }
   }
+
+  /* Certification and recognition logos (Certifications.js, Recognitions.js): each logo bobs gently up and down */
+  --animate-tool-float: tool-float 3s ease-in-out infinite alternate;
+
+  @keyframes tool-float {
+    from {
+      transform: translateY(0) rotate(0deg);
+    }
+    to {
+      transform: translateY(-6%) rotate(-2deg);
+    }
+  }
 }
 
 body {

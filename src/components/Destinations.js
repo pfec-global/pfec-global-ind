@@ -112,11 +112,19 @@ export default function Destinations({
                     Image
                   </div>
                 )}
+                {/* Glass effect on hover (and keyboard focus): a shine sweeps once across the photo... */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -inset-y-4 -left-full w-3/4 -skew-x-12 bg-linear-to-r from-transparent via-white/35 to-transparent opacity-0 transition-[left,opacity] duration-700 ease-out group-hover:left-full group-hover:opacity-100 group-focus-visible:left-full group-focus-visible:opacity-100 motion-reduce:hidden"
+                />
                 <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/70 to-transparent p-3 pt-10 text-white">
-                  <p className="text-sm font-semibold">Study in {country.name}</p>
-                  <p className="mt-1 text-xs text-white/80 transition-colors duration-300 group-hover:text-accent">
-                    Learn More &gt;
-                  </p>
+                  {/* ...and the name sits on a frosted glass panel */}
+                  <div className="-m-1.5 rounded-lg border border-transparent p-1.5 transition duration-300 group-hover:border-white/30 group-hover:bg-white/15 group-hover:backdrop-blur-md group-focus-visible:border-white/30 group-focus-visible:bg-white/15 group-focus-visible:backdrop-blur-md">
+                    <p className="text-sm font-semibold">Study in {country.name}</p>
+                    <p className="mt-1 text-xs text-white/80 transition-colors duration-300 group-hover:text-accent">
+                      Learn More &gt;
+                    </p>
+                  </div>
                 </div>
               </Link>
             ))}

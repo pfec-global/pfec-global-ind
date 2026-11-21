@@ -3,7 +3,8 @@ import { toMetadata } from "@/lib/seo";
 import AwardsHero from "@/components/AwardsHero";
 import KeyHighlights from "@/components/KeyHighlights";
 import AwardTrophies from "@/components/AwardTrophies";
-import Professional from "@/components/Professional";
+import Certifications from "@/components/Certifications";
+import Recognitions from "@/components/Recognitions";
 import AwardsGallery from "@/components/AwardsGallery";
 import Contact from "@/components/Contact";
 
@@ -31,7 +32,8 @@ export default async function AwardsAndAchievements() {
       <AwardsHero />
       <KeyHighlights />
       <AwardTrophies awards={awards} />
-      <Professional />
+      <Certifications />
+      <Recognitions />
       <AwardsGallery />
       <Contact />
     </main>

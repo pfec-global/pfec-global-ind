@@ -45,6 +45,7 @@ export default function VisaServicesPage() {
   return (
     <>
       <ServiceHero
+        breadcrumbs={[{ label: "Our Services", href: "/service-archive-page" }, { label: "Student Visa Assistance" }]}
         tag="Visa Services"
         titleTop="Hassle-Free Visa Services for"
         titleBottom="Your Study Abroad Journey"
@@ -52,6 +53,7 @@ export default function VisaServicesPage() {
         image="/images/services/admission-support.webp"
         buttonText="Book a Free Consultation"
         buttonHref="/contact-us"
+        planeRibbon
       />
 
       {/* Other sections */}

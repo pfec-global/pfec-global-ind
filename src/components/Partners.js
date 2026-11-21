@@ -1,6 +1,6 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
-import { fadeUp } from "@/lib/motion";
+import { fadeUp, hoverShine } from "@/lib/motion";
 
 const partners = [
   { name: "PIER - Professional International Education Resources", src: "/images/partner/rpau6p5ie89wvrjipun8.webp" },
@@ -45,13 +45,16 @@ export default function Partners({
         <div className="mt-8 grid grid-cols-2 place-items-center gap-4 sm:flex sm:flex-wrap sm:justify-center sm:gap-6">
           {items.map((partner, i) => (
             <motion.div key={partner.src} {...fadeUp(i * 0.08)} className="last:odd:col-span-2">
-              <Image
-                src={partner.src}
-                alt={partner.name}
-                width={220}
-                height={150}
-                className="h-[112px] w-full max-w-[165px] object-contain transition duration-300 hover:-translate-y-1.5 hover:scale-105 sm:h-[130px] sm:w-[210px] sm:max-w-none lg:h-[150px] lg:w-[220px]"
-              />
+              {/* On hover the logo lifts, grows a little and a band of light sweeps across it (hoverShine) */}
+              <div className={hoverShine}>
+                <Image
+                  src={partner.src}
+                  alt={partner.name}
+                  width={220}
+                  height={150}
+                  className="h-[112px] w-full max-w-[165px] object-contain sm:h-[130px] sm:w-[210px] sm:max-w-none lg:h-[150px] lg:w-[220px]"
+                />
+              </div>
             </motion.div>
           ))}
         </div>

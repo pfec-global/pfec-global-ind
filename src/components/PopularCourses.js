@@ -15,11 +15,16 @@ export const courses = [
   "Sports & Vocational Courses",
 ];
 
-// heading and items (a list of course names) come from Strapi; without them the built-in content is used
+// heading and items come from Strapi; without them the built-in content is used.
+// An item is a course name, or { name, href, icon } - icon ({ src, alt }) is shown before the name
+// when Strapi sends one, and left out otherwise. A plain name (or one without href) links nowhere yet.
+const toItem = (course) => (typeof course === "string" ? { name: course } : course);
+
 // A heading passed as null is left out (the home page does this for fields Strapi does not send).
-export default function PopularCourses({ heading, items = courses }) {
+// moreHref (optional): a link under the buttons to the page with every course - the home page shows only some.
+export default function PopularCourses({ heading, items = courses, moreHref }) {
   return (
-    <section className="bg-[#f4f4f4] py-12 lg:py-16">
+    <section className="bg-[linear-gradient(180deg,#C2F4FF_0%,#FFFFFF_100%)] py-12 lg:py-16">
       <div className="mx-auto grid max-w-7xl items-end gap-10 px-4 sm:px-6 lg:grid-cols-[11fr_9fr] lg:px-8">
         <div>
           {heading !== null && (
@@ -33,15 +38,26 @@ export default function PopularCourses({ heading, items = courses }) {
           )}
 
           <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3">
-            {items.map((course, i) => (
-              <motion.div key={course} {...fadeUp(i * 0.06)}>
+            {items.map(toItem).map(({ name, href = "#", icon }, i) => (
+              <motion.div key={name} {...fadeUp(i * 0.06)}>
                 <Link
-                  href="#"
-                  className="group flex h-full items-center justify-between gap-3 rounded-xl border border-black/5 bg-white p-4 text-sm shadow-sm transition duration-300 hover:-translate-y-1.5 hover:border-accent/30 hover:shadow-xl"
+                  href={href}
+                  className="group flex h-full items-center justify-between gap-3 rounded-lg border border-black/5 bg-white px-3.5 py-3 text-[13px] leading-snug shadow-sm transition duration-300 hover:-translate-y-1.5 hover:border-accent/30 hover:shadow-xl"
                 >
-                  {course}
+                  <span className="flex items-center gap-2.5">
+                    {icon && (
+                      <Image
+                        src={icon.src}
+                        alt=""
+                        width={24}
+                        height={24}
+                        className="h-6 w-6 shrink-0 object-contain"
+                      />
+                    )}
+                    {name}
+                  </span>
                   <svg
-                    className="h-4 w-4 shrink-0 text-accent transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    className="h-3.5 w-3.5 shrink-0 text-accent transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -53,6 +69,27 @@ export default function PopularCourses({ heading, items = courses }) {
               </motion.div>
             ))}
           </div>
+
+          {moreHref && (
+            <motion.div {...fadeUp(0.2)} className="mt-6">
+              <Link
+                href={moreHref}
+                className="group inline-flex items-center gap-3 rounded-lg border border-accent px-5 py-2.5 text-sm font-semibold text-accent transition duration-300 hover:bg-accent hover:text-white"
+              >
+                Explore All Courses
+                <svg
+                  className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <path d="M4 12h16m-6-6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+            </motion.div>
+          )}
         </div>
 
         <motion.div {...zoomIn(0.2)}>

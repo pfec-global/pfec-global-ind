@@ -37,7 +37,9 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
       className={`${montserrat.variable} ${yeseva.variable} scroll-smooth antialiased`}
     >
-      <body className="font-sans" suppressHydrationWarning>
+      {/* overflow-x-clip: nothing that pokes out at the sides (sliding rows, floating decorations, hover lifts)
+          can make the page scroll sideways. "clip" rather than "hidden", so the sticky navbar keeps working. */}
+      <body className="overflow-x-clip font-sans" suppressHydrationWarning>
         {/* Skips the movement in animations for visitors who turned on "reduce motion" on their device */}
         <MotionConfig reducedMotion="user">
           {/* Navbar and Footer are shared by every page */}

@@ -26,6 +26,7 @@ export default function ServicesPage() {
   return (
     <>
       <PageHero
+        breadcrumbs={[{ label: "Our Services" }]}
         tag="Services"
         titleTop="Get End-to-End Assistance"
         titleBottom="and Realize Your Study Abroad Dreams"

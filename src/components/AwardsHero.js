@@ -1,6 +1,7 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export default function AwardsHero() {
   return (
@@ -9,9 +10,13 @@ export default function AwardsHero() {
 
         {/* Left Content */}
         <motion.div {...fadeUp()} className="lg:pb-20">
-          <span className="inline-flex rounded-md bg-[#fff0ee] px-7 py-3 text-sm font-medium text-[#ef4b3b]">
-            Awards and Achievements
-          </span>
+          {/* Breadcrumbs: Home > About PFEC Global > Awards and Achievements */}
+          <Breadcrumbs
+            items={[
+              { label: "About PFEC Global", href: "/about-pfec-global" },
+              { label: "Awards and Achievements" },
+            ]}
+          />
 
           <h1 className="mt-7 max-w-xl font-serif text-3xl font-bold leading-tight text-[#17318f] sm:text-4xl lg:text-4xl">
             PFEC Global: Shining with Prestigious Awards!

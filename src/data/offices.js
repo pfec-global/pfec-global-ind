@@ -120,4 +120,16 @@ export const officeCountries = [
       },
     ],
   },
+  {
+    id: "indonesia",
+    name: "Indonesia",
+    flag: "/images/flags/indonesia.svg",
+    offices: [
+      {
+        city: "Jakarta",
+        address: "Pondok Indah Plaza 5, Block A No. 10 Jl. Margaguna Raya, Kebayoran Baru Jakarta Selatan 12140",
+        phone: "+62 821 282 0300",
+      },
+    ],
+  },
 ];

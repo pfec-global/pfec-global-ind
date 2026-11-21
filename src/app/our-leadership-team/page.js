@@ -25,7 +25,11 @@ export default async function OurLeadershipTeam() {
 
   return (
     <main>
-      <LeadershipTeam leaders={leaders} />
+      <LeadershipTeam
+        leaders={leaders}
+        decorations
+        breadcrumbs={[{ label: "About PFEC Global", href: "/about-pfec-global" }, { label: "Our Leadership Team" }]}
+      />
       <Achievements />
       <Contact />
     </main>
