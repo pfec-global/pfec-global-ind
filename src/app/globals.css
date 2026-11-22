@@ -135,3 +135,88 @@ body {
 html:has(.branch-page) {
   scroll-padding-top: 5.5rem;
 }
+
+/* University Living's search widget (/university-living/, UniversityLivingWidget.js) draws its own HTML inside
+   #root-ul. Its sticky filter bar stops just under the site's sticky navbar (h-16, lg:h-20) and stays below
+   the navbar and its dropdowns (z-50). */
+#root-ul .topBar {
+  top: 4rem !important;
+  z-index: 40 !important;
+}
+
+@media (min-width: 64rem) {
+  #root-ul .topBar {
+    top: 5rem !important;
+  }
+}
+
+/* Room for the magnifier icon inside the widget's search box */
+#root-ul .topBar .filter_section .searchBar input {
+  padding-left: 37px !important;
+}
+
+/* Property cards of the University Living widget: hover like the site's other cards - the card lifts with a soft
+   red shadow, its photo zooms in a little, the name turns red and a red bar sweeps in along the bottom.
+   The card gets rounded corners and a little inner space so the shadow frames it like a card. */
+#root-ul .property_card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  padding-bottom: 12px;
+  background: #fff;
+  transition:
+    transform 0.3s ease-out,
+    box-shadow 0.3s ease-out !important;
+}
+
+#root-ul .property_card .property_img {
+  overflow: hidden;
+  border-radius: 14px 14px 0 0;
+}
+
+#root-ul .property_card .property_img img {
+  border-radius: 0 !important;
+  transition: transform 0.5s ease-out !important;
+}
+
+#root-ul .property_card .content_section {
+  padding: 0 12px;
+}
+
+#root-ul .property_card .property_name {
+  transition: color 0.3s !important;
+}
+
+#root-ul .property_card::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease-out;
+}
+
+#root-ul .property_card:hover {
+  box-shadow: 0 18px 40px rgba(239, 75, 59, 0.18);
+}
+
+#root-ul .property_card:hover .property_name {
+  color: var(--color-accent) !important;
+}
+
+#root-ul .property_card:hover::after {
+  transform: scaleX(1);
+}
+
+/* The movement only for visitors who have not asked their device to reduce motion */
+@media (prefers-reduced-motion: no-preference) {
+  #root-ul .property_card:hover {
+    transform: translateY(-6px);
+  }
+
+  #root-ul .property_card:hover .property_img img {
+    transform: scale(1.06);
+  }
+}

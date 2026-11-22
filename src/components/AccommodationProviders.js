@@ -30,7 +30,8 @@ const providers = [
       { icon: "check", text: "Verified Listings" },
       { icon: "support", text: "24/7 Customer Support" },
     ],
-    url: "https://staging3.pfecglobal.in/university-living/",
+    // Our own page with their property search embedded (src/app/university-living)
+    url: "/university-living",
   },
 ];
 
