@@ -8,8 +8,28 @@ const OLD_POST_LINK = /https?:\/\/(?:www\.)?pfecglobal\.in\/blog\/([a-z0-9-]+)\/
 
 // <div class="blog-also-read-box"> ... <a href="url">text</a> </div>  ->  > **Also Read:** [text](url)
 // (a markdown quote, which BlogContent already draws as a highlighted box)
-const ALSO_READ_BOX =
-  /<div[^>]*class="[^"]*blog-also-read-box[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>[\s\S]*?<\/div>/gi;
+// One box at a time: the match never runs past the box's own </div>. (It used to keep searching for an href
+// past the end of a box that had none, and replace everything up to the next box's link - deleting the text,
+// pictures and sections in between.)
+const ALSO_READ_BOX = /<div[^>]*class="[^"]*blog-also-read-box[^"]*"[^>]*>((?:(?!<\/div>)[\s\S])*)<\/div>/gi;
+const BOX_LINK = /<a\b([^>]*)>([\s\S]*?)<\/a>/i;
+
+// The address of the box's link: its href, or - when an editor typed the address into another attribute
+// by mistake (e.g. class="https://...") - the first attribute value that looks like an address
+function boxLinkAddress(attributes) {
+  const href = attributes.match(/\bhref\s*=\s*"([^"]*)"/i)?.[1]?.trim();
+  if (href) return href;
+  return attributes.match(/"\s*((?:https?:\/\/|\/)[^"\s]+)\s*"/)?.[1];
+}
+
+// One "Also Read" box -> the markdown quote. A box without any address keeps its text, without a link.
+function alsoReadQuote(box, inner) {
+  const link = inner.match(BOX_LINK);
+  const text = (link ? link[2] : "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  if (!text) return "\n\n";
+  const href = boxLinkAddress(link[1]);
+  return `\n\n> **Also Read:** ${href ? `[${text}](${href})` : text}\n\n`;
+}
 
 export function prepareBlogMarkdown(content) {
   if (typeof content !== "string" || !content.trim()) return "";
@@ -22,7 +42,7 @@ export function prepareBlogMarkdown(content) {
       .replace(/```(?:html|markdown)?[ \t]*\n([\s\S]*?)```/gi, (fence, inner) =>
         inner.trim().startsWith("<") ? `\n\n${inner.trim().replace(/\n\s*\n/g, "\n")}\n\n` : fence,
       )
-      .replace(ALSO_READ_BOX, (box, href, label) => `\n\n> **Also Read:** [${label.replace(/\s+/g, " ").trim()}](${href})\n\n`)
+      .replace(ALSO_READ_BOX, alsoReadQuote)
       // Some tables arrive with the body opened or closed twice
       .replace(/<tbody>\s*<tbody>/gi, "<tbody>")
       .replace(/<\/tbody>\s*<\/tbody>/gi, "</tbody>")

@@ -67,10 +67,13 @@ export default function DetailHero({
   artwork = false,
   imageWidth,
   imageHeight,
+  // background (optional): the colour of the band, e.g. "bg-[#e3f3fb]". Without it: grey for an artwork picture,
+  // light blue for a photo. The country and scholarship pages keep light blue whichever kind of picture they have.
+  background,
   breadcrumbs,
 }) {
   return (
-    <section className={`relative overflow-hidden ${artwork ? "bg-[#f9f9f9]" : "bg-[#e3f3fb]"}`}>
+    <section className={`relative overflow-hidden ${background ?? (artwork ? "bg-[#f9f9f9]" : "bg-[#e3f3fb]")}`}>
       {/* Slanted stripes behind the photo */}
       {stripes && !artwork && (
         <div

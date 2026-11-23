@@ -1,4 +1,5 @@
 import { getFromStrapi, toImage } from "@/lib/strapi";
+import { builtInFlag } from "@/data/flags";
 import { faqToMarkdown, prepareBlogMarkdown } from "@/lib/blogMarkdown";
 
 // Country details page content from Strapi.
@@ -21,6 +22,8 @@ export async function getCountryDetail(slug) {
 
   return {
     name,
+    // The round flag (breadcrumbs): the one uploaded in Strapi, or the built-in one for this country
+    flag: toImage(item.flag, name)?.src ?? builtInFlag(slug),
     shortDescription: item.shortDescription?.trim() || null,
     // The big picture of the hero: the hero image, or the card photo when no hero image is uploaded
     image: toImage(item.heroImage, `Study in ${name}`) ?? toImage(item.cardImage, `Study in ${name}`),

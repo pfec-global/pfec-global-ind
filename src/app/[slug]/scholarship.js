@@ -3,6 +3,7 @@ import { getScholarship, scholarshipSlugs as builtInScholarshipSlugs } from "@/d
 import { getRelatedPosts } from "@/data/blogs";
 import { getScholarshipDetail, getScholarshipSlugs } from "@/lib/scholarshipDetail";
 import { getRecentBlogPosts } from "@/lib/blogs";
+import { hasSeeThroughParts } from "@/lib/imageInfo";
 import { toMetadata } from "@/lib/seo";
 import DetailHero from "@/components/DetailHero";
 import DetailBody from "@/components/DetailBody";
@@ -29,6 +30,8 @@ async function loadScholarship(slug) {
         "Check your eligibility and receive end-to-end scholarship assistance from our experts for FREE!*",
       image: cms.image?.src ?? "/images/study_area_image.webp",
       imageAlt: cms.image?.alt ?? "",
+      imageWidth: cms.image?.width ?? undefined,
+      imageHeight: cms.image?.height ?? undefined,
       content: cms.content,
       showCta: true,
       banners: cms.banners,
@@ -54,8 +57,10 @@ export async function ScholarshipPage({ slug }) {
   const scholarship = await loadScholarship(slug);
   if (!scholarship) notFound();
 
-  // Newest posts of the blog CMS (dummy posts if it cannot be reached)
-  const related = (await getRecentBlogPosts(8)) ?? getRelatedPosts(slug);
+  // Newest posts of the blog CMS (dummy posts if it cannot be reached), and at the same time: whether the banner
+  // is a finished design with see-through edges (see the hero below)
+  const [recent, artwork] = await Promise.all([getRecentBlogPosts(8), hasSeeThroughParts(scholarship.image)]);
+  const related = recent ?? getRelatedPosts(slug);
 
   return (
     <>
@@ -69,6 +74,13 @@ export async function ScholarshipPage({ slug }) {
         floatingIcons
         // No slanted PFEC bars behind the photo, as on the country pages
         stripes={false}
+        // A banner uploaded as a finished design (own frame and shapes, see-through edges) is drawn as uploaded;
+        // inside the white photo card its see-through edges would show as a white background. A plain photo keeps
+        // the photo card. The band stays light blue either way.
+        artwork={artwork}
+        imageWidth={scholarship.imageWidth}
+        imageHeight={scholarship.imageHeight}
+        background="bg-[#e3f3fb]"
       />
       <DetailBody content={scholarship.content} showCta={scholarship.showCta} banners={scholarship.banners} />
       <RelatedBlogs posts={related} />

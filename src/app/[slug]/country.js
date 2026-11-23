@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 import { destinationSlugs, getDestination } from "@/data/destinations";
 import { getRelatedPosts } from "@/data/blogs";
 import { getCountryDetail, getCountrySlugs } from "@/lib/countryDetail";
+import { builtInFlag } from "@/data/flags";
 import { getRelatedBlogs, getRecentBlogPosts } from "@/lib/blogs";
+import { hasSeeThroughParts } from "@/lib/imageInfo";
 import { toMetadata } from "@/lib/seo";
 import DetailHero from "@/components/DetailHero";
 import DetailBody from "@/components/DetailBody";
@@ -35,7 +37,7 @@ async function loadCountry(slug) {
 
   const fallback = getDestination(slug);
   return fallback
-    ? { ...fallback, name: fallback.country, image: { src: fallback.image, alt: "" }, institutions: [], popularCourses: [] }
+    ? { ...fallback, name: fallback.country, flag: builtInFlag(slug), image: { src: fallback.image, alt: "" }, institutions: [], popularCourses: [] }
     : null;
 }
 
@@ -52,19 +54,30 @@ export async function CountryPage({ slug }) {
 
   // Blog posts about this country: the blog category has the same slug as the country (study-in-australia).
   // A country without posts gets the newest posts instead, and the dummy posts if the blog CMS cannot be reached.
-  const countryPosts = await getRelatedBlogs("", slug);
+  // At the same time: whether the banner is a finished design with see-through edges (see the hero below)
+  const [countryPosts, artwork] = await Promise.all([
+    getRelatedBlogs("", slug),
+    hasSeeThroughParts(country.image?.src),
+  ]);
   const related = countryPosts?.length ? countryPosts : ((await getRecentBlogPosts(8)) ?? getRelatedPosts(slug));
 
   return (
     <>
       <DetailHero
-        breadcrumbs={[{ label: "Destinations", href: "/destination-page" }, { label: `Study in ${country.name}` }]}
+        breadcrumbs={[{ label: "Destinations", href: "/destination-page" }, { label: `Study in ${country.name}`, icon: country.flag }]}
         titleTop={country.titleTop}
         titleBottom="with Expert Guidance"
         subtitle={country.subtitle}
         image={country.image?.src ?? "/images/study_area_image.webp"}
         imageAlt={country.image?.alt ?? ""}
         stripes={false}
+        // A banner uploaded as a finished design (own frame, flag and slanted stripes, see-through edges) is drawn
+        // as uploaded; inside the white photo card its see-through edges would show as a white background.
+        // A plain photo keeps the photo card. The band stays light blue either way.
+        artwork={artwork}
+        imageWidth={country.image?.width ?? undefined}
+        imageHeight={country.image?.height ?? undefined}
+        background="bg-[#e3f3fb]"
       />
       <DetailBody content={country.content} showCta banners={country.banners ?? []} />
       {country.institutions.length > 0 && (
