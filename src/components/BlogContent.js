@@ -2,7 +2,7 @@ import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import rehypeSanitize from "rehype-sanitize";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import { rehypeFaqAccordion, rehypeHeadingIds } from "@/lib/markdown";
 import { FaqItem, FaqList } from "@/components/FaqAccordion";
 
@@ -75,6 +75,23 @@ const components = {
   "faq-answer": ({ children }) => <div className="px-4 pb-4 [&>*:first-child]:mt-0">{children}</div>,
 };
 
+// Classes the CMS content may use (all other classes are removed): the "Book a Free Consultation" button that opens
+// the consultation popup, and the grey band that centres it - styled in globals.css.
+const contentClasses = {
+  a: ["className", "data-footnote-backref", "open-consultation"],
+  div: ["className", "consultation-cta"],
+};
+
+// What rehype-sanitize keeps: its default (GitHub-style) rules, plus the classes above
+const sanitizeSchema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    a: [...defaultSchema.attributes.a.filter((rule) => rule[0] !== "className"), contentClasses.a],
+    div: [...defaultSchema.attributes.div, contentClasses.div],
+  },
+};
+
 // The body of a blog post. markdown is the text as it comes from the API;
 // headings is the list from getHeadings(markdown), used to give each h2 its id.
 // remark-gfm adds tables, strikethrough, task lists and automatic links to standard markdown.
@@ -88,7 +105,7 @@ export default function BlogContent({ markdown, headings }) {
     <article className="min-w-0 text-[16px] leading-relaxed text-ink/80">
       <Markdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw, rehypeSanitize, [rehypeHeadingIds, headings], rehypeFaqAccordion]}
+        rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema], [rehypeHeadingIds, headings], rehypeFaqAccordion]}
         components={components}
       >
         {markdown}

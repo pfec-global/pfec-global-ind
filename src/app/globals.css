@@ -220,3 +220,43 @@ html:has(.branch-page) {
     transform: scale(1.06);
   }
 }
+
+/* "Book a Free Consultation" button for CMS content - clicking it opens the consultation popup (ConsultationModal.js):
+   <div class="consultation-cta"><a href="#" class="open-consultation">Book a Free Consultation <span>&#8594;</span></a></div> */
+.consultation-cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 20px 0;
+  background: #f8f8f8;
+}
+.open-consultation {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 13px 28px;
+  border-radius: 11px;
+  background: #e94b3c;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+.open-consultation:hover {
+  background: #cf382b;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(233, 75, 60, 0.3);
+}
+.open-consultation span {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+}

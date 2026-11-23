@@ -8,9 +8,11 @@ import AdmissionForm from "@/components/AdmissionForm";
 // whenever a "Book a FREE Consultation" link or button is clicked anywhere on the site.
 // It is added once in the layout and finds those buttons by their text, so the buttons don't need any
 // change - including the ones whose label comes from the CMS. To make any other link open it,
-// give it the attribute data-consultation.
+// give it the class "open-consultation" (also works in HTML written in the CMS) or the attribute data-consultation.
 const isConsultationButton = (el) =>
-  el.hasAttribute("data-consultation") || /free consultation/i.test(el.textContent ?? "");
+  el.classList.contains("open-consultation") ||
+  el.hasAttribute("data-consultation") ||
+  /free consultation/i.test(el.textContent ?? "");
 
 export default function ConsultationModal() {
   const [open, setOpen] = useState(false);
