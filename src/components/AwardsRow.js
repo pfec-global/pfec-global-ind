@@ -50,18 +50,20 @@ function AwardCard({ item }) {
   );
 }
 
-// An award picture from Strapi (the trophy photo with its title printed on it), small, in a fixed frame.
-// On hover it lifts, grows a little and a band of light sweeps across it (hoverShine).
-function PictureCard({ item }) {
+// An award picture from Strapi, small, in a frame of the given shape (ratio = width / height). Portrait pictures
+// (trophy photos) get a fixed width and landscape ones (award cards) a fixed height, so neither comes out too
+// small or too big. On hover it lifts, grows a little and a band of light sweeps across it (hoverShine).
+function PictureCard({ item, ratio }) {
+  const portrait = ratio < 1;
   return (
     <div className={`${hoverShine} shrink-0`}>
-      <div className="relative aspect-[670/1070] w-32 sm:w-36 lg:w-40">
+      <div className={`relative ${portrait ? "w-32 sm:w-36 lg:w-40" : "h-28 sm:h-32 lg:h-36"}`} style={{ aspectRatio: ratio }}>
         <Image
           src={item.image.src}
           alt={item.image.alt}
           fill
           draggable={false}
-          sizes="160px"
+          sizes={portrait ? "160px" : "260px"}
           className="object-contain"
         />
       </div>
@@ -74,11 +76,11 @@ const MIN_SET = 10;
 
 // One endless row of award cards. direction 1 moves to the left, -1 to the right.
 // variant "logo" draws the university cards of the awards page ({ name, logo, awards }),
-// "picture" the award pictures of the home page ({ id, image: { src, alt } }).
+// "picture" the award pictures of the home page ({ id, image: { src, alt } }), in frames of shape ratio (width / height).
 // The cards are drawn twice: when one full set has passed, the row jumps back by exactly that distance,
 // which looks the same, so the row never reaches an end - also when dragged by hand in either direction.
 // The movement pauses while the mouse is over the row, and "reduce motion" switches it off (dragging still works).
-export default function AwardsRow({ items, direction = 1, variant = "logo" }) {
+export default function AwardsRow({ items, direction = 1, variant = "logo", ratio = 670 / 1070 }) {
   const Card = variant === "picture" ? PictureCard : AwardCard;
   const repeat = Math.max(1, Math.ceil(MIN_SET / items.length));
   const set = Array.from({ length: repeat }, () => items).flat();
@@ -137,13 +139,13 @@ export default function AwardsRow({ items, direction = 1, variant = "logo" }) {
         {/* The cards repeated only to fill the row are hidden from screen readers, like the second set */}
         {set.map((item, i) => (
           <div key={i} aria-hidden={i >= items.length || undefined} className="flex">
-            <Card item={item} />
+            <Card item={item} ratio={ratio} />
           </div>
         ))}
         {/* The second set, only there for the endless effect */}
         {set.map((item, i) => (
           <div key={`copy-${i}`} aria-hidden="true" className="flex">
-            <Card item={item} />
+            <Card item={item} ratio={ratio} />
           </div>
         ))}
       </div>

@@ -9,10 +9,11 @@ import { FaqItem, FaqList } from "@/components/FaqAccordion";
 // How each markdown element is drawn. react-markdown also passes a "node" prop, which must not reach the HTML tag.
 const components = {
   // scroll-mt leaves room for the sticky navbar and the floating "Jump to Topic" box when jumping to a heading
+  // Section headings (h2) are clearly bigger than sub-headings (h3), with a thin line under them
   h2: ({ node, ...props }) => (
-    <h2 className="mt-10 scroll-mt-36 text-[18px] font-bold text-indigo first:mt-0" {...props} />
+    <h2 className="mt-10 scroll-mt-36 border-b border-indigo/10 pb-2 text-[22px] font-bold leading-snug text-indigo first:mt-0 sm:text-2xl" {...props} />
   ),
-  h3: ({ node, ...props }) => <h3 className="mt-8 text-[18px] font-bold text-ink" {...props} />,
+  h3: ({ node, ...props }) => <h3 className="mt-8 text-[18px] font-semibold leading-snug text-ink" {...props} />,
   h4: ({ node, ...props }) => <h4 className="mt-6 text-[16px] font-bold text-ink" {...props} />,
   h5: ({ node, ...props }) => <h5 className="mt-6 font-bold text-ink" {...props} />,
   h6: ({ node, ...props }) => <h6 className="mt-6 font-semibold text-ink" {...props} />,

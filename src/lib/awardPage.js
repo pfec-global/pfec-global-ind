@@ -20,7 +20,13 @@ export function toAwardCards(list) {
         title,
         awardedBy,
         year: award.year ?? undefined,
-        image: toImage(award.image, [title, awardedBy && `awarded by ${awardedBy}`].filter(Boolean).join(", ") || "PFEC Global award"),
+        // The picture's alt text: the image's own alt text in Strapi, or else the award's name, who gave it and
+        // the year, e.g. "ACU 2024 Silver Award, awarded by Australian Catholic University (2024)"
+        image: toImage(
+          award.image,
+          [title, awardedBy && `awarded by ${awardedBy}`].filter(Boolean).join(", ") +
+            (award.year ? ` (${award.year})` : "") || "PFEC Global award",
+        ),
       };
     });
   return awards.length > 0 ? awards : undefined;

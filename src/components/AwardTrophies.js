@@ -4,14 +4,27 @@ import { fadeUp, hoverShine } from "@/lib/motion";
 import AwardsRow from "@/components/AwardsRow";
 
 // The trophies from the awards page in Strapi (see src/lib/awardPage.js).
-// title, awardedBy and year are optional: whatever is filled in shows under the picture.
+// The award's name, who gave it and the year are not printed: the pictures show them already, and they are
+// in each picture's alt text for search engines and screen readers (see src/lib/awardPage.js).
 // Without any awards the section is not drawn at all.
 // heading and subheading (from Strapi on the home page): without them the built-in heading is shown;
 // passed as null they are left out.
 // slider (the home page): smaller pictures in an endless auto-playing row instead of the grid - more than four
 // awards are split over two rows that move in opposite directions.
+// The shape every award card gets: the typical width / height of the uploaded pictures (the middle value), so the
+// cards line up and a picture never sits in a frame of another shape with empty space around it.
+// 670 / 1070 (the first, portrait trophy photos) when no picture has a size.
+function frameRatio(awards) {
+  const ratios = awards
+    .map((award) => (award.image?.width && award.image?.height ? award.image.width / award.image.height : null))
+    .filter(Boolean)
+    .sort((a, b) => a - b);
+  return ratios.length ? ratios[Math.floor(ratios.length / 2)] : 670 / 1070;
+}
+
 export default function AwardTrophies({ awards, heading, subheading, slider = false }) {
   if (!awards) return null;
+  const ratio = frameRatio(awards);
   const half = Math.ceil(awards.length / 2);
   const rows = awards.length > 4 ? [awards.slice(0, half), awards.slice(half)] : [awards];
 
@@ -40,10 +53,10 @@ export default function AwardTrophies({ awards, heading, subheading, slider = fa
             {awards.map((award, index) => (
               <motion.figure key={award.id ?? index} {...fadeUp((index % 4) * 0.08)}>
                 {/* The pictures bring their own white card and shadow. On hover the card lifts and a band of light
-                    sweeps across it (hoverShine). Every picture gets the same frame (the size most of them are
-                    uploaded at, 670 x 1070), so the cards line up even when one is a little narrower or wider */}
+                    sweeps across it (hoverShine). Every picture gets the same frame (the shape most of them are
+                    uploaded at, see frameRatio), so the cards line up even when one is a little narrower or wider */}
                 <div className={hoverShine}>
-                  <div className="relative aspect-[670/1070]">
+                  <div className="relative" style={{ aspectRatio: ratio }}>
                     <Image
                       src={award.image.src}
                       alt={award.image.alt}
@@ -53,16 +66,6 @@ export default function AwardTrophies({ awards, heading, subheading, slider = fa
                     />
                   </div>
                 </div>
-                {(award.title || award.awardedBy || award.year) && (
-                  <figcaption className="px-2 pt-3 text-center">
-                    {award.title && <p className="text-sm font-semibold text-ink">{award.title}</p>}
-                    {(award.awardedBy || award.year) && (
-                      <p className="mt-1 text-xs text-ink/70">
-                        {[award.awardedBy && `Awarded by ${award.awardedBy}`, award.year].filter(Boolean).join(" · ")}
-                      </p>
-                    )}
-                  </figcaption>
-                )}
               </motion.figure>
             ))}
           </div>
@@ -73,7 +76,7 @@ export default function AwardTrophies({ awards, heading, subheading, slider = fa
       {slider && (
         <motion.div {...fadeUp(0.1)} className="mt-8 space-y-2">
           {rows.map((row, i) => (
-            <AwardsRow key={i} items={row} direction={i === 0 ? 1 : -1} variant="picture" />
+            <AwardsRow key={i} items={row} direction={i === 0 ? 1 : -1} variant="picture" ratio={ratio} />
           ))}
         </motion.div>
       )}

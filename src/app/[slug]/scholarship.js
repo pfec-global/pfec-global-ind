@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getScholarship, scholarshipSlugs as builtInScholarshipSlugs } from "@/data/scholarships";
 import { getRelatedPosts } from "@/data/blogs";
+import { countryFlag } from "@/data/countries";
 import { getScholarshipDetail, getScholarshipSlugs } from "@/lib/scholarshipDetail";
 import { getRecentBlogPosts } from "@/lib/blogs";
 import { hasSeeThroughParts } from "@/lib/imageInfo";
@@ -36,6 +37,7 @@ async function loadScholarship(slug) {
       showCta: true,
       banners: cms.banners,
       seo: cms.seo,
+      flag: cms.flag,
     };
   }
   if (cms === null) return null; // Strapi answered: no scholarship with this slug
@@ -65,7 +67,11 @@ export async function ScholarshipPage({ slug }) {
   return (
     <>
       <DetailHero
-        breadcrumbs={[{ label: "Scholarships", href: "/scholarships" }, { label: scholarship.titleTop }]}
+        // The country's flag beside its name: the logo from Strapi, or else the site's own round flag of that country
+        breadcrumbs={[
+          { label: "Scholarships", href: "/scholarships" },
+          { label: scholarship.titleTop, icon: scholarship.flag ?? countryFlag(slug) },
+        ]}
         titleTop={scholarship.titleTop}
         titleBottom={scholarship.titleBottom}
         subtitle={scholarship.subtitle}

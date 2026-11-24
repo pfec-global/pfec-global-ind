@@ -8,8 +8,8 @@ import AdmissionForm from "@/components/AdmissionForm";
 
 const reasons = [
   "FREE End-to-End Assistance",
-  "FREE End-to-End Assistance",
-  "FREE End-to-End Assistance",
+  "Trusted by 22,000+ Students",
+  "550+ Partner Institutions",
 ];
 
 export default function Contact() {

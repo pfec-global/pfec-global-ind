@@ -21,6 +21,8 @@ export async function getScholarshipDetail(slug) {
   return {
     name,
     shortDescription: item.shortDescription?.trim() || null,
+    // The country's small round flag (logo in Strapi), shown beside the name in the breadcrumbs
+    flag: toImage(item.logo)?.src ?? null,
     // The big picture of the hero: the hero image, or the card picture when no hero image is uploaded
     image: toImage(item.heroImage, name) ?? toImage(item.cardImage, name),
     // The description (markdown), followed by the FAQs as the last section - drawn as an accordion
