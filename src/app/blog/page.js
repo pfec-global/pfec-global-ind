@@ -9,9 +9,9 @@ import BlogSlider from "@/components/BlogSlider";
 import Contact from "@/components/Contact";
 
 export const metadata = {
-  title: "Blogs | PFEC Global",
+  title: "Study Abroad Guides, Tips & Insights | PFEC Global",
   description:
-    "Articles packed with practical advice, trends, and expert perspectives to help you make an informed decision.",
+    "From choosing a university to preparing for a student visa, find practical study abroad articles that help Indian students plan their next move.",
 };
 
 // The page waits for the blog CMS on every visit while caching is switched off.

@@ -5,9 +5,9 @@ import UniversityLivingWidget from "@/components/UniversityLivingWidget";
 // Opened from "Explore Now" on the University Living card of the accommodations page (AccommodationProviders.js).
 
 export const metadata = {
-  title: "Student Accommodation with University Living | PFEC Global",
+  title: "University Living & PFEC Global | Student Housing Support",
   description:
-    "Search verified student accommodation near your university with University Living - 65000+ properties across 640 cities globally.",
+    "Looking for student housing abroad? Learn about PFEC Global’s University Living resource and explore accommodation support for your study plans.",
 };
 
 export default function UniversityLivingPage() {
