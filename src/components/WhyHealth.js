@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import AdmissionForm from "@/components/AdmissionForm";
+import HighlightText from "@/components/HighlightText";
 
 const healthBenefits = [
   {
@@ -104,7 +105,7 @@ export default function WhyHealth() {
                   {/* Benefit text */}
                   <p className="font-montserrat text-sm leading-[1.8] text-[#111] sm:text-base">
                     <strong className="font-bold">
-                      {benefit.title}
+                      <HighlightText text={benefit.title} />
                     </strong>{" "}
                     {benefit.description}
                   </p>

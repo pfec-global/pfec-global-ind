@@ -3,6 +3,7 @@ import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
 import { PlaneRibbon } from "@/components/HeroDecorations";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import HighlightText from "@/components/HighlightText";
 
 // planeRibbon: the ribbon line with the gliding paper plane above the picture (laptops and up)
 // breadcrumbs (optional, [{ label, href }] after Home): shown instead of the tag
@@ -48,9 +49,9 @@ export default function ServiceHero({
             {...fadeUpOnLoad(0.1)}
             className="mt-5 max-w-2xl font-serif text-3xl font-bold leading-tight sm:text-4xl lg:text-[36px]"
           >
-            <span className="text-[#17318f]">{titleTop}</span>
+            <span className="text-[#17318f]"><HighlightText text={titleTop} /></span>
             <br />
-            <span className="text-black">{titleBottom}</span>
+            <span className="text-black"><HighlightText text={titleBottom} /></span>
           </motion.h1>
 
           {/* Description */}

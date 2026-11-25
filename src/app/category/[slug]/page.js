@@ -3,6 +3,7 @@ import { categories, getCategoryPosts } from "@/data/blogs";
 import { getBlogCategory, getBlogCategorySlugs } from "@/lib/blogs";
 import BlogHero from "@/components/BlogHero";
 import BlogListing from "@/components/BlogListing";
+import { plainText } from "@/components/HighlightText";
 
 // The page waits for the blog CMS on every visit while caching is switched off.
 // This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const category = await loadCategory(slug);
   if (!category) return {};
-  return { title: `${category.title} | PFEC Global`, description: category.description };
+  return { title: `${plainText(category.title)} | PFEC Global`, description: category.description };
 }
 
 export default async function BlogCategoryPage({ params }) {

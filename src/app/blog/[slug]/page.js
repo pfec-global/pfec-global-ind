@@ -4,6 +4,7 @@ import { getBlogPost, getBlogPostSlugs, getRelatedBlogs, isBlogPreview } from "@
 import BlogPostHero from "@/components/BlogPostHero";
 import DetailBody from "@/components/DetailBody";
 import RelatedBlogs from "@/components/RelatedBlogs";
+import { plainText } from "@/components/HighlightText";
 
 // The page waits for the blog CMS on every visit while caching is switched off.
 // This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
@@ -30,7 +31,7 @@ export async function generateMetadata({ params, searchParams }) {
   const post = await loadPost(slug, await searchParams);
   if (!post) return {};
 
-  const title = post.seo?.title ?? post.title;
+  const title = plainText(post.seo?.title ?? post.title);
   const description = post.seo?.description ?? post.summary;
   const url = `${(process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/+$/, "")}/blog/${slug}/`;
   return {

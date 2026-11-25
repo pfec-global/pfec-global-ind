@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { fadeUp } from "@/lib/motion";
+import HighlightText from "@/components/HighlightText";
 
 const defaultFaqs = [
   {
@@ -39,7 +40,7 @@ export default function Faq({
         <motion.div {...fadeUp()} className="text-center">
           {title && (
             <h2 className="font-montserrat text-2xl font-semibold text-black sm:text-3xl">
-              {title}
+              <HighlightText text={title} />
             </h2>
           )}
         </motion.div>

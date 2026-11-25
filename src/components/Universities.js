@@ -6,6 +6,7 @@ import Link from "next/link";
 import useDragScroll from "@/hooks/useDragScroll";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import HighlightText from "@/components/HighlightText";
 
 // Each name matches a card image in public/images/university/<name>.png
 const universities = [
@@ -53,7 +54,7 @@ export default function Universities({ heading = "Study at a top global Universi
     <section className="bg-[#f1f4f8] py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.h2 {...fadeUp()} className="text-center text-2xl font-bold text-indigo sm:text-3xl">
-          {heading}
+          <HighlightText text={heading} />
         </motion.h2>
 
         {groups.length > 1 && (

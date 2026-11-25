@@ -3,6 +3,7 @@ import remarkGfm from "remark-gfm";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import HighlightText from "@/components/HighlightText";
 
 // Layout shared by the text-only pages (privacy policy, terms of use).
 // markdown is the page text from Strapi; without it the page's children are shown (plain h2 / h3 / p / ul / ol / a tags).
@@ -19,7 +20,7 @@ export default function LegalPage({ title, markdown, updatedAt, children }) {
           {...fadeUpOnLoad()}
           className="font-serif text-3xl leading-tight text-indigo sm:text-4xl xl:text-5xl"
         >
-          {title}
+          <HighlightText text={title} />
         </motion.h1>
         {updatedAt && (
           <motion.p {...fadeUpOnLoad(0.1)} className="mt-3 text-xs text-ink/60">

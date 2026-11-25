@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import HighlightText from "@/components/HighlightText";
 
 // One event card of the home page slider.
 export default function EventCard({ event }) {
@@ -47,7 +48,7 @@ export default function EventCard({ event }) {
           <span className="rounded bg-accent/10 px-2 py-1 text-[10px] font-medium text-accent">
             {event.type}
           </span>
-          <h3 className="mt-2 font-semibold">{event.title}</h3>
+          <h3 className="mt-2 font-semibold"><HighlightText text={event.title} /></h3>
           <p className="mt-1 line-clamp-3 text-xs text-ink/70">{event.description}</p>
           <Link href="#" className="mt-2 inline-flex items-center gap-2 text-xs font-semibold text-accent">
             Register Now

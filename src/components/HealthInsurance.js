@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import HighlightText from "@/components/HighlightText";
 
 const insuranceTips = [
   {
@@ -208,7 +209,7 @@ export default function HealthInsurance() {
                   </div>
 
                   <h3 className="mt-3 text-sm font-semibold leading-snug text-[#f04435] sm:text-base">
-                    {tip.title}
+                    <HighlightText text={tip.title} />
                   </h3>
 
                   <p className="mt-4 text-xs leading-[1.7] text-[#252525] sm:text-[13px]">
@@ -257,7 +258,7 @@ export default function HealthInsurance() {
                   </span>
 
                   <h3 className="text-sm font-bold text-black sm:text-base">
-                    {benefit.title}
+                    <HighlightText text={benefit.title} />
                   </h3>
                 </div>
               ))}

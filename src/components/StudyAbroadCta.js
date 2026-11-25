@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import HighlightText from "@/components/HighlightText";
 
 // Small promo card, reusable on any page: <StudyAbroadCta />
 // It fills the width of whatever it is placed in. The image, text, button label and link can be changed per page.
@@ -15,7 +16,7 @@ export default function StudyAbroadCta({
       {/* width / height only set the shape (544 x 308); the image scales to the width of the card */}
       <Image src={image} alt="" width={544} height={308} sizes="320px" className="h-auto w-full px-5 pt-5" />
       <div className="p-5">
-        <h2 className="text-lg font-bold leading-snug">{title}</h2>
+        <h2 className="text-lg font-bold leading-snug"><HighlightText text={title} /></h2>
         <p className="mt-2 text-xs text-ink/70">{text}</p>
         {/* data-consultation: opens the registration popup (see ConsultationModal) instead of following href */}
         <Link

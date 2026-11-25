@@ -2,6 +2,7 @@
 "use client";
 
 import AdmissionForm from "@/components/AdmissionForm";
+import HighlightText, { plainText } from "@/components/HighlightText";
 
 const destinations = [
   "Australia",
@@ -92,7 +93,7 @@ export default function VisaServices() {
                 >
                   <div>
                     <h2 className="text-xs font-bold leading-tight text-[#ef4b3b] sm:text-sm">
-                      {benefit.title}
+                      <HighlightText text={benefit.title} />
                     </h2>
                     <p className="mt-1 text-[10px] leading-relaxed text-[#444] sm:text-xs">
                       {benefit.description}
@@ -101,7 +102,7 @@ export default function VisaServices() {
 
                   <img
                     src={benefit.image}
-                    alt={benefit.title}
+                    alt={plainText(benefit.title)}
                     loading="lazy"
                     className="mx-auto mt-2 h-12 w-full object-contain transition-transform duration-500 group-hover:scale-105 sm:h-16"
                   />
@@ -160,7 +161,7 @@ export default function VisaServices() {
               <ul className="mt-4 list-disc space-y-2 pl-5 text-xs leading-[1.7] text-[#333] sm:text-sm">
                 {reasons.map((reason) => (
                   <li key={reason.title}>
-                    <strong>{reason.title}</strong> {reason.text}
+                    <strong><HighlightText text={reason.title} /></strong> {reason.text}
                   </li>
                 ))}
               </ul>

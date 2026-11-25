@@ -2,6 +2,7 @@ import Image from "next/image";
 import * as motion from "motion/react-client";
 import { fadeUp, hoverShine } from "@/lib/motion";
 import AwardsRow from "@/components/AwardsRow";
+import HighlightText from "@/components/HighlightText";
 
 // The trophies from the awards page in Strapi (see src/lib/awardPage.js).
 // The award's name, who gave it and the year are not printed: the pictures show them already, and they are
@@ -34,7 +35,7 @@ export default function AwardTrophies({ awards, heading, subheading, slider = fa
         <motion.div {...fadeUp()} className="text-center">
           {heading !== null && (
             <h2 className="text-2xl font-bold text-black sm:text-3xl">
-              {heading ?? (
+              {heading != null ? <HighlightText text={heading} /> : (
                 <>
                   Our <span className="text-indigo">Awards</span>
                 </>

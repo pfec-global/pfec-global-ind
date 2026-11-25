@@ -7,6 +7,7 @@ import BlogHero from "@/components/BlogHero";
 import BlogCategoryBar from "@/components/BlogCategoryBar";
 import BlogSlider from "@/components/BlogSlider";
 import Contact from "@/components/Contact";
+import HighlightText from "@/components/HighlightText";
 
 export const metadata = {
   title: "Study Abroad Guides, Tips & Insights | PFEC Global",
@@ -41,7 +42,7 @@ export default async function BlogsPage() {
             <motion.div key={section.slug} {...fadeUp()} id={section.slug} className="scroll-mt-24">
               {/* Title, a line filling the space in between, and the Explore All button */}
               <div className="flex items-center gap-4">
-                <h2 className="text-xl font-bold text-indigo sm:text-2xl">{section.title}</h2>
+                <h2 className="text-xl font-bold text-indigo sm:text-2xl"><HighlightText text={section.title} /></h2>
                 <span className="h-px flex-1 bg-indigo/40" />
                 <Link
                   href={section.href}

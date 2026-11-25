@@ -6,6 +6,7 @@ import Link from "next/link";
 import useDragScroll from "@/hooks/useDragScroll";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import HighlightText from "@/components/HighlightText";
 
 // Built-in dummy posts, used when the blog CMS does not send any. image: null shows the placeholder.
 const posts = Array.from({ length: 8 }, (_, i) => ({
@@ -121,7 +122,7 @@ export default function Blogs({ items = posts }) {
                 <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/70 to-transparent p-3 pt-12 sm:p-4 sm:pt-12">
                   {/* At most three lines, so a long title never covers the whole image */}
                   <h3 className="line-clamp-3 text-sm leading-snug text-white transition-colors duration-300 group-hover:text-accent sm:text-base lg:text-sm xl:text-base">
-                    {post.title}
+                    <HighlightText text={post.title} />
                   </h3>
                 </div>
               </Link>

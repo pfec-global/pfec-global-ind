@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import HighlightText from "@/components/HighlightText";
 
 const healthPlans = [
   {
@@ -107,7 +108,7 @@ export default function TypesOfHealth() {
 
               {/* CARD TITLE */}
               <h3 className="font-montserrat text-lg font-semibold leading-snug text-[#ff4938] sm:text-xl">
-                {plan.title}
+                <HighlightText text={plan.title} />
               </h3>
 
               {/* CARD DESCRIPTION */}

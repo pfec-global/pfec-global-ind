@@ -1,10 +1,11 @@
 import Link from "next/link";
+import HighlightText from "@/components/HighlightText";
 
 // Dark promo card for the sidebar (e.g. "Want to Study in the UK?"): title, short text and a button
 export default function PromoBanner({ title, text, buttonLabel, href }) {
   return (
     <aside className="rounded-xl bg-linear-to-br from-indigo to-navy p-5 text-center text-white shadow-sm">
-      <h2 className="text-lg font-bold leading-snug">{title}</h2>
+      <h2 className="text-lg font-bold leading-snug"><HighlightText text={title} /></h2>
       <p className="mt-2 text-xs text-white/80">{text}</p>
       <Link
         href={href}

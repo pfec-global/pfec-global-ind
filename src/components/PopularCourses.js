@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import * as motion from "motion/react-client";
 import { fadeUp, zoomIn } from "@/lib/motion";
+import HighlightText from "@/components/HighlightText";
 
 export const courses = [
   "Architecture & Civil Engineering",
@@ -29,7 +30,7 @@ export default function PopularCourses({ heading, items = courses, moreHref }) {
         <div>
           {heading !== null && (
             <motion.h2 {...fadeUp()} className="max-w-md text-2xl font-semibold leading-snug sm:text-3xl">
-              {heading ?? (
+              {heading != null ? <HighlightText text={heading} /> : (
                 <>
                   <span className="text-indigo">Explore Popular courses</span> chosen by other study abroad aspirants
                 </>

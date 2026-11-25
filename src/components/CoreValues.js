@@ -1,5 +1,6 @@
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import HighlightText from "@/components/HighlightText";
 
 const values = [
   {
@@ -109,7 +110,7 @@ export default function CoreValues() {
 
                 {/* Title */}
                 <h3 className="mt-5 text-lg font-semibold text-[#ef4b3b] sm:text-xl">
-                  {value.title}
+                  <HighlightText text={value.title} />
                 </h3>
 
                 {/* Description */}

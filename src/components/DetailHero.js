@@ -4,6 +4,7 @@ import * as motion from "motion/react-client";
 import { fadeUpOnLoad, shineSweep } from "@/lib/motion";
 import { PlaneRibbon } from "@/components/HeroDecorations";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import HighlightText from "@/components/HighlightText";
 
 // Hero of the country and scholarship details pages: light blue band with the title, subtitle and
 // consultation button on the left, a photo on the right and slanted stripes in the bottom right corner.
@@ -109,12 +110,12 @@ export default function DetailHero({
             {...fadeUpOnLoad()}
             className="font-serif text-3xl leading-tight sm:text-4xl xl:text-5xl"
           >
-            <span className="text-indigo">{titleTop}</span>
+            <span className="text-indigo"><HighlightText text={titleTop} /></span>
             {/* titleBottom is optional: without it the title is just the blue line */}
             {titleBottom && (
               <>
                 <br />
-                {titleBottom}
+                <HighlightText text={titleBottom} />
               </>
             )}
           </motion.h1>

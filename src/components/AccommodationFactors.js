@@ -1,3 +1,4 @@
+import HighlightText from "@/components/HighlightText";
 
 "use client";
 
@@ -57,7 +58,7 @@ export default function AccommodationFactors() {
 
                 <div>
                   <h3 className="text-sm font-bold leading-5 text-black">
-                    {factor.title}
+                    <HighlightText text={factor.title} />
                   </h3>
 
                   <p className="mt-1 text-[13px] leading-[1.6] text-gray-800">

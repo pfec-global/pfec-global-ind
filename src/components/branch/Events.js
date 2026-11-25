@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import useLoopSlider from "./useLoopSlider";
+import HighlightText, { plainText } from "@/components/HighlightText";
 
 const AUTOPLAY_MS = 3500;
 
@@ -125,7 +126,7 @@ export default function Events({ events }) {
                   {image ? (
                     <Image
                       src={image.src}
-                      alt={image.alt || title}
+                      alt={image.alt || plainText(title)}
                       fill
                       sizes="(min-width: 1280px) 24rem, 20rem"
                       draggable={false}
@@ -152,7 +153,7 @@ export default function Events({ events }) {
 
                 <div className="px-5 pb-6 pt-4 xl:px-[calc(1.4*var(--bu))] xl:pb-[calc(1.6*var(--bu))] xl:pt-[calc(0.9*var(--bu))]">
                   <h3 className="line-clamp-2 min-h-[2lh] text-lg font-bold leading-snug text-accent xl:text-[length:calc(1.5*var(--bu))] xl:leading-[calc(1.8*var(--bu))]">
-                    {title}
+                    <HighlightText text={title} />
                   </h3>
                   <p className="mt-4 flex items-center gap-2.5 text-sm text-neutral-800 xl:mt-[calc(1.3*var(--bu))] xl:text-[length:calc(1*var(--bu))]">
                     {calendarIcon}

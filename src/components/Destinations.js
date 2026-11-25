@@ -6,6 +6,7 @@ import Link from "next/link";
 import useDragScroll from "@/hooks/useDragScroll";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import HighlightText from "@/components/HighlightText";
 
 // Built-in cards, used when Strapi does not send the countries. image: null shows the placeholder.
 const destinations = [
@@ -57,7 +58,7 @@ export default function Destinations({
         <motion.div {...fadeUp()} className="text-center">
           {heading !== null && (
             <h2 className="text-2xl font-semibold sm:text-3xl">
-              {heading ?? (
+              {heading != null ? <HighlightText text={heading} /> : (
                 <>
                   Gain Access to <span className="text-indigo">Top Institutions across the Globe</span>
                 </>

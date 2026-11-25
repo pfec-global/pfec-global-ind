@@ -4,6 +4,7 @@ import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
 import ShareLinks from "@/components/ShareLinks";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import HighlightText, { plainText } from "@/components/HighlightText";
 
 // Hero of the blog details page: a card with the tag, title, author line, summary, share icons and cover image.
 // Desktop: text on the left, image on the right.
@@ -37,7 +38,7 @@ export default function BlogPostHero({ post }) {
           >
             {post.tag}
           </Link>
-          <h1 className="mt-3 text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl">{post.title}</h1>
+          <h1 className="mt-3 text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl"><HighlightText text={post.title} /></h1>
           {/* Mobile: one item per line. From tablet up: one row with dividers. */}
           <p className="mt-3 flex flex-col gap-1 text-xs sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-3 sm:text-sm">
             <span>
@@ -77,7 +78,7 @@ export default function BlogPostHero({ post }) {
               <p className="mt-1 text-[16px] leading-relaxed text-ink/85">{post.summary}</p>
             </div>
           )}
-          <ShareLinks title={post.title} />
+          <ShareLinks title={plainText(post.title)} />
         </motion.div>
       </div>
     </section>

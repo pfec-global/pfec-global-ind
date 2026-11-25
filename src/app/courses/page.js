@@ -6,6 +6,7 @@ import { fadeUp } from "@/lib/motion";
 import { getCoursesPage } from "@/lib/courses";
 import { toMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
+import HighlightText from "@/components/HighlightText";
 
 // The page waits for Strapi on every visit while caching is switched off (CACHE_STRAPI in src/lib/strapi.js).
 // This tells Next.js that waiting is expected here. Remove it when caching is switched back on.
@@ -36,7 +37,7 @@ function CourseCard({ course, index }) {
             <Image src={course.icon.src} alt="" width={56} height={56} className="h-9 w-9 object-contain" />
           </span>
         )}
-        <h2 className="text-xl font-semibold text-ink transition-colors duration-300 group-hover:text-accent">{course.name}</h2>
+        <h2 className="text-xl font-semibold text-ink transition-colors duration-300 group-hover:text-accent"><HighlightText text={course.name} /></h2>
         {course.summary && <p className="mt-2 text-sm leading-6 text-ink/70">{course.summary}</p>}
 
         {(course.levels.length > 0 || course.destinations.length > 0) && (

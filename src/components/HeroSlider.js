@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import HighlightText, { plainText } from "@/components/HighlightText";
 
 // Ratio of a Strapi image, for the height of the slider. Falls back when the image or its size is missing.
 const ratio = (image, fallback) => (image?.width && image?.height ? `${image.width} / ${image.height}` : fallback);
@@ -150,7 +151,7 @@ function Slide({ slide, first, hidden, label }) {
       {slide.link && (
         <Link
           href={slide.link}
-          aria-label={slide.heading ?? "Learn more"}
+          aria-label={plainText(slide.heading) ?? "Learn more"}
           tabIndex={hidden ? -1 : undefined}
           className="absolute inset-0 z-10"
         />
@@ -163,7 +164,7 @@ function Slide({ slide, first, hidden, label }) {
             <div className="md:max-w-xl">
               {slide.heading && (
                 <Heading className="text-balance font-serif text-2xl leading-tight sm:text-4xl lg:text-5xl">
-                  {slide.heading}
+                  <HighlightText text={slide.heading} />
                 </Heading>
               )}
               {slide.subheading && (

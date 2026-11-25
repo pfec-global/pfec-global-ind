@@ -2,6 +2,7 @@ import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
 import HeroDecorations from "@/components/HeroDecorations";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import HighlightText from "@/components/HighlightText";
 
 // Light hero with the ribbon decorations, shared by the inner pages (destinations, services...).
 // tag is optional: a small pill label shown above the title.
@@ -26,9 +27,9 @@ export default function PageHero({ tag, titleTop, titleBottom, subtitle, breadcr
         )
       )}
       <motion.h1 {...fadeUpOnLoad()} className="relative font-serif text-3xl leading-tight sm:text-4xl xl:text-5xl">
-        <span className="text-indigo">{titleTop}</span>
+        <span className="text-indigo"><HighlightText text={titleTop} /></span>
         <br />
-        {titleBottom}
+        <HighlightText text={titleBottom} />
       </motion.h1>
       <motion.p
         {...fadeUpOnLoad(0.15)}

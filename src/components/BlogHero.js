@@ -2,6 +2,7 @@ import Image from "next/image";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import HighlightText from "@/components/HighlightText";
 
 // Hero of the blog pages: breadcrumbs, title, text (and the search box) on the left, image on the right
 // (stacked on mobile). The image sits on the bottom edge of the section, so the section has no bottom padding.
@@ -26,7 +27,7 @@ export default function BlogHero({
             <Breadcrumbs items={breadcrumbs} />
           </motion.div>
           <motion.h1 {...fadeUpOnLoad()} className="text-3xl font-bold text-navy sm:text-4xl">
-            {title}
+            <HighlightText text={title} />
           </motion.h1>
           {description && (
             <motion.p {...fadeUpOnLoad(0.1)} className="mt-4 max-w-lg text-[16px] text-ink/75">

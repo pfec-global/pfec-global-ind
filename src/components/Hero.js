@@ -3,6 +3,7 @@ import Link from "next/link";
 import * as motion from "motion/react-client";
 import { fadeUpOnLoad } from "@/lib/motion";
 import HeroSlider from "@/components/HeroSlider";
+import HighlightText from "@/components/HighlightText";
 
 // Country labels on the desktop banner. left/top are % of the banner, width/height are the image's pixel size.
 const heroLabels = [
@@ -104,7 +105,7 @@ function DefaultHero({
           {...fadeUpOnLoad()}
           className="whitespace-pre-line text-balance font-serif text-3xl font-normal leading-[normal] [-webkit-text-stroke:2px_#000] [paint-order:stroke_fill] sm:text-4xl lg:text-[52px]"
         >
-          {heading}
+          <HighlightText text={heading} />
         </motion.h1>
         <motion.p {...fadeUpOnLoad(0.15)} className="mt-4 text-base text-white/85 sm:text-lg lg:text-xl">
           {subheading}

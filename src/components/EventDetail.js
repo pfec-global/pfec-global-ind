@@ -6,6 +6,7 @@ import { getHeadings } from "@/lib/markdown";
 import BlogContent from "@/components/BlogContent";
 import StudyAbroadCta from "@/components/StudyAbroadCta";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import HighlightText from "@/components/HighlightText";
 
 // Event details page: hero (title, date, place, banner, "Register Now"), then the description and FAQs
 // with a sticky "Event Details" card beside them. event comes from getEventDetail (src/lib/eventDetail.js).
@@ -107,7 +108,7 @@ function Hero({ event }) {
             {event.isPast && <span className="rounded bg-ink/10 px-2.5 py-1 text-xs font-medium text-ink/70">This event has ended</span>}
           </div>
 
-          <h1 className="mt-4 font-serif text-3xl font-bold leading-tight text-indigo sm:text-4xl lg:text-[44px]">{event.title}</h1>
+          <h1 className="mt-4 font-serif text-3xl font-bold leading-tight text-indigo sm:text-4xl lg:text-[44px]"><HighlightText text={event.title} /></h1>
           {event.shortDescription && <p className="mt-4 max-w-xl text-sm leading-7 text-ink/75 sm:text-base">{event.shortDescription}</p>}
 
           <ul className="mt-6 space-y-3 text-sm font-semibold text-ink sm:text-base">
@@ -153,7 +154,7 @@ function Hero({ event }) {
               />
             ) : (
               <div className="flex aspect-[1.9] items-center justify-center bg-linear-to-br from-indigo/20 to-indigo/50 text-sm text-white">
-                {event.title}
+                <HighlightText text={event.title} />
               </div>
             )}
           </div>

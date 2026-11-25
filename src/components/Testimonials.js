@@ -5,6 +5,7 @@ import Image from "next/image";
 import useDragScroll from "@/hooks/useDragScroll";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import HighlightText from "@/components/HighlightText";
 
 // Built-in dummy testimonials, used when Strapi does not send any
 const testimonials = Array.from({ length: 6 }, (_, i) => ({
@@ -74,7 +75,7 @@ export default function Testimonials({ items = testimonials, heading, subheading
       <motion.div {...fadeUp()} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {(heading || subheading) && (
           <div className="mb-4 text-center">
-            {heading && <h2 className="text-2xl font-semibold sm:text-3xl">{heading}</h2>}
+            {heading && <h2 className="text-2xl font-semibold sm:text-3xl"><HighlightText text={heading} /></h2>}
             {subheading && <p className="mt-4 text-sm text-ink/70 sm:text-base">{subheading}</p>}
           </div>
         )}

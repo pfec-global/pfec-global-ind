@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LuChevronRight, LuHouse } from "react-icons/lu";
+import { plainText } from "@/components/HighlightText";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/+$/, "");
 // The full address of a page, ending in "/" like every address of the site (trailingSlash in next.config.mjs)
@@ -12,7 +13,7 @@ const fullUrl = (href) => `${SITE_URL}${href.replace(/\/*$/, "/")}`;
 // center: the trail is centred (for centred heroes). dark: light text, for heroes with a dark background.
 // Also adds the same trail as structured data (schema.org BreadcrumbList), so Google can show it in its results.
 export default function Breadcrumbs({ items, className = "", center = false, dark = false }) {
-  const trail = [{ label: "Home", href: "/" }, ...items];
+  const trail = [{ label: "Home", href: "/" }, ...items].map((item) => ({ ...item, label: plainText(item.label) }));
   const schema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

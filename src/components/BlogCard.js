@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import HighlightText from "@/components/HighlightText";
 
 // One blog card on the blog list page: cover image, category tag, title, author and the updated / read time line.
 // The card has three separate links: the category tag, the author name, and the post itself (everywhere else).
@@ -36,7 +37,7 @@ export default function BlogCard({ post, className = "" }) {
         <h3 className="mt-2 text-sm font-medium leading-snug transition-colors duration-300 group-hover:text-accent">
           {/* after:inset-0 stretches this link over the whole card, so clicking the image or text opens the post */}
           <Link href={post.href} className="after:absolute after:inset-0">
-            {post.title}
+            <HighlightText text={post.title} />
           </Link>
         </h3>
         <p className="mt-auto pt-2 text-xs text-ink/75">

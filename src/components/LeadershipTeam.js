@@ -4,6 +4,7 @@ import { fadeUp } from "@/lib/motion";
 import HeroDecorations from "@/components/HeroDecorations";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { FaLinkedin } from "react-icons/fa";
+import HighlightText from "@/components/HighlightText";
 
 // The built-in leaders, shown until Strapi sends its own (see src/lib/leadershipPage.js).
 // The pictures (built-in and from Strapi) already carry the name and title, so those are only printed without a picture.
@@ -95,7 +96,7 @@ export default function LeadershipTeam({
             </>
           ) : (
             heading && (
-              <h2 className="text-2xl font-bold leading-tight text-[#17318f] sm:text-3xl lg:text-[32px]">{heading}</h2>
+              <h2 className="text-2xl font-bold leading-tight text-[#17318f] sm:text-3xl lg:text-[32px]"><HighlightText text={heading} /></h2>
             )
           )}
 

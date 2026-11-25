@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import HighlightText from "@/components/HighlightText";
 
 const documentList = [
   "English Language Proficiency Test Scores (PTE/IELTS)",
@@ -127,12 +128,12 @@ function CourseContent({ section }) {
       }`}
     >
       <h2 className="font-montserrat text-[20px] font-bold leading-[1.6] text-black sm:text-[22px]">
-        {section.title}
+        <HighlightText text={section.title} />
       </h2>
 
       {section.subtitle && (
         <h3 className="mt-4 font-montserrat text-[17px] font-normal leading-relaxed text-[#293b57] sm:text-[18px]">
-          {section.subtitle}
+          <HighlightText text={section.subtitle} />
         </h3>
       )}
 

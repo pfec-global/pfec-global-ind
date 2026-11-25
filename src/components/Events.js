@@ -6,6 +6,7 @@ import EventCard from "@/components/EventCard";
 import useDragScroll from "@/hooks/useDragScroll";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import HighlightText from "@/components/HighlightText";
 
 // Built-in dummy events, used when Strapi does not send any. image: null shows the placeholder.
 const events = Array.from({ length: 12 }, (_, i) => ({
@@ -56,7 +57,7 @@ export default function Events({
           <div>
             {heading !== null && (
               <h2 className="text-2xl font-semibold sm:text-3xl">
-                {heading ?? (
+                {heading != null ? <HighlightText text={heading} /> : (
                   <>
                     Join us at our <span className="text-indigo">Upcoming Events</span>
                   </>

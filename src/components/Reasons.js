@@ -2,6 +2,7 @@ import Image from "next/image";
 import * as motion from "motion/react-client";
 import { LuGraduationCap, LuBriefcase, LuGlobe, LuSprout, LuHandshake } from "react-icons/lu";
 import { fadeUp, zoomIn } from "@/lib/motion";
+import HighlightText from "@/components/HighlightText";
 
 const reasons = [
   {
@@ -47,7 +48,7 @@ export default function Reasons() {
                   <reason.Icon className="h-5 w-5" />
                 </span>
                 <p className="text-sm leading-relaxed sm:text-base">
-                  <span className="font-semibold">{reason.title}:</span> {reason.text}
+                  <span className="font-semibold"><HighlightText text={reason.title} />:</span> {reason.text}
                 </p>
               </motion.li>
             ))}

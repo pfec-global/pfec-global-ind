@@ -1,6 +1,7 @@
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
 import { CertLogo, CertShineStyle } from "@/components/Certifications";
+import HighlightText from "@/components/HighlightText";
 
 // "Recognitions": one row of logos, shown under "Our Professional Certifications, Memberships, and Partnerships".
 // The logos move the same way as the certification logos (CertLogo in Certifications.js): they pop in one after
@@ -52,7 +53,7 @@ export default function Recognitions({ heading = "Recognitions" }) {
     <section className="bg-[#f8f8f8] py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <motion.h2 {...fadeUp()} className="text-2xl font-semibold sm:text-3xl">
-          {heading}
+          <HighlightText text={heading} />
         </motion.h2>
 
         <CertShineStyle />

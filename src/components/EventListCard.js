@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import HighlightText from "@/components/HighlightText";
 
 const arrow = (
   <svg className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -37,7 +38,7 @@ export default function EventListCard({ event }) {
         <span className="w-fit rounded bg-accent/10 px-2 py-1 text-[10px] font-medium text-accent">{event.type}</span>
         <h3 className="mt-2 text-lg font-semibold text-accent lg:text-xl">
           <Link href={details} className="transition hover:text-indigo">
-            {event.title}
+            <HighlightText text={event.title} />
           </Link>
         </h3>
         <p className="mt-2 text-sm text-ink/70">{event.description}</p>

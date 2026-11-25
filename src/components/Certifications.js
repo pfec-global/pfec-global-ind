@@ -1,6 +1,7 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
+import HighlightText from "@/components/HighlightText";
 
 // The certification logos, in groups. Pictures are in public/images/certification.
 // height: how tall the logo is drawn (wide logos are kept lower so they don't look too big).
@@ -89,7 +90,7 @@ export default function Certifications({
     <section className="bg-[#f4f4f4] py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <motion.div {...fadeUp()}>
-          <h2 className="text-2xl font-semibold sm:text-3xl">{heading}</h2>
+          <h2 className="text-2xl font-semibold sm:text-3xl"><HighlightText text={heading} /></h2>
           {subheading && <p className="mt-3 text-sm text-ink/70 sm:text-base">{subheading}</p>}
         </motion.div>
 
@@ -101,7 +102,7 @@ export default function Certifications({
               {...fadeUp(0.1 + g * 0.12)}
               className="w-full rounded-2xl bg-white px-6 py-5 shadow-sm ring-1 ring-ink/5 transition-shadow duration-300 hover:shadow-xl sm:w-auto"
             >
-              <h3 className="text-base font-semibold">{group.title}</h3>
+              <h3 className="text-base font-semibold"><HighlightText text={group.title} /></h3>
               <div className="mt-4 flex items-center justify-center gap-5">
                 {group.logos.map(({ wide, ...logo }) => (
                   <CertLogo

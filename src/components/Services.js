@@ -11,6 +11,7 @@ import {
 import * as motion from "motion/react-client";
 import { fadeUp } from "@/lib/motion";
 import { serviceItems } from "@/data/services";
+import HighlightText from "@/components/HighlightText";
 
 const services = [
   { title: "University Admission Assistance", href: "/admission-support", Icon: FaBuildingColumns, color: "bg-sky-100 text-sky-500" },
@@ -55,7 +56,7 @@ export function ServiceCards({ items }) {
               </span>
             )}
             <p className="mt-3 text-sm">
-              {service.title}{" "}
+              <HighlightText text={service.title} />{" "}
               <span className="inline-block text-accent transition-transform duration-300 group-hover:translate-x-1">
                 &gt;
               </span>
@@ -93,7 +94,7 @@ export default function Services({
         <motion.div {...fadeUp()}>
           {heading && (
             <h2 className="text-2xl font-semibold leading-snug sm:text-3xl">
-              {heading}
+              <HighlightText text={heading} />
             </h2>
           )}
           {subheading && (

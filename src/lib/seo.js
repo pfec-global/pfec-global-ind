@@ -1,11 +1,12 @@
 import { toImage } from "@/lib/strapi";
+import { plainText } from "@/components/HighlightText";
 
 // Turns the "seo" block of a Strapi page into the metadata of a Next.js page (title, description, ...).
 // seo = { metaTitle, metaDescription, metaKeywords, canonicalUrl, noIndex, ogImage }.
 // fallback = { title, description }: used for whatever Strapi does not send, or when Strapi is down.
 export function toMetadata(seo, fallback) {
   const clean = (value) => (typeof value === "string" && value.trim() ? value.trim() : undefined);
-  const title = clean(seo?.metaTitle) ?? fallback.title;
+  const title = plainText(clean(seo?.metaTitle) ?? fallback.title);
   const description = clean(seo?.metaDescription) ?? fallback.description;
   const image = toImage(seo?.ogImage, title);
 

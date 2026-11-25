@@ -1,6 +1,7 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
 import { fadeUp, hoverShine } from "@/lib/motion";
+import HighlightText from "@/components/HighlightText";
 
 const partners = [
   { name: "PIER - Professional International Education Resources", src: "/images/partner/rpau6p5ie89wvrjipun8.webp" },
@@ -26,7 +27,7 @@ export default function Partners({
         <motion.div {...fadeUp()}>
           {heading !== null && (
             <h2 className="text-2xl font-semibold sm:text-3xl">
-              {heading ?? (
+              {heading != null ? <HighlightText text={heading} /> : (
                 <>
                   Our Industry <span className="text-indigo">Partnerships</span>
                 </>
