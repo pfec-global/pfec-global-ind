@@ -64,10 +64,15 @@ const components = {
       <table className="w-full min-w-[480px] text-left text-[16px] [&_p]:mt-0" {...props} />
     </div>
   ),
-  thead: ({ node, ...props }) => <thead className="bg-[#f1f1f4] text-xs font-semibold text-ink" {...props} />,
+  thead: ({ node, ...props }) => <thead className="text-xs font-semibold text-ink" {...props} />,
   tr: ({ node, ...props }) => <tr className="border-t border-indigo/15 first:border-t-0" {...props} />,
-  th: ({ node, ...props }) => <th className="px-4 py-3" {...props} />,
-  td: ({ node, ...props }) => <td className="px-4 py-3 align-top" {...props} />,
+  // A vertical line between columns: every cell has a line on its right except the last one of its row.
+  // (A cell spanning several rows keeps its line all the way down.)
+  // The header cells get a light pink background - also when the HTML table has no <thead>.
+  th: ({ node, ...props }) => (
+    <th className="border-r border-indigo/15 bg-[#FDECEB] px-4 py-3 last:border-r-0" {...props} />
+  ),
+  td: ({ node, ...props }) => <td className="border-r border-indigo/15 px-4 py-3 align-top last:border-r-0" {...props} />,
   hr: ({ node, ...props }) => <hr className="my-8 border-ink/15" {...props} />,
   // FAQ accordion: these four tags are created by rehypeFaqAccordion, they are not real HTML
   "faq-list": ({ node, ...props }) => <FaqList {...props} />,
