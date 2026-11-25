@@ -12,8 +12,8 @@ export const instant = false;
 
 // SEO tags come from the "seo" block of the page in Strapi; these are used for whatever Strapi does not send
 const defaultMetadata = {
-  title: "Our Services | PFEC Global",
-  description: "Get end-to-end assistance and realize your study abroad dreams.",
+  title: "Abroad Services: Admissions, Visas & More | PFEC",
+  description: "From university applications to visa guidance, explore PFEC Global’s study abroad services and see how we support Indian students at every stage.",
 };
 
 export async function generateMetadata() {
