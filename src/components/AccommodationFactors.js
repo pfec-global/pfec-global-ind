@@ -1,6 +1,6 @@
-import HighlightText from "@/components/HighlightText";
-
 "use client";
+
+import HighlightText from "@/components/HighlightText";
 
 const factors = [
   {
