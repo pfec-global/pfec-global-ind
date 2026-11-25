@@ -84,13 +84,40 @@ const contentClasses = {
 };
 
 // What rehype-sanitize keeps: its default (GitHub-style) rules, plus the classes above
+// and inline style="..." on any tag (cleaned afterwards by rehypeSafeStyles)
 const sanitizeSchema = {
   ...defaultSchema,
   attributes: {
     ...defaultSchema.attributes,
+    "*": [...defaultSchema.attributes["*"], "style"],
     a: [...defaultSchema.attributes.a.filter((rule) => rule[0] !== "className"), contentClasses.a],
     div: [...defaultSchema.attributes.div, contentClasses.div],
   },
+};
+
+// CSS the content may not use in style="...": positioning (a box laid over the whole page), loading outside files
+// (url(), @import) and old script hooks (expression(), behavior, -moz-binding). Everything else - colours, spacing,
+// borders, flex/grid layouts - is kept, so cards and boxes built with inline styles in the CMS look as designed.
+const blockedProperties = /^(position|z-index|inset|top|right|bottom|left|behavior|-moz-binding)$/i;
+const blockedValues = /url\s*\(|expression\s*\(|javascript:|@import|\\/i;
+
+// Plugin for react-markdown: removes the blocked declarations above from every style attribute
+const rehypeSafeStyles = () => (tree) => {
+  const visit = (node) => {
+    if (typeof node.properties?.style === "string") {
+      const safe = node.properties.style
+        .split(";")
+        .filter((declaration) => {
+          const [property, ...value] = declaration.split(":");
+          return value.length && !blockedProperties.test(property.trim()) && !blockedValues.test(value.join(":"));
+        })
+        .join(";");
+      if (safe) node.properties.style = safe;
+      else delete node.properties.style;
+    }
+    node.children?.forEach(visit);
+  };
+  visit(tree);
 };
 
 // The body of a blog post. markdown is the text as it comes from the API;
@@ -98,15 +125,22 @@ const sanitizeSchema = {
 // remark-gfm adds tables, strikethrough, task lists and automatic links to standard markdown.
 // HTML written inside the markdown (a <table>, <br>, <img>...) is rendered too, and gets the same styles as markdown:
 // rehype-raw turns the HTML into real elements, then rehype-sanitize removes anything unsafe
-// (<script>, <iframe>, <style>, onclick="..." and style="..." attributes), so the content cannot inject code.
+// (<script>, <iframe>, <style>, onclick="..." attributes), so the content cannot inject code.
+// Inline style="..." is kept for designed blocks (e.g. fee cards), minus the risky CSS (see rehypeSafeStyles).
 // The FAQ section of the post becomes an accordion (see rehypeFaqAccordion).
-// The order of the plugins matters: raw -> sanitize -> heading ids and FAQ.
+// The order of the plugins matters: raw -> sanitize -> safe styles -> heading ids and FAQ.
 export default function BlogContent({ markdown, headings }) {
   return (
     <article className="min-w-0 text-[16px] leading-relaxed text-ink/80">
       <Markdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema], [rehypeHeadingIds, headings], rehypeFaqAccordion]}
+        rehypePlugins={[
+          rehypeRaw,
+          [rehypeSanitize, sanitizeSchema],
+          rehypeSafeStyles,
+          [rehypeHeadingIds, headings],
+          rehypeFaqAccordion,
+        ]}
         components={components}
       >
         {markdown}
