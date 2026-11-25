@@ -38,7 +38,15 @@ export async function getCountryDetail(slug) {
       { label: "TAFEs", logos: logos(item.tafes) },
       { label: "University Pathways", logos: logos(item.universityPathways) },
     ].filter((group) => group.logos.length > 0),
-    popularCourses: (item.popularCourses ?? []).map((course) => course.name.trim()),
+    // "Popular Courses in <country>": each button opens the course's page (/courses/<slug>/), like on the home page.
+    // A course without a slug in Strapi is shown without a link.
+    popularCourses: (item.popularCourses ?? [])
+      .filter((course) => course?.name?.trim())
+      .map((course) => ({
+        name: course.name.trim(),
+        href: course.slug?.trim() ? `/courses/${course.slug.trim()}` : "#",
+        icon: toImage(course.icon),
+      })),
   };
 }
 
