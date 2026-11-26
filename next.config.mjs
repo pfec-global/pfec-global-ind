@@ -49,6 +49,8 @@ const nextConfig = {
     ];
   },
   images: {
+    // Next 16 only allows 75 by default; 85 is used by the destination cards (src/components/DestinationList.js)
+    qualities: [75, 85],
     remotePatterns: [
       {
         protocol: strapiUrl.protocol.replace(":", ""),

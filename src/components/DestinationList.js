@@ -9,6 +9,29 @@ import { destinations } from "@/data/countries";
 // image ({ src, alt }) is optional - a card without one shows the placeholder.
 // zoomImages: for pictures that have an empty (transparent) border built into the file, like the scholarship
 // artwork - the picture is enlarged so that border falls outside the card and the photo fills it.
+// Card width in CSS px / vw at each breakpoint (matches the grid below)
+const CARD_WIDTHS = [
+  ["(min-width: 1024px)", 200, "px"],
+  ["(min-width: 768px)", 25, "vw"],
+  ["(min-width: 640px)", 33, "vw"],
+  [null, 50, "vw"],
+];
+const CARD_RATIO = 3 / 4;
+// Most country photos are wide (about 16:9); a picture without a known size is assumed to be that wide
+const DEFAULT_IMAGE_RATIO = 1.7;
+
+// object-cover fills the tall card by height, so a wide picture is drawn wider than the card
+// (a 16:9 photo is about 2.3x the card width). The browser picks the file from "sizes", so it has to
+// describe the drawn width, not the card width - otherwise it loads a file that is too small and the photo looks blurry.
+function cardSizes(image) {
+  const ratio = image.width && image.height ? image.width / image.height : DEFAULT_IMAGE_RATIO;
+  const factor = Math.max(1, ratio / CARD_RATIO);
+  return CARD_WIDTHS.map(([query, width, unit]) => {
+    const size = `${Math.ceil(width * factor)}${unit}`;
+    return query ? `${query} ${size}` : size;
+  }).join(", ");
+}
+
 export default function DestinationList({ items = destinations, zoomImages = false }) {
   return (
     <section className="bg-[#f9f9f9] pb-12 pt-6 lg:pb-16">
@@ -31,11 +54,8 @@ export default function DestinationList({ items = destinations, zoomImages = fal
                     alt={item.image.alt}
                     fill
                     // An enlarged wide picture is drawn about three times wider than the card, so it needs a bigger file
-                    sizes={
-                      zoomImages
-                        ? "(min-width: 1024px) 600px, 150vw"
-                        : "(min-width: 1024px) 200px, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
-                    }
+                    sizes={zoomImages ? "(min-width: 1024px) 600px, 150vw" : cardSizes(item.image)}
+                    quality={85}
                     className={`object-cover transition-transform duration-500 ${
                       zoomImages ? "scale-[1.3] group-hover:scale-[1.42]" : "group-hover:scale-110"
                     }`}
