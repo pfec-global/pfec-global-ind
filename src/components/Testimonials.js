@@ -21,9 +21,10 @@ const testimonials = Array.from({ length: 6 }, (_, i) => ({
 }));
 
 const GAP = 16; // gap-4 between cards
+const AUTOPLAY_MS = 4000;
 
-// items come from Strapi; without them the built-in testimonials are shown.
-// A testimonial without a photo gets the default avatar.
+// items come from Strapi (every testimonial, no limit); without them the built-in testimonials are shown.
+// The photo is optional: a testimonial without one shows no picture at all.
 // heading and subheading (from Strapi) are shown above the slider when they are given, and left out otherwise.
 export default function Testimonials({ items = testimonials, heading, subheading }) {
   const trackRef = useRef(null);
@@ -40,53 +41,70 @@ export default function Testimonials({ items = testimonials, heading, subheading
     const card = track?.firstElementChild;
     if (!track || !card) return;
     const perPage = Math.max(1, Math.round((track.clientWidth + GAP) / (card.offsetWidth + GAP)) || 1);
-    setPages(Math.max(1, Math.ceil(items.length / perPage)));
-    setActive(Math.round(track.scrollLeft / (track.clientWidth + GAP)) || 0);
+    const pageCount = Math.max(1, Math.ceil(items.length / perPage));
+    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 5;
+    setPages(pageCount);
+    setActive(atEnd ? pageCount - 1 : Math.round(track.scrollLeft / (track.clientWidth + GAP)) || 0);
   };
 
   const goTo = (page) => {
     const track = trackRef.current;
-    track.scrollTo({ left: page * (track.clientWidth + GAP), behavior: "smooth" });
+    track.scrollTo({
+      left: page * (track.clientWidth + GAP),
+      behavior: "smooth",
+    });
   };
 
   useEffect(() => {
     measure();
     window.addEventListener("resize", measure);
 
-    // Autoplay every 5 seconds, paused while the mouse is over the slider
+    // Autoplay: one card further every few seconds, back to the first card after the last one.
+    // Paused while the mouse is over the slider, while it is touched, and while the browser tab is hidden.
+    // Nothing moves when every card already fits on the screen.
     const timer = setInterval(() => {
-      if (pausedRef.current) return;
       const track = trackRef.current;
-      if (!track) return;
+      const card = track?.firstElementChild;
+      if (!track || !card || pausedRef.current || document.hidden) return;
+      if (track.scrollWidth <= track.clientWidth + 5) return;
       const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 5;
-      track.scrollTo({ left: atEnd ? 0 : track.scrollLeft + track.clientWidth + GAP, behavior: "smooth" });
-    }, 5000);
+      track.scrollTo({
+        left: atEnd ? 0 : track.scrollLeft + card.offsetWidth + GAP,
+        behavior: "smooth",
+      });
+    }, AUTOPLAY_MS);
 
     return () => {
       window.removeEventListener("resize", measure);
       clearInterval(timer);
     };
-    // Runs once: the list of testimonials does not change while the page is open
+    // Starts again when the list changes (the built-in cards are swapped for the ones from Strapi)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [items.length]);
 
   return (
     <section className="bg-[#f1f4f8] py-12 lg:py-16">
       <motion.div {...fadeUp()} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {(heading || subheading) && (
           <div className="mb-4 text-center">
-            {heading && <h2 className="text-2xl font-semibold sm:text-3xl"><HighlightText text={heading} /></h2>}
+            {heading && (
+              <h2 className="text-2xl font-semibold sm:text-3xl">
+                <HighlightText text={heading} />
+              </h2>
+            )}
             {subheading && <p className="mt-4 text-sm text-ink/70 sm:text-base">{subheading}</p>}
           </div>
         )}
 
-        {/* Slider: 1 card per page on mobile, 2 on tablet, 3 on desktop */}
+        {/* Slider: 1 card per page on mobile, 2 on tablet, 3 on desktop. Fewer cards than that are centred. */}
         <div
           ref={trackRef}
           onScroll={measure}
           onMouseEnter={() => (pausedRef.current = true)}
           onMouseLeave={() => (pausedRef.current = false)}
-          className="grid snap-x snap-mandatory cursor-grab select-none active:cursor-grabbing grid-flow-col auto-cols-[100%] gap-4 overflow-x-auto py-4 [scrollbar-width:none] sm:auto-cols-[calc((100%-1rem)/2)] lg:auto-cols-[calc((100%-2rem)/3)]"
+          onTouchStart={() => (pausedRef.current = true)}
+          onTouchEnd={() => (pausedRef.current = false)}
+          className="grid justify-center-safe snap-x snap-mandatory cursor-grab select-none active:cursor-grabbing grid-flow-col auto-cols-[100%] gap-4 overflow-x-auto py-4 [scrollbar-width:none] sm:auto-cols-[calc((100%-1rem)/2)] lg:auto-cols-[calc((100%-2rem)/3)]"
         >
           {items.map((item) => (
             <figure
@@ -96,13 +114,15 @@ export default function Testimonials({ items = testimonials, heading, subheading
               <blockquote className="line-clamp-6 flex-1 text-sm leading-relaxed">{item.text}</blockquote>
 
               <figcaption className="mt-5 flex items-center gap-3">
-                <Image
-                  src={item.photo ?? "/images/avater.webp"}
-                  alt={item.name}
-                  width={56}
-                  height={56}
-                  className="h-14 w-14 shrink-0 rounded-full object-cover"
-                />
+                {item.photo && (
+                  <Image
+                    src={item.photo}
+                    alt={item.name}
+                    width={56}
+                    height={56}
+                    className="h-14 w-14 shrink-0 rounded-full object-cover"
+                  />
+                )}
                 <div className="flex-1">
                   <p className="font-semibold">{item.name}</p>
                   <p className="mt-0.5 text-xs text-ink/60">{item.course}</p>
@@ -116,18 +136,20 @@ export default function Testimonials({ items = testimonials, heading, subheading
           ))}
         </div>
 
-        {/* Dots - one per page */}
-        <div className="mt-4 flex justify-center gap-2">
-          {Array.from({ length: pages }, (_, i) => (
-            <button
-              key={i}
-              type="button"
-              aria-label={`Go to testimonials page ${i + 1}`}
-              onClick={() => goTo(i)}
-              className={`h-2 rounded-full transition-all duration-300 ${i === active ? "w-6 bg-accent" : "w-2 bg-ink/15"}`}
-            />
-          ))}
-        </div>
+        {/* Dots - one per page, left out when everything fits on one page */}
+        {pages > 1 && (
+          <div className="mt-4 flex justify-center gap-2">
+            {Array.from({ length: pages }, (_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Go to testimonials page ${i + 1}`}
+                onClick={() => goTo(i)}
+                className={`h-2 rounded-full transition-all duration-300 ${i === active ? "w-6 bg-accent" : "w-2 bg-ink/15"}`}
+              />
+            ))}
+          </div>
+        )}
       </motion.div>
     </section>
   );

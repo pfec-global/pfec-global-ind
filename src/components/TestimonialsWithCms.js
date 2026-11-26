@@ -1,13 +1,12 @@
 import { Suspense } from "react";
-import { getHomeSections } from "@/lib/homepage";
+import { getAllTestimonials } from "@/lib/testimonials";
 import Testimonials from "@/components/Testimonials";
 
-// The testimonials picked on the home page in Strapi (GET /api/homepage), for the other pages that show them.
+// Every testimonial in Strapi (GET /api/testimonials), for the pages that show them without a heading.
 // Without them the built-in testimonials are shown.
 async function TestimonialsFromCms() {
-  const { testimonials } = await getHomeSections();
-  // Only the cards: the heading and subheading belong to the home page
-  return <Testimonials items={testimonials?.items} />;
+  const items = await getAllTestimonials();
+  return <Testimonials items={items} />;
 }
 
 // Shows the built-in testimonials straight away and swaps to the ones from Strapi as soon as they arrive,
