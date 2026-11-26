@@ -3,43 +3,21 @@ import * as motion from "motion/react-client";
 import { fadeUp, hoverShine } from "@/lib/motion";
 import HighlightText from "@/components/HighlightText";
 
-const partners = [
-  { name: "PIER - Professional International Education Resources", src: "/images/partner/rpau6p5ie89wvrjipun8.webp" },
-  { name: "ICEF Agency Status", src: "/images/partner/hf2cwoohnmtnokkkfuac.webp" },
-  {
-    name: "Swinburne University of Technology - Platinum Education Agent",
-    src: "/images/partner/iyq2zz1vdfw9o3rffwjt.webp",
-  },
-  { name: "AIRC - American International Recruitment Council", src: "/images/partner/f7jaagienrirztzvgdrp.webp" },
-  { name: "IEAA - International Education Association of Australia", src: "/images/partner/sr0mftzhsyrhvmqa8khu.webp" },
-];
+// The partner logos come only from Strapi (the "partnerships" section of GET /api/homepage):
+// items ({ name, src }), heading and subheading. There are no built-in logos - without items nothing is shown.
+// A heading or subheading Strapi leaves empty (null) is left out.
+export default function Partners({ heading, subheading, items }) {
+  if (!Array.isArray(items) || items.length === 0) return null;
 
-// heading, subheading and items ({ name, src }) come from Strapi; without them the built-in content is used
-// A heading or subheading passed as null is left out (the home page does this for fields Strapi does not send).
-export default function Partners({
-  heading,
-  subheading = "Strong Ties Created by Deep Rooted Industry Connections. Helping Us Provide Top-Notch Service.",
-  items = partners,
-}) {
   return (
     <section className="bg-white py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <motion.div {...fadeUp()}>
-          {heading !== null && (
-            <h2 className="text-2xl font-semibold sm:text-3xl">
-              {heading != null ? <HighlightText text={heading} /> : (
-                <>
-                  Our Industry <span className="text-indigo">Partnerships</span>
-                </>
-              )}
-            </h2>
-          )}
-          {subheading && (
-            <p className="mt-4 text-sm text-ink/70 sm:text-base">
-              {subheading}
-            </p>
-          )}
-        </motion.div>
+        {(heading || subheading) && (
+          <motion.div {...fadeUp()}>
+            {heading && <h2 className="text-2xl font-semibold sm:text-3xl"><HighlightText text={heading} /></h2>}
+            {subheading && <p className="mt-4 text-sm text-ink/70 sm:text-base">{subheading}</p>}
+          </motion.div>
+        )}
 
         {/* Mobile: always 2 logos per row (a leftover odd logo is centred). Tablet and up: one wrapping row -
             on laptops five 220px logos fill the row. */}
