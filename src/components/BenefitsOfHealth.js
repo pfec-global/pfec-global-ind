@@ -169,7 +169,7 @@ export default function BenefitsOfHealth() {
           {/* Main image */}
         <div className="relative z-10 overflow-hidden rounded-2xl border-2 border-[#a9a7c8] bg-white shadow-sm">
   <img
-    src="/images/health-insurance-benefits.wepb"
+    src="/images/health-insurance-benefits.webp"
     alt="Healthcare professional discussing health insurance with a student"
     loading="lazy"
     className="h-auto w-full object-contain transition-transform duration-700 hover:scale-105"
